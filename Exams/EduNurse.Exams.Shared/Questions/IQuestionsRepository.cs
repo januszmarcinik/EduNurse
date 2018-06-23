@@ -7,5 +7,8 @@ namespace EduNurse.Exams.Shared.Questions
     {
         IEnumerable<QuestionDto> GetAll();
         QuestionDto GetById(Guid id);
+        void Create(QuestionDto dto);
+        void Update(Guid id, QuestionDto dto);
+        void Delete(Guid id);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace EduNurse.Exams.Tests.Integration
@@ -12,6 +13,15 @@ namespace EduNurse.Exams.Tests.Integration
             var apiResponse = new ApiResponse(body, httpResponseMessage.StatusCode);
 
             return apiResponse;
+        }
+
+        public static StringContent ToStringContent(this object body)
+        {
+            return new StringContent(
+                body.ToJson(),
+                Encoding.UTF8,
+                "application/json"
+            );
         }
     }
 }

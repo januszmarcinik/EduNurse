@@ -22,24 +22,35 @@ namespace EduNurse.Exams.Api
             base.OnModelCreating(modelBuilder);
         }
 
-        public IEnumerable<T> GetAll<T>() where T : class
+        public IEnumerable<T> GetAll<T>() where T : Entity
         {
             return Set<T>().ToList();
         }
 
-        public T GetById<T>(Guid id) where T : class
+        public T GetById<T>(Guid id) where T : Entity
         {
-            return Find<T>(id);
+            return Set<T>().SingleOrDefault(x => x.Id == id);
         }
 
-        public void Create<T>(T entity) where T : class
+        public void Create<T>(T entity) where T : Entity
         {
             Add(entity);
         }
 
-        public void CreateMany<T>(IEnumerable<T> entities) where T : class
+        public void CreateMany<T>(IEnumerable<T> entities) where T : Entity
         {
             AddRange(entities);
+        }
+
+        public new void Update<T>(T entity) where T : Entity
+        {
+            base.Update(entity);
+        }
+
+        public void Delete<T>(Guid id) where T : Entity
+        {
+            var entity = GetById<T>(id);
+            Remove(entity);
         }
 
         public new void SaveChanges()

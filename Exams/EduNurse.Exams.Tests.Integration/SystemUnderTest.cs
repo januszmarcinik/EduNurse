@@ -27,12 +27,25 @@ namespace EduNurse.Exams.Tests.Integration
             _client = _server.CreateClient();
         }
 
+        public T Create<T>(T entity) where T : Entity
+        {
+            _context.Create(entity);
+            _context.SaveChanges();
+
+            return entity;
+        }
+
         public List<Question> SetQuestions(List<Question> questions)
         {
             _context.CreateMany(questions);
             _context.SaveChanges();
 
             return questions;
+        }
+
+        public T GetById<T>(Guid id) where T : Entity
+        {
+            return _context.GetById<T>(id);
         }
 
         public ApiResponse HttpGet(string url)
@@ -43,6 +56,21 @@ namespace EduNurse.Exams.Tests.Integration
         public ApiResponse HttpGet(string url, Guid id)
         {
             return _client.GetAsync($"{url}/{id}").GetApiResponse();
+        }
+
+        public ApiResponse HttpPost(string url, object body)
+        {
+            return _client.PostAsync(url, body.ToStringContent()).GetApiResponse();
+        }
+
+        public ApiResponse HttpPut(string url, Guid id, object body)
+        {
+            return _client.PutAsync($"{url}/{id}", body.ToStringContent()).GetApiResponse();
+        }
+
+        public ApiResponse HttpDelete(string url, Guid id)
+        {
+            return _client.DeleteAsync($"{url}/{id}").GetApiResponse();
         }
 
         public void Dispose()
