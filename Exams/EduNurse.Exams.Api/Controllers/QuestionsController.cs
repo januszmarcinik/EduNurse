@@ -1,4 +1,5 @@
-﻿using EduNurse.Exams.Shared.Questions;
+﻿using System;
+using EduNurse.Exams.Shared.Questions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Controllers
@@ -16,5 +17,8 @@ namespace EduNurse.Exams.Api.Controllers
 
         [HttpGet]
         public IActionResult Get() => Ok(_questionsRepository.GetAll());
+
+        [HttpGet("{id}")]
+        public IActionResult Get(Guid id) => Ok(_questionsRepository.GetById(id));
     }
 }

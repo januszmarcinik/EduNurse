@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EduNurse.Exams.Shared.Questions;
 
@@ -18,6 +19,12 @@ namespace EduNurse.Exams.Api.Questions
             return _context.GetAll<Question>()
                 .Select(x => new QuestionDto(x.Id, x.Text))
                 .ToList();
+        }
+
+        public QuestionDto GetById(Guid id)
+        {
+            var question = _context.GetById<Question>(id);
+            return new QuestionDto(question.Id, question.Text);
         }
     }
 }
