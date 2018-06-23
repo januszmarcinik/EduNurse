@@ -2,7 +2,7 @@
 
 namespace EduNurse.Exams.Api.Questions
 {
-    public class Question
+    internal class Question : Entity
     {
         private Question()
         {
@@ -14,7 +14,6 @@ namespace EduNurse.Exams.Api.Questions
             Text = text;
         }
 
-        public Guid Id { get; private set; }
         public string Text { get; private set; }
     }
 }
