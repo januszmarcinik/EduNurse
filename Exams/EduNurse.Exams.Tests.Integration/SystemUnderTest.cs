@@ -27,15 +27,22 @@ namespace EduNurse.Exams.Tests.Integration
             _client = _server.CreateClient();
         }
 
-        public void SetQuestions(IEnumerable<Question> questions)
+        public List<Question> SetQuestions(List<Question> questions)
         {
             _context.CreateMany(questions);
             _context.SaveChanges();
+
+            return questions;
         }
 
         public ApiResponse HttpGet(string url)
         {
             return _client.GetAsync(url).GetApiResponse();
+        }
+
+        public ApiResponse HttpGet(string url, Guid id)
+        {
+            return _client.GetAsync($"{url}/{id}").GetApiResponse();
         }
 
         public void Dispose()
