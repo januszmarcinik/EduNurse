@@ -1,9 +1,7 @@
 ﻿using FluentAssertions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading;
 using EduNurse.Exams.Api.Questions;
 using EduNurse.Exams.Tests.Integration.Builders;
 using Xunit;
@@ -115,8 +113,6 @@ namespace EduNurse.Exams.Tests.Integration
                 var insert = sut.Create(new QuestionsBuilder().BuildOne());
 
                 var apiResponse = sut.HttpDelete(Url, insert.Id);
-
-                Thread.Sleep(1000);
                 var result = sut.GetById<Question>(insert.Id);
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Accepted);
