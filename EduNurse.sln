@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Exams.Shared", "Ex
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{9F941AB8-9534-474F-A107-ACC690CFAD1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Tools", "Tools\EduNurse.Tools\EduNurse.Tools.csproj", "{86F2D466-A56D-42D2-8008-9E9E45740D3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Tools", "Tools\EduNurse.Tools\EduNurse.Tools.csproj", "{86F2D466-A56D-42D2-8008-9E9E45740D3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Tools.Tests.Unit", "Tools\EduNurse.Tools.Tests.Unit\EduNurse.Tools.Tests.Unit.csproj", "{4240C639-0421-47E2-BB74-1A75749016CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Tools.Tests.Unit", "Tools\EduNurse.Tools.Tests.Unit\EduNurse.Tools.Tests.Unit.csproj", "{4240C639-0421-47E2-BB74-1A75749016CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Exams.Tests.Unit", "Exams\EduNurse.Exams.Tests.Unit\EduNurse.Exams.Tests.Unit.csproj", "{C2F93483-31BB-414D-BDB5-2F3FB8301645}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{4240C639-0421-47E2-BB74-1A75749016CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4240C639-0421-47E2-BB74-1A75749016CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4240C639-0421-47E2-BB74-1A75749016CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2F93483-31BB-414D-BDB5-2F3FB8301645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2F93483-31BB-414D-BDB5-2F3FB8301645}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2F93483-31BB-414D-BDB5-2F3FB8301645}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2F93483-31BB-414D-BDB5-2F3FB8301645}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{025358C9-2604-465B-A89F-73CC492356D0} = {90CB66DF-A12C-4265-8CAF-142D20D652D2}
 		{86F2D466-A56D-42D2-8008-9E9E45740D3A} = {9F941AB8-9534-474F-A107-ACC690CFAD1E}
 		{4240C639-0421-47E2-BB74-1A75749016CD} = {9F941AB8-9534-474F-A107-ACC690CFAD1E}
+		{C2F93483-31BB-414D-BDB5-2F3FB8301645} = {90CB66DF-A12C-4265-8CAF-142D20D652D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AD21FB2-C9D0-4E6D-BCA6-E01889B6069A}
