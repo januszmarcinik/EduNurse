@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EduNurse.Exams.Api.Questions;
+using EduNurse.Exams.Shared.Questions;
 
 namespace EduNurse.Exams.Tests.Integration.Builders
 {
@@ -26,7 +27,15 @@ namespace EduNurse.Exams.Tests.Integration.Builders
 
         private static Question GetRandomQuestion()
         {
-            return new Question(Guid.NewGuid(), Guid.NewGuid().ToString());
+            return new Question(
+                id: Guid.NewGuid(), 
+                text: Guid.NewGuid().ToString(),
+                a: Guid.NewGuid().ToString(),
+                b: Guid.NewGuid().ToString(),
+                c: Guid.NewGuid().ToString(),
+                d: Guid.NewGuid().ToString(),
+                correctAnswer: CorrectAnswer.A
+            );
         }
     }
 }

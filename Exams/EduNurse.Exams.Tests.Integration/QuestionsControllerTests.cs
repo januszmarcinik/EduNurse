@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Net;
 using EduNurse.Exams.Api.Questions;
+using EduNurse.Exams.Shared.Questions;
 using EduNurse.Exams.Tests.Integration.Builders;
 using Xunit;
 
@@ -50,8 +51,8 @@ namespace EduNurse.Exams.Tests.Integration
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
                 apiResponse.Body.Should().BeEquivalentTo(new object[]
                 {
-                    new {insert[0].Id, insert[0].Text},
-                    new {insert[1].Id, insert[1].Text},
+                    new { insert[0].Id, insert[0].Text, insert[0].A, insert[0].B, insert[0].C, insert[0].D, insert[0].CorrectAnswer },
+                    new { insert[1].Id, insert[1].Text, insert[1].A, insert[1].B, insert[1].C, insert[1].D, insert[1].CorrectAnswer },
                 }.ToJson());
             }
         }
@@ -69,7 +70,7 @@ namespace EduNurse.Exams.Tests.Integration
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
                 apiResponse.Body.Should().BeEquivalentTo(
-                    new {insert[1].Id, insert[1].Text}.ToJson()
+                    new { insert[1].Id, insert[1].Text, insert[1].A, insert[1].B, insert[1].C, insert[1].D, insert[1].CorrectAnswer }.ToJson()
                 );
             }
         }
@@ -95,7 +96,15 @@ namespace EduNurse.Exams.Tests.Integration
             using (var sut = new SystemUnderTest())
             {
                 var insert = sut.Create(new QuestionsBuilder().BuildOne());
-                insert = new Question(insert.Id, Guid.NewGuid().ToString());
+                insert = new Question(
+                    id: insert.Id, 
+                    text: Guid.NewGuid().ToString(),
+                    a: "sample-a",
+                    b: "sample-b",
+                    c: "sample-c",
+                    d: "sample-d",
+                    correctAnswer: CorrectAnswer.A
+                );
 
                 var apiResponse = sut.HttpPut(Url, insert.Id, insert);
                 var result = sut.GetById<Question>(insert.Id);
