@@ -1,6 +1,5 @@
 using System;
-using EduNurse.Exams.Api.Questions;
-using EduNurse.Exams.Shared.Questions;
+using EduNurse.Exams.Api.Entities;
 using FluentAssertions;
 using Xunit;
 
@@ -19,7 +18,7 @@ namespace EduNurse.Exams.Tests.Unit
                 B = "answer-b",
                 C = "answer-c",
                 D = "answer-d",
-                CorrectAnswer = CorrectAnswer.A
+                CorrectAnswer = Shared.Enums.CorrectAnswer.A
             };
 
             var actual = new Question(

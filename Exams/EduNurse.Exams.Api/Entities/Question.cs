@@ -1,17 +1,13 @@
 ﻿using System;
-using EduNurse.Exams.Shared.Questions;
+using EduNurse.Exams.Shared.Enums;
 
-namespace EduNurse.Exams.Api.Questions
+namespace EduNurse.Exams.Api.Entities
 {
     internal class Question : Entity
     {
-        private Question()
-        {
-        }
-
         public Question(Guid id, string text, string a, string b, string c, string d, CorrectAnswer correctAnswer)
+            : base(id)
         {
-            Id = id;
             Text = text;
             A = a;
             B = b;

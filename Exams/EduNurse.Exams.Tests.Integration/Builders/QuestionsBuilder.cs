@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using EduNurse.Exams.Api.Questions;
-using EduNurse.Exams.Shared.Questions;
+using EduNurse.Exams.Api.Entities;
+using EduNurse.Exams.Shared.Enums;
 
 namespace EduNurse.Exams.Tests.Integration.Builders
 {

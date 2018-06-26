@@ -1,6 +1,7 @@
 ﻿using System;
+using EduNurse.Exams.Shared.Enums;
 
-namespace EduNurse.Exams.Shared.Questions
+namespace EduNurse.Exams.Shared.Dto
 {
     public class QuestionDto
     {

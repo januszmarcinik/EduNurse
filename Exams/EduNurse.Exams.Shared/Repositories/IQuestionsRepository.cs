@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using EduNurse.Exams.Shared.Dto;
 
-namespace EduNurse.Exams.Shared.Questions
+namespace EduNurse.Exams.Shared.Repositories
 {
     public interface IQuestionsRepository
     {
