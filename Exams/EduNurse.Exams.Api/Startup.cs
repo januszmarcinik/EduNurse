@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using AutoMapper;
 using EduNurse.Exams.Api.Repositories;
 using EduNurse.Exams.Shared.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +35,8 @@ namespace EduNurse.Exams.Api
 
             services.AddScoped<IQuestionsRepository, QuestionsRepository>();
             services.AddScoped<IExamsRepository, ExamsRepository>();
+
+            services.AddSingleton(AutoMapperConfig.Initialize());
 
             services.AddSwaggerGen(c =>
             {

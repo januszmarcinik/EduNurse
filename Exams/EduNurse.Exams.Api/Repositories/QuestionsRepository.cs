@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using EduNurse.Exams.Api.Entities;
 using EduNurse.Exams.Shared.Dto;
 using EduNurse.Exams.Shared.Repositories;
@@ -10,17 +11,18 @@ namespace EduNurse.Exams.Api.Repositories
     internal class QuestionsRepository : IQuestionsRepository
     {
         private readonly IExamsContext _context;
+        private readonly IMapper _mapper;
 
-        public QuestionsRepository(IExamsContext context)
+        public QuestionsRepository(IExamsContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public IEnumerable<QuestionDto> GetAll()
         {
-            return _context.GetAll<Question>()
-                .Select(x => new QuestionDto(x.Id, x.Text, x.A, x.B, x.C, x.D, x.CorrectAnswer))
-                .ToList();
+            var questions = _context.GetAll<Question>().ToList();
+            return _mapper.Map<IEnumerable<QuestionDto>>(questions);
         }
 
         public QuestionDto GetById(Guid id)
@@ -28,7 +30,7 @@ namespace EduNurse.Exams.Api.Repositories
             var question = _context.GetById<Question>(id);
             return question == null
                 ? null
-                : new QuestionDto(question.Id, question.Text, question.A, question.B, question.C, question.D, question.CorrectAnswer);
+                : _mapper.Map<QuestionDto>(question);
         }
 
         public void Create(QuestionDto dto)
