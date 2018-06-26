@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using EduNurse.Exams.Api;
-using EduNurse.Exams.Api.Questions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,12 +34,12 @@ namespace EduNurse.Exams.Tests.Integration
             return entity;
         }
 
-        public List<Question> SetQuestions(List<Question> questions)
+        public List<T> CreateMany<T>(List<T> entities) where T : Entity
         {
-            _context.CreateMany(questions);
+            _context.CreateMany(entities);
             _context.SaveChanges();
 
-            return questions;
+            return entities;
         }
 
         public T GetById<T>(Guid id) where T : Entity

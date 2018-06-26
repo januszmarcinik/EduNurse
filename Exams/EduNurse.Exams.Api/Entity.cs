@@ -4,6 +4,15 @@ namespace EduNurse.Exams.Api
 {
     internal abstract class Entity
     {
-        public Guid Id { get; protected set; }
+        private Entity()
+        {
+        }
+
+        protected Entity(Guid id)
+        {
+            Id = id;
+        }
+
+        public Guid Id { get; private set; }
     }
 }

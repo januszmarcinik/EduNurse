@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EduNurse.Exams.Api.Questions;
+using EduNurse.Exams.Api.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduNurse.Exams.Api
@@ -17,6 +17,9 @@ namespace EduNurse.Exams.Api
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Question>()
+                .HasKey(x => x.Id);
+
+            modelBuilder.Entity<Exam>()
                 .HasKey(x => x.Id);
 
             base.OnModelCreating(modelBuilder);

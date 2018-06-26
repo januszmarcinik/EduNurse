@@ -1,4 +1,4 @@
-﻿namespace EduNurse.Exams.Shared.Questions
+﻿namespace EduNurse.Exams.Shared.Enums
 {
     public enum CorrectAnswer
     {

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EduNurse.Exams.Shared.Questions;
+using EduNurse.Exams.Api.Entities;
+using EduNurse.Exams.Shared.Dto;
+using EduNurse.Exams.Shared.Repositories;
 
-namespace EduNurse.Exams.Api.Questions
+namespace EduNurse.Exams.Api.Repositories
 {
     internal class QuestionsRepository : IQuestionsRepository
     {

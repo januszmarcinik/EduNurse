@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using EduNurse.Exams.Api.Questions;
-using EduNurse.Exams.Shared.Questions;
+using EduNurse.Exams.Api.Repositories;
+using EduNurse.Exams.Shared.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +33,7 @@ namespace EduNurse.Exams.Api
             services.AddScoped<IExamsContext>(provider => provider.GetService<ExamsContext>());
 
             services.AddScoped<IQuestionsRepository, QuestionsRepository>();
+            services.AddScoped<IExamsRepository, ExamsRepository>();
 
             services.AddSwaggerGen(c =>
             {
