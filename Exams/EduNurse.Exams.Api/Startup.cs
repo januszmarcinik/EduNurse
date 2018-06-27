@@ -61,6 +61,7 @@ namespace EduNurse.Exams.Api
                 cors.AllowAnyHeader();
             });
 
+            app.ConfigureMiddleware();
             app.UseHttpsRedirection();
             app.UseMvc();
             appLifetime.ConfigureContainer(Container);
