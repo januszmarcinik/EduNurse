@@ -14,7 +14,7 @@ namespace EduNurse.Exams.Tests.Integration
 {
     public class ExamsControllerTests
     {
-        private const string Url = "https://localhost:44311/api/v1/exams";
+        private const string Url = "api/v1/exams";
 
         [Fact]
         public void GetExamsByTypeAndCategory_WhenExists_ReturnsResultWithStatus200()
