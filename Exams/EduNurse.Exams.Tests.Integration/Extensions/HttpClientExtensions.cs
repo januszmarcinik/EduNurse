@@ -1,16 +1,18 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace EduNurse.Exams.Tests.Integration
+namespace EduNurse.Exams.Tests.Integration.Extensions
 {
     internal static class HttpClientExtensions
     {
-        public static ApiResponse GetApiResponse(this Task<HttpResponseMessage> httpResponseMessageTask)
+        public static ApiResponse<T> GetApiResponse<T>(this Task<HttpResponseMessage> httpResponseMessageTask)
         {
             var httpResponseMessage = httpResponseMessageTask.GetAwaiter().GetResult();
-            var body = httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-            var apiResponse = new ApiResponse(body, httpResponseMessage.StatusCode);
+            var result = httpResponseMessage.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            var body = JsonConvert.DeserializeObject<T>(result);
+            var apiResponse = new ApiResponse<T>(body, httpResponseMessage.StatusCode);
 
             return apiResponse;
         }

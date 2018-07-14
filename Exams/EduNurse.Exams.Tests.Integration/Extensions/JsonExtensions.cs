@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace EduNurse.Exams.Tests.Integration
+namespace EduNurse.Exams.Tests.Integration.Extensions
 {
     public static class JsonExtensions
     {

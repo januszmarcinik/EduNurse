@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EduNurse.Exams.Api.Entities;
-using EduNurse.Exams.Shared.Dto;
+using EduNurse.Exams.Shared.Results;
 
 namespace EduNurse.Exams.Api
 {
@@ -10,8 +10,8 @@ namespace EduNurse.Exams.Api
         {
             return new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Question, QuestionDto>();
-                cfg.CreateMap<Exam, ExamDto>();
+                cfg.CreateMap<Question, QuestionResult>();
+                cfg.CreateMap<Exam, ExamResult>();
             })
             .CreateMapper();
         }

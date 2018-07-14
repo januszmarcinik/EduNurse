@@ -2,15 +2,15 @@
 
 namespace EduNurse.Exams.Tests.Integration
 {
-    internal class ApiResponse
+    internal class ApiResponse<T>
     {
-        public ApiResponse(string body, HttpStatusCode statusCode)
+        public ApiResponse(T body, HttpStatusCode statusCode)
         {
             Body = body;
             StatusCode = statusCode;
         }
 
-        public string Body { get; }
+        public T Body { get; }
         public HttpStatusCode StatusCode { get; }
     }
 }

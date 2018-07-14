@@ -1,6 +1,8 @@
 ﻿using System;
-using EduNurse.Exams.Shared.Dto;
-using EduNurse.Exams.Shared.Repositories;
+using EduNurse.Exams.Api.Commands;
+using EduNurse.Exams.Api.Queries;
+using EduNurse.Exams.Shared.Commands;
+using EduNurse.Exams.Shared.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Controllers
@@ -10,69 +12,55 @@ namespace EduNurse.Exams.Api.Controllers
     [ApiController]
     public class ExamsController : ControllerBase
     {
-        private readonly IExamsRepository _examsRepository;
+        private readonly IQueryDispatcher _queryDispatcher;
+        private readonly ICommandDispatcher _commandDispatcher;
 
-        public ExamsController(IExamsRepository examsRepository)
+        public ExamsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
         {
-            _examsRepository = examsRepository;
+            _queryDispatcher = queryDispatcher;
+            _commandDispatcher = commandDispatcher;
         }
 
         /// <summary>
-        /// Get all exams
+        /// Get all exams by given parameters
         /// </summary>
-        /// <returns>All exams from service</returns>
-        [HttpGet]
-        public IActionResult Get() => Ok(_examsRepository.GetAll());
+        /// <response code="200">Found exams by given parameters</response>
+        /// <returns>All exams by given parameters</returns>
+        [HttpGet("{type}/{category}")]
+        [ProducesResponseType(200)]
+        public IActionResult Get([FromRoute] GetExamsByTypeAndCategoryQuery query) 
+            => _queryDispatcher.Dispatch(query);
 
         /// <summary>
         /// Get exam by Id
         /// </summary>
-        /// <param name="id">Exam Id</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id) => Ok(_examsRepository.GetById(id));
+        public IActionResult Get([FromRoute] GetExamByIdQuery query) 
+            => _queryDispatcher.Dispatch(query);
 
         /// <summary>
         /// Create new exam
         /// </summary>
         /// <remarks>
-        /// Sample request:
-        ///
-        ///     POST / exams
-        ///     {
-        ///        "id": "1b7b385b-9fb4-45b9-800a-89392d0e866a",
-        ///        "name": "Sample exam name"
-        ///     }
-        ///
         /// </remarks>
-        /// <param name="dto">model</param>
+        /// <param name="command">command</param>
         /// <response code="202">New exam is created</response>
         /// <response code="400">Validation failed</response>   
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(202)]
         [ProducesResponseType(400)]
-        public IActionResult Post([FromBody] ExamDto dto)
-        {
-            _examsRepository.Create(dto);
-            return Accepted();
-        }
+        public IActionResult Post([FromBody] AddExamCommand command)
+            => _commandDispatcher.Dispatch(command, User);
 
         /// <summary>
         /// Update exist exam
         /// </summary>
         /// <remarks>
-        /// Sample request:
-        /// 
-        ///     PUT / exams/1b7b385b-9fb4-45b9-800a-89392d0e866a
-        ///     {
-        ///        "id": "1b7b385b-9fb4-45b9-800a-89392d0e866a",
-        ///        "name": "Sample exam name"
-        ///     }
-        /// 
         /// </remarks>
         /// <param name="id">Id of exising exam</param>
-        /// <param name="dto">model</param>
+        /// <param name="command">command</param>
         /// <response code="202">Exam is updated</response>
         /// <response code="400">Validation failed</response>
         /// <response code="404">Exam with given Id was not found</response> 
@@ -81,32 +69,23 @@ namespace EduNurse.Exams.Api.Controllers
         [ProducesResponseType(202)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult Put(Guid id, [FromBody] ExamDto dto)
-        {
-            _examsRepository.Update(id, dto);
-            return Accepted();
-        }
+        public IActionResult Put(Guid id, [FromBody] EditExamCommand command)
+            => _commandDispatcher.Dispatch(command, User, id);
 
         /// <summary>
-        /// Delete existing exam
+        /// Remove existing exam
         /// </summary>
         /// <remarks>
-        /// Sample request:
-        /// 
-        ///     DELETE / exams/1b7b385b-9fb4-45b9-800a-89392d0e866a
-        /// 
         /// </remarks>
         /// <param name="id">Id of exising exam</param>
+        /// <param name="command"></param>
         /// <response code="202">Exam is deleted</response>
         /// <response code="404">Exam with given Id was not found</response> 
         /// <returns></returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(202)]
         [ProducesResponseType(404)]
-        public IActionResult Delete(Guid id)
-        {
-            _examsRepository.Delete(id);
-            return Accepted();
-        }
+        public IActionResult Delete(Guid id, [FromRoute] DeleteExamCommand command)
+            => _commandDispatcher.Dispatch(command, User, id);
     }
 }

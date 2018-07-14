@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using EduNurse.Exams.Api;
+using EduNurse.Exams.Api.Entities;
+using EduNurse.Exams.Tests.Integration.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EduNurse.Exams.Tests.Integration
@@ -12,7 +16,7 @@ namespace EduNurse.Exams.Tests.Integration
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
-        private readonly IExamsContext _context;
+        private readonly ExamsContext _context;
 
         public SystemUnderTest()
         {
@@ -20,15 +24,13 @@ namespace EduNurse.Exams.Tests.Integration
                 .UseEnvironment("Testing")
                 .UseStartup<Startup>()
             );
-
-            _context = _server.Host.Services.GetService<IExamsContext>();
-
             _client = _server.CreateClient();
+            _context = _server.Host.Services.GetService<ExamsContext>();
         }
 
         public T Create<T>(T entity) where T : Entity
         {
-            _context.Create(entity);
+            _context.Add(entity);
             _context.SaveChanges();
 
             return entity;
@@ -36,40 +38,54 @@ namespace EduNurse.Exams.Tests.Integration
 
         public List<T> CreateMany<T>(List<T> entities) where T : Entity
         {
-            _context.CreateMany(entities);
+            _context.AddRange(entities);
             _context.SaveChanges();
 
             return entities;
         }
 
-        public T GetById<T>(Guid id) where T : Entity
+        public Exam GetExamById(Guid id, bool onScope = false)
         {
-            return _context.GetById<T>(id);
+            if (onScope)
+            {
+                using (var scope = _server.Host.Services.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetService<ExamsContext>();
+                    return context.Exams.Include(x => x.Questions).SingleOrDefault(x => x.Id == id);
+                }
+            }
+
+            return _context.Exams.Include(x => x.Questions).SingleOrDefault(x => x.Id == id);
         }
 
-        public ApiResponse HttpGet(string url)
+        public IEnumerable<Exam> GetAllExams()
         {
-            return _client.GetAsync(url).GetApiResponse();
+            return _context.Exams.Include(x => x.Questions);
         }
 
-        public ApiResponse HttpGet(string url, Guid id)
+        public ApiResponse<T> HttpGet<T>(string url)
         {
-            return _client.GetAsync($"{url}/{id}").GetApiResponse();
+            return _client.GetAsync(url).GetApiResponse<T>();
         }
 
-        public ApiResponse HttpPost(string url, object body)
+        public ApiResponse<T> HttpGet<T>(string url, Guid id)
         {
-            return _client.PostAsync(url, body.ToStringContent()).GetApiResponse();
+            return _client.GetAsync($"{url}/{id}").GetApiResponse<T>();
         }
 
-        public ApiResponse HttpPut(string url, Guid id, object body)
+        public ApiResponse<string> HttpPost(string url, object body)
         {
-            return _client.PutAsync($"{url}/{id}", body.ToStringContent()).GetApiResponse();
+            return _client.PostAsync(url, body.ToStringContent()).GetApiResponse<string>();
         }
 
-        public ApiResponse HttpDelete(string url, Guid id)
+        public ApiResponse<string> HttpPut(string url, Guid id, object body)
         {
-            return _client.DeleteAsync($"{url}/{id}").GetApiResponse();
+            return _client.PutAsync($"{url}/{id}", body.ToStringContent()).GetApiResponse<string>();
+        }
+
+        public ApiResponse<string> HttpDelete(string url, Guid id)
+        {
+            return _client.DeleteAsync($"{url}/{id}").GetApiResponse<string>();
         }
 
         public void Dispose()

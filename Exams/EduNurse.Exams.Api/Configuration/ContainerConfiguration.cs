@@ -1,8 +1,9 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using EduNurse.Exams.Api.Repositories;
-using EduNurse.Exams.Shared.Repositories;
+using EduNurse.Exams.Api.Commands;
+using EduNurse.Exams.Api.Queries;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,10 +16,25 @@ namespace EduNurse.Exams.Api.Configuration
             var builder = new ContainerBuilder();
             builder.Populate(services);
 
-            builder.RegisterType<ExamsContext>().As<IExamsContext>().InstancePerLifetimeScope();
-            builder.RegisterType<QuestionsRepository>().As<IQuestionsRepository>().InstancePerLifetimeScope();
-            builder.RegisterType<ExamsRepository>().As<IExamsRepository>().InstancePerLifetimeScope();
             builder.RegisterInstance(AutoMapperConfig.Initialize()).As<IMapper>().SingleInstance();
+
+            var assembly = typeof(Startup)
+                .GetTypeInfo()
+                .Assembly;
+
+            builder.RegisterAssemblyTypes(assembly)
+                .AsClosedTypesOf(typeof(ICommandHandler<>))
+                .InstancePerLifetimeScope();
+            builder.RegisterType<CommandDispatcher>()
+                .As<ICommandDispatcher>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(assembly)
+                .AsClosedTypesOf(typeof(IQueryHandler<>))
+                .InstancePerLifetimeScope();
+            builder.RegisterType<QueryDispatcher>()
+                .As<IQueryDispatcher>()
+                .InstancePerLifetimeScope();
 
             return builder.Build();
         }

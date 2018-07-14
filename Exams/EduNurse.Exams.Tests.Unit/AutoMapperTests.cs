@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using EduNurse.Exams.Api;
 using EduNurse.Exams.Api.Entities;
-using EduNurse.Exams.Shared.Dto;
 using EduNurse.Exams.Shared.Enums;
+using EduNurse.Exams.Shared.Results;
+using EduNurse.Tools;
 using FluentAssertions;
 using Xunit;
 
@@ -23,24 +25,29 @@ namespace EduNurse.Exams.Tests.Unit
         {
             var uut = new Question(
                 id: Guid.NewGuid(),
+                examId: Guid.NewGuid(),
                 text: "sample-text",
                 a: "answer-a",
                 b: "answer-b",
                 c: "answer-c",
                 d: "answer-d",
-                correctAnswer: Shared.Enums.CorrectAnswer.C
+                correctAnswer: Shared.Enums.CorrectAnswer.C,
+                explanation: "exmplantation-sample"
             );
-            var expected = new QuestionDto(
-                id: uut.Id,
-                text: uut.Text,
-                a: uut.A,
-                b: uut.B,
-                c: uut.C,
-                d: uut.D,
-                correctAnswer: uut.CorrectAnswer
-            );
+            var expected = new QuestionResult()
+            {
+                Id = uut.Id,
+                ExamId = uut.ExamId,
+                A = uut.A,
+                B = uut.B,
+                C = uut.C,
+                D = uut.D,
+                CorrectAnswer = uut.CorrectAnswer,
+                Explanation = uut.Explanation,
+                Text = uut.Text
+            };
 
-            var result = _mapper.Map<QuestionDto>(uut);
+            var result = _mapper.Map<QuestionResult>(uut);
 
             result.Should().BeEquivalentTo(expected);
         }
@@ -52,16 +59,24 @@ namespace EduNurse.Exams.Tests.Unit
                 id: Guid.NewGuid(),
                 name: "sample-name",
                 type: ExamType.Specialized,
-                category: "sample-category"
+                category: "sample-category",
+                createdBy: "created-by",
+                createdDate: SystemTime.Now,
+                isConfirmed: false
             );
-            var expected = new Exam(
-                id: uut.Id,
-                name: uut.Name,
-                type: uut.Type,
-                category: uut.Category
-            );
+            var expected = new ExamResult()
+            {
+                Category = uut.Category,
+                CreatedBy = uut.CreatedBy,
+                CreatedDate = uut.CreatedDate,
+                Id = uut.Id,
+                IsConfirmed = uut.IsConfirmed,
+                Name = uut.Name,
+                Questions = Enumerable.Empty<QuestionResult>(),
+                Type = uut.Type
+            };
 
-            var result = _mapper.Map<ExamDto>(uut);
+            var result = _mapper.Map<ExamResult>(uut);
 
             result.Should().BeEquivalentTo(expected);
         }
