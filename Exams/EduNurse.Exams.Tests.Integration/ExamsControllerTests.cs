@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using EduNurse.Exams.Api.Entities;
-using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Shared.Results;
 using EduNurse.Exams.Tests.Integration.Extensions;
@@ -15,6 +14,30 @@ namespace EduNurse.Exams.Tests.Integration
     public class ExamsControllerTests
     {
         private const string Url = "api/v1/exams";
+
+        [Fact]
+        public void GetCategoriesByType_WhenExists_ReturnsDistinctedWithStatus200()
+        {
+            using (var sut = new SystemUnderTest())
+            {
+                var exams = sut.CreateMany(new List<Exam>()
+                {
+                    new ExamBuilder("First Exam", ExamType.GeneralKnowledge, "Kardiologia").Build(),
+                    new ExamBuilder("Second Exam", ExamType.GeneralKnowledge, "Interna").Build(),
+                    new ExamBuilder("Third Exam", ExamType.Specialized, "Kardiologia").Build(),
+                    new ExamBuilder("Fourth Exam", ExamType.GeneralKnowledge, "Kardiologia").Build(),
+                    new ExamBuilder("Fifth Exam", ExamType.GeneralKnowledge, "Interna").Build(),
+                    new ExamBuilder("Sixth Exam", ExamType.Specialized, "Urologia").Build(),
+                    new ExamBuilder("Seventh Exam", ExamType.GeneralKnowledge, "Nefrologia").Build()
+                });
+
+                var url = $"{Url}/{nameof(ExamType.GeneralKnowledge)}/categories";
+                var apiResponse = sut.HttpGet<IEnumerable<string>>(url);
+
+                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
+                apiResponse.Body.Should().BeEquivalentTo("Kardiologia", "Interna", "Nefrologia");
+            }
+        }
 
         [Fact]
         public void GetExamsByTypeAndCategory_WhenExists_ReturnsResultWithStatus200()
@@ -161,7 +184,7 @@ namespace EduNurse.Exams.Tests.Integration
         }
 
         [Fact]
-        public void WhenCalled_Delete_ExamIsDeletedWithStatus202()
+        public void RemoveExamWithQuestions_WhenExamExists_DeleteExamsAndQuestionsWithStatus202()
         {
             using (var sut = new SystemUnderTest())
             {

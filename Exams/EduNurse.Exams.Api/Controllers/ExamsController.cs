@@ -22,6 +22,16 @@ namespace EduNurse.Exams.Api.Controllers
         }
 
         /// <summary>
+        /// Get defined categories by exam type
+        /// </summary>
+        /// <response code="200">Distincted categories by given exam type</response>
+        /// <returns>Distincted categories by given exam type</returns>
+        [HttpGet("{type}/categories")]
+        [ProducesResponseType(200)]
+        public IActionResult Get([FromRoute] GetCategoriesByTypeQuery query)
+            => _queryDispatcher.Dispatch(query);
+
+        /// <summary>
         /// Get all exams by given parameters
         /// </summary>
         /// <response code="200">Found exams by given parameters</response>
