@@ -56,6 +56,13 @@ namespace EduNurse.Exams.Api
             app.UseHttpsRedirection();
             app.UseMvc();
 
+            app.UseCors(cors =>
+            {
+                cors.AllowAnyOrigin();
+                cors.AllowAnyMethod();
+                cors.AllowAnyHeader();
+            });
+
             appLifetime.ConfigureContainer(Container);
         }
     }
