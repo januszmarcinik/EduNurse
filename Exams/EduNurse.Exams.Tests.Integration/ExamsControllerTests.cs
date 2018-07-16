@@ -32,10 +32,14 @@ namespace EduNurse.Exams.Tests.Integration
                 });
 
                 var url = $"{Url}/{nameof(ExamType.GeneralKnowledge)}/categories";
-                var apiResponse = sut.HttpGet<IEnumerable<string>>(url);
+                var apiResponse = sut.HttpGet<IEnumerable<CategoryResult>>(url);
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
-                apiResponse.Body.Should().BeEquivalentTo("Kardiologia", "Interna", "Nefrologia");
+                apiResponse.Body.Should().BeEquivalentTo(
+                    new CategoryResult("Kardiologia"), 
+                    new CategoryResult("Interna"), 
+                    new CategoryResult("Nefrologia")
+                );
             }
         }
 

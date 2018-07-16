@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using EduNurse.Exams.Shared.Queries;
+using EduNurse.Exams.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Queries.Handlers
@@ -20,6 +21,7 @@ namespace EduNurse.Exams.Api.Queries.Handlers
                 .Where(x => x.Type == query.Type)
                 .Select(x => x.Category)
                 .Distinct()
+                .Select(x => new CategoryResult(x))
                 .ToList();
 
             return new OkObjectResult(categories);
