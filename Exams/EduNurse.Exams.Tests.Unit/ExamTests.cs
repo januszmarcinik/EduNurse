@@ -15,7 +15,7 @@ namespace EduNurse.Exams.Tests.Unit
             var expected = new
             {
                 Id = Guid.NewGuid(),
-                Type = ExamType.Specialized,
+                Type = ExamType.Specialization,
                 Name = "sample-name",
                 Category = "sample-category",
                 CreatedBy = "sample-author",

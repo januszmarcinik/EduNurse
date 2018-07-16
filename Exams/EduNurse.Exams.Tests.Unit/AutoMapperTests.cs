@@ -58,7 +58,7 @@ namespace EduNurse.Exams.Tests.Unit
             var uut = new Exam(
                 id: Guid.NewGuid(),
                 name: "sample-name",
-                type: ExamType.Specialized,
+                type: ExamType.Specialization,
                 category: "sample-category",
                 createdBy: "created-by",
                 createdDate: SystemTime.Now,

@@ -24,10 +24,10 @@ namespace EduNurse.Exams.Tests.Integration
                 {
                     new ExamBuilder("First Exam", ExamType.GeneralKnowledge, "Kardiologia").Build(),
                     new ExamBuilder("Second Exam", ExamType.GeneralKnowledge, "Interna").Build(),
-                    new ExamBuilder("Third Exam", ExamType.Specialized, "Kardiologia").Build(),
+                    new ExamBuilder("Third Exam", ExamType.Specialization, "Kardiologia").Build(),
                     new ExamBuilder("Fourth Exam", ExamType.GeneralKnowledge, "Kardiologia").Build(),
                     new ExamBuilder("Fifth Exam", ExamType.GeneralKnowledge, "Interna").Build(),
-                    new ExamBuilder("Sixth Exam", ExamType.Specialized, "Urologia").Build(),
+                    new ExamBuilder("Sixth Exam", ExamType.Specialization, "Urologia").Build(),
                     new ExamBuilder("Seventh Exam", ExamType.GeneralKnowledge, "Nefrologia").Build()
                 });
 
@@ -54,7 +54,7 @@ namespace EduNurse.Exams.Tests.Integration
                         .WithQuestion("e2q1", CorrectAnswer.C)
                         .WithQuestion("e2q2", CorrectAnswer.D)
                         .Build(),
-                    new ExamBuilder("Third Exam", ExamType.Specialized, "Kardiologia")
+                    new ExamBuilder("Third Exam", ExamType.Specialization, "Kardiologia")
                         .WithQuestion("e3q1", CorrectAnswer.B)
                         .WithQuestion("e3q2", CorrectAnswer.D)
                         .Build()
@@ -97,7 +97,7 @@ namespace EduNurse.Exams.Tests.Integration
                         .WithQuestion("e2q1", CorrectAnswer.C)
                         .WithQuestion("e2q2", CorrectAnswer.D)
                         .Build(),
-                    new ExamBuilder("Third Exam", ExamType.Specialized, "Kardiologia")
+                    new ExamBuilder("Third Exam", ExamType.Specialization, "Kardiologia")
                         .WithQuestion("e3q1", CorrectAnswer.B)
                         .WithQuestion("e3q2", CorrectAnswer.D)
                         .Build()
@@ -117,7 +117,7 @@ namespace EduNurse.Exams.Tests.Integration
         {
             using (var sut = new SystemUnderTest())
             {
-                var exam = new ExamBuilder("Some-exam", ExamType.Specialized, "Some-category")
+                var exam = new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.A)
                     .WithQuestion("Q2", CorrectAnswer.B)
                     .WithQuestion("Q3", CorrectAnswer.C)
@@ -152,7 +152,7 @@ namespace EduNurse.Exams.Tests.Integration
         {
             using (var sut = new SystemUnderTest())
             {
-                sut.Create(new ExamBuilder("Some-exam", ExamType.Specialized, "Some-category")
+                sut.Create(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.A)
                     .WithQuestion("Q2", CorrectAnswer.B)
                     .WithQuestion("Q3", CorrectAnswer.C)
@@ -188,7 +188,7 @@ namespace EduNurse.Exams.Tests.Integration
         {
             using (var sut = new SystemUnderTest())
             {
-                sut.Create(new ExamBuilder("Some-exam", ExamType.Specialized, "Some-category")
+                sut.Create(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.B)
                     .WithQuestion("Q2", CorrectAnswer.D)
                     .Build()
