@@ -24,6 +24,7 @@ namespace EduNurse.Exams.Api
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.ConfigureDatabase();
@@ -52,10 +53,7 @@ namespace EduNurse.Exams.Api
             {
                 app.ConfigureSwagger();
             }
-
-            app.UseHttpsRedirection();
-            app.UseMvc();
-
+            
             app.UseCors(cors =>
             {
                 cors.AllowAnyOrigin();
@@ -63,6 +61,8 @@ namespace EduNurse.Exams.Api
                 cors.AllowAnyHeader();
             });
 
+            app.UseHttpsRedirection();
+            app.UseMvc();
             appLifetime.ConfigureContainer(Container);
         }
     }
