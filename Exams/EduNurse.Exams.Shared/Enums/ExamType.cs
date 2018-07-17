@@ -2,7 +2,7 @@
 {
     public enum ExamType
     {
-        GeneralKnowledge = 1,
-        Specialization = 2
+        Specialization = 1,
+        GeneralKnowledge = 2,
     }
 }
