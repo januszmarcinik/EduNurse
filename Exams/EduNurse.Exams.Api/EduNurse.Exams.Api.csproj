@@ -7,6 +7,7 @@
   <PropertyGroup>
     <DocumentationFile>bin\Debug\netcoreapp2.1\EduNurse.Exams.Api.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591</NoWarn>
+    <UserSecretsId>e81b77c7-cfca-4caf-b59a-b15b3b01a525</UserSecretsId>
   </PropertyGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">

@@ -27,7 +27,7 @@ namespace EduNurse.Exams.Api
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.ConfigureDatabase();
+            services.ConfigureDatabase(Configuration, HostingEnvironment);
 
             if (!HostingEnvironment.IsEnvironment("Testing"))
             {
