@@ -24,7 +24,6 @@ namespace EduNurse.Exams.Api.Queries.Handlers
             var exams = _context.Exams.AsQueryable()
                 .Where(x => x.Type == query.Type)
                 .Where(x => x.Category == query.Category)
-                .Include(x => x.Questions)
                 .ToList();
 
             return new OkObjectResult(_mapper.Map<IEnumerable<ExamResult>>(exams));

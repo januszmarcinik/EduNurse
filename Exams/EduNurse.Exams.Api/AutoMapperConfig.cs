@@ -12,6 +12,7 @@ namespace EduNurse.Exams.Api
             {
                 cfg.CreateMap<Question, QuestionResult>();
                 cfg.CreateMap<Exam, ExamResult>();
+                cfg.CreateMap<Exam, ExamWithQuestionsResult>();
             })
             .CreateMapper();
         }

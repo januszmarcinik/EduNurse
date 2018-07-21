@@ -29,7 +29,7 @@ namespace EduNurse.Exams.Api.Queries.Handlers
                 return new NotFoundResult();
             }
 
-            return new OkObjectResult(_mapper.Map<ExamResult>(exam));
+            return new OkObjectResult(_mapper.Map<ExamWithQuestionsResult>(exam));
         }
     }
 }

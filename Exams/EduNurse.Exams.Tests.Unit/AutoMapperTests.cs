@@ -64,7 +64,7 @@ namespace EduNurse.Exams.Tests.Unit
                 createdDate: SystemTime.Now,
                 isConfirmed: false
             );
-            var expected = new ExamResult()
+            var expected = new ExamWithQuestionsResult()
             {
                 Category = uut.Category,
                 CreatedBy = uut.CreatedBy,
@@ -76,7 +76,7 @@ namespace EduNurse.Exams.Tests.Unit
                 Type = uut.Type
             };
 
-            var result = _mapper.Map<ExamResult>(uut);
+            var result = _mapper.Map<ExamWithQuestionsResult>(uut);
 
             result.Should().BeEquivalentTo(expected);
         }

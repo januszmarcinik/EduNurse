@@ -50,18 +50,9 @@ namespace EduNurse.Exams.Tests.Integration
             {
                 var exams = sut.CreateMany(new List<Exam>()
                 {
-                    new ExamBuilder("First Exam", ExamType.GeneralKnowledge, "Kardiologia")
-                        .WithQuestion("e1q1", CorrectAnswer.A)
-                        .WithQuestion("e1q2", CorrectAnswer.B)
-                        .Build(),
-                    new ExamBuilder("Second Exam", ExamType.GeneralKnowledge, "Interna")
-                        .WithQuestion("e2q1", CorrectAnswer.C)
-                        .WithQuestion("e2q2", CorrectAnswer.D)
-                        .Build(),
-                    new ExamBuilder("Third Exam", ExamType.Specialization, "Kardiologia")
-                        .WithQuestion("e3q1", CorrectAnswer.B)
-                        .WithQuestion("e3q2", CorrectAnswer.D)
-                        .Build()
+                    new ExamBuilder("First Exam", ExamType.GeneralKnowledge, "Kardiologia").Build(),
+                    new ExamBuilder("Second Exam", ExamType.GeneralKnowledge, "Interna").Build(),
+                    new ExamBuilder("Third Exam", ExamType.Specialization, "Kardiologia").Build()
                 });
 
                 var expected = new List<ExamResult>() { exams[1].ToExamResult() };
@@ -79,7 +70,7 @@ namespace EduNurse.Exams.Tests.Integration
         {
             using (var sut = new SystemUnderTest())
             {
-                var apiResponse = sut.HttpGet<ExamResult>(Url, Guid.NewGuid());
+                var apiResponse = sut.HttpGet<ExamWithQuestionsResult>(Url, Guid.NewGuid());
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NotFound);
                 apiResponse.Body.Should().BeNull();
@@ -107,9 +98,9 @@ namespace EduNurse.Exams.Tests.Integration
                         .Build()
                 });
 
-                var expected = exams[1].ToExamResult();
+                var expected = exams[1].ToExamWithQuestionsResult();
 
-                var apiResponse = sut.HttpGet<ExamResult>($"{Url}/{exams[1].Id}");
+                var apiResponse = sut.HttpGet<ExamWithQuestionsResult>($"{Url}/{exams[1].Id}");
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
                 apiResponse.Body.Should().BeEquivalentTo(expected);

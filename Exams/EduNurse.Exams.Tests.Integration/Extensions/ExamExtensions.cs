@@ -17,6 +17,20 @@ namespace EduNurse.Exams.Tests.Integration.Extensions
                 Category = exam.Category,
                 CreatedBy = exam.CreatedBy,
                 CreatedDate = exam.CreatedDate,
+                IsConfirmed = exam.IsConfirmed
+            };
+        }
+
+        public static ExamWithQuestionsResult ToExamWithQuestionsResult(this Exam exam)
+        {
+            return new ExamWithQuestionsResult()
+            {
+                Id = exam.Id,
+                Name = exam.Name,
+                Type = exam.Type,
+                Category = exam.Category,
+                CreatedBy = exam.CreatedBy,
+                CreatedDate = exam.CreatedDate,
                 IsConfirmed = exam.IsConfirmed,
                 Questions = exam.Questions
                     .Select(q => q.ToQuestionResult())
