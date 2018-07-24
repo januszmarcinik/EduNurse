@@ -26,7 +26,7 @@ namespace EduNurse.Exams.Api.Commands.Handlers
             _context.Exams.Add(exam);
 
             var questions = command.Questions
-                .Select(q => new Question(q.Id, examId, q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation));
+                .Select(q => new Question(Guid.NewGuid(), examId, q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation));
             _context.Questions.AddRange(questions);
 
             _context.SaveChanges();

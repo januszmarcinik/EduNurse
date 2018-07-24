@@ -32,7 +32,11 @@ namespace EduNurse.Exams.Api.Commands.Handlers
             exam.ChangeType(command.Type);
             exam.SetCategory(command.Category);
 
-            var commandQuestionIds = command.Questions.Select(p => p.Id).ToList();
+            var commandQuestionIds = command.Questions
+                .Where(x => x.Id.HasValue)
+                .Select(p => p.Id.Value)
+                .ToList();
+
             exam.Questions
                 .Select(x => x.Id)
                 .Except(commandQuestionIds)
@@ -41,18 +45,20 @@ namespace EduNurse.Exams.Api.Commands.Handlers
 
             foreach (var q in command.Questions)
             {
-                var existedQuestion = exam.Questions.SingleOrDefault(x => x.Id == q.Id);
-                if (existedQuestion != null)
+                if (q.Id.HasValue)
                 {
-                    existedQuestion.SetText(q.Text);
-                    existedQuestion.SetAnswers(q.A, q.B, q.C, q.D);
-                    existedQuestion.SetExplantation(q.Explanation);
-                    existedQuestion.ChangeCorrectAnswer(q.CorrectAnswer);
+                    var existedQuestion = exam.Questions.SingleOrDefault(x => x.Id == q.Id);
+                    if (existedQuestion != null)
+                    {
+                        existedQuestion.SetText(q.Text);
+                        existedQuestion.SetAnswers(q.A, q.B, q.C, q.D);
+                        existedQuestion.SetExplantation(q.Explanation);
+                        existedQuestion.ChangeCorrectAnswer(q.CorrectAnswer);
+                        continue;
+                    }
                 }
-                else
-                { 
-                    exam.AddQuestion(q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation);
-                }
+
+                exam.AddQuestion(q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation);
             }
 
             _context.Update(exam);

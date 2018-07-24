@@ -45,7 +45,7 @@ namespace EduNurse.Exams.Tests.Integration.Extensions
                 Category = exam.Category,
                 Name = exam.Name,
                 Questions = exam.Questions
-                    .Select(q => q.ToQuestionResult())
+                    .Select(q => q.ToAddQuestionCommand())
             };
         }
 
@@ -57,7 +57,7 @@ namespace EduNurse.Exams.Tests.Integration.Extensions
                 Category = exam.Category,
                 Name = exam.Name,
                 Questions = exam.Questions
-                    .Select(q => q.ToQuestionResult())
+                    .Select(q => q.ToEditQuestionCommand())
             };
         }
     }
