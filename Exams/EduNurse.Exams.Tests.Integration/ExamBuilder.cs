@@ -24,6 +24,7 @@ namespace EduNurse.Exams.Tests.Integration
         public ExamBuilder WithQuestion(string text, CorrectAnswer correctAnswer)
         {
             _prototype.AddQuestion(
+                order: _prototype.Questions.Count + 1,
                 text: text, 
                 a: "a1", 
                 b: "b1", 

@@ -26,6 +26,7 @@ namespace EduNurse.Exams.Tests.Unit
             var uut = new Question(
                 id: Guid.NewGuid(),
                 examId: Guid.NewGuid(),
+                order: 1,
                 text: "sample-text",
                 a: "answer-a",
                 b: "answer-b",
@@ -38,6 +39,7 @@ namespace EduNurse.Exams.Tests.Unit
             {
                 Id = uut.Id,
                 ExamId = uut.ExamId,
+                Order = uut.Order,
                 A = uut.A,
                 B = uut.B,
                 C = uut.C,

@@ -14,6 +14,7 @@ namespace EduNurse.Exams.Tests.Unit
             {
                 Id = Guid.NewGuid(),
                 ExamId = Guid.NewGuid(),
+                Order = 1,
                 Text = "sample-text",
                 A = "answer-a",
                 B = "answer-b",
@@ -26,6 +27,7 @@ namespace EduNurse.Exams.Tests.Unit
             var actual = new Question(
                 id: expected.Id,
                 examId: expected.ExamId,
+                order: expected.Order,
                 text: expected.Text,
                 a: expected.A,
                 b: expected.B,

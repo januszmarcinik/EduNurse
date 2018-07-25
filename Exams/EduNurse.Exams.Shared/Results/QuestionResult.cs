@@ -7,6 +7,7 @@ namespace EduNurse.Exams.Shared.Results
     {
         public Guid Id { get; set; }
         public Guid ExamId { get; set; }
+        public int Order { get; set; }
         public string Text { get; set; }
         public string A { get; set; }
         public string B { get; set; }

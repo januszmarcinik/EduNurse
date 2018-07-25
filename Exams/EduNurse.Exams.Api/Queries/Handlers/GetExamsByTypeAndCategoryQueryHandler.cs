@@ -4,7 +4,6 @@ using AutoMapper;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace EduNurse.Exams.Api.Queries.Handlers
 {

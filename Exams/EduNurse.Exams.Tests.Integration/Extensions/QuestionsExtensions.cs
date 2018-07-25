@@ -11,6 +11,7 @@ namespace EduNurse.Exams.Tests.Integration.Extensions
             return new QuestionResult()
             {
                 Id = question.Id,
+                Order = question.Order,
                 Text = question.Text,
                 ExamId = question.ExamId,
                 A = question.A,
@@ -26,6 +27,7 @@ namespace EduNurse.Exams.Tests.Integration.Extensions
         {
             return new AddQuestionCommand()
             {
+                Order = question.Order,
                 Text = question.Text,
                 A = question.A,
                 B = question.B,
@@ -41,6 +43,7 @@ namespace EduNurse.Exams.Tests.Integration.Extensions
             return new EditQuestionCommand()
             {
                 Id = question.Id,
+                Order = question.Order,
                 Text = question.Text,
                 A = question.A,
                 B = question.B,

@@ -162,8 +162,8 @@ namespace EduNurse.Exams.Tests.Integration
                 modified.ChangeType(ExamType.GeneralKnowledge);
 
                 modified.RemoveQuestion(modified.Questions.Last().Id);
-                modified.AddQuestion("text", "a", "b", "c", "d", CorrectAnswer.D, "expl");
-                modified.AddQuestion("text-second", "e", "f", "g", "h", CorrectAnswer.A, "testing");
+                modified.AddQuestion(3, "text", "a", "b", "c", "d", CorrectAnswer.D, "expl");
+                modified.AddQuestion(4, "text-second", "e", "f", "g", "h", CorrectAnswer.A, "testing");
                 modified.Questions.First().SetText("Changed text");
 
                 var command = modified.ToEditExamCommand();

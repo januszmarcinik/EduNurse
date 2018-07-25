@@ -50,6 +50,7 @@ namespace EduNurse.Exams.Api.Commands.Handlers
                     var existedQuestion = exam.Questions.SingleOrDefault(x => x.Id == q.Id);
                     if (existedQuestion != null)
                     {
+                        existedQuestion.SetOrder(q.Order);
                         existedQuestion.SetText(q.Text);
                         existedQuestion.SetAnswers(q.A, q.B, q.C, q.D);
                         existedQuestion.SetExplantation(q.Explanation);
@@ -58,7 +59,7 @@ namespace EduNurse.Exams.Api.Commands.Handlers
                     }
                 }
 
-                exam.AddQuestion(q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation);
+                exam.AddQuestion(q.Order, q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation);
             }
 
             _context.Update(exam);

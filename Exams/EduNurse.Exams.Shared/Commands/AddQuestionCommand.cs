@@ -6,6 +6,9 @@ namespace EduNurse.Exams.Shared.Commands
     public class AddQuestionCommand
     {
         [Required]
+        public int Order { get; set; }
+
+        [Required]
         public string Text { get; set; }
 
         [Required]

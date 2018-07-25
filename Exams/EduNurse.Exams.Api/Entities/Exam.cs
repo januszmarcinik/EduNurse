@@ -55,9 +55,9 @@ namespace EduNurse.Exams.Api.Entities
             IsConfirmed = true;
         }
 
-        public void AddQuestion(string text, string a, string b, string c, string d, CorrectAnswer correctAnswer, string explanation)
+        public void AddQuestion(int order, string text, string a, string b, string c, string d, CorrectAnswer correctAnswer, string explanation)
         {
-            _questions.Add(new Question(Guid.NewGuid(), Id, text, a, b, c, d, correctAnswer, explanation));
+            _questions.Add(new Question(Guid.NewGuid(), Id, order, text, a, b, c, d, correctAnswer, explanation));
         }
 
         public void RemoveQuestion(Guid id)

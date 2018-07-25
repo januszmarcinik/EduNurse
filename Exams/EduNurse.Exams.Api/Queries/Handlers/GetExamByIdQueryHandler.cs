@@ -29,7 +29,10 @@ namespace EduNurse.Exams.Api.Queries.Handlers
                 return new NotFoundResult();
             }
 
-            return new OkObjectResult(_mapper.Map<ExamWithQuestionsResult>(exam));
+            var result = _mapper.Map<ExamWithQuestionsResult>(exam);
+            result.Questions = result.Questions.OrderBy(x => x.Order).ToList();
+
+            return new OkObjectResult(result);
         }
     }
 }

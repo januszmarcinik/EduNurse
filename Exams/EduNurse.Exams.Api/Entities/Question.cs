@@ -8,6 +8,7 @@ namespace EduNurse.Exams.Api.Entities
         public Guid ExamId { get; private set; }
         public Exam Exam { get; private set; }
 
+        public int Order { get; private set; }
         public string Text { get; private set; }
         public string A { get; private set; }
         public string B { get; private set; }
@@ -19,6 +20,7 @@ namespace EduNurse.Exams.Api.Entities
         public Question(
             Guid id,
             Guid examId,
+            int order,
             string text, 
             string a, 
             string b, 
@@ -30,6 +32,7 @@ namespace EduNurse.Exams.Api.Entities
             : base(id)
         {
             ExamId = examId;
+            Order = order;
             Text = text;
             A = a;
             B = b;
@@ -37,6 +40,11 @@ namespace EduNurse.Exams.Api.Entities
             D = d;
             CorrectAnswer = correctAnswer;
             Explanation = explanation;
+        }
+
+        public void SetOrder(int order)
+        {
+            Order = order;
         }
 
         public void SetText(string text)
