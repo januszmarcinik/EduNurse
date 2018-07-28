@@ -4,7 +4,6 @@ using System.Security.Principal;
 using EduNurse.Exams.Api.Entities;
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Tools;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Commands.Handlers
 {
@@ -19,7 +18,7 @@ namespace EduNurse.Exams.Api.Commands.Handlers
             _user = user;
         }
 
-        public IActionResult Handle(AddExamCommand command)
+        public void Handle(AddExamCommand command)
         {
             var examId = Guid.NewGuid();
             var exam = new Exam(examId, command.Name, command.Type, command.Category, _user.Identity.Name, SystemTime.Now, false);
@@ -30,8 +29,6 @@ namespace EduNurse.Exams.Api.Commands.Handlers
             _context.Questions.AddRange(questions);
 
             _context.SaveChanges();
-
-            return new AcceptedResult();
         }
     }
 }

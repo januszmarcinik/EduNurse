@@ -63,7 +63,10 @@ namespace EduNurse.Exams.Api.Controllers
         [ProducesResponseType(202)]
         [ProducesResponseType(400)]
         public IActionResult Post([FromBody] AddExamCommand command)
-            => _commandDispatcher.Dispatch(command, User);
+        {
+            _commandDispatcher.Dispatch(command, User);
+            return Accepted();
+        }
 
         /// <summary>
         /// Update exist exam
@@ -81,7 +84,10 @@ namespace EduNurse.Exams.Api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         public IActionResult Put(Guid id, [FromBody] EditExamCommand command)
-            => _commandDispatcher.Dispatch(command, User, id);
+        {
+            _commandDispatcher.Dispatch(command, User, id);
+            return Accepted();
+        }
 
         /// <summary>
         /// Remove existing exam
@@ -97,6 +103,9 @@ namespace EduNurse.Exams.Api.Controllers
         [ProducesResponseType(202)]
         [ProducesResponseType(404)]
         public IActionResult Delete(Guid id, [FromRoute] DeleteExamCommand command)
-            => _commandDispatcher.Dispatch(command, User, id);
+        {
+            _commandDispatcher.Dispatch(command, User, id);
+            return Accepted();
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using EduNurse.Exams.Shared.Commands;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduNurse.Exams.Api.Commands.Handlers
@@ -17,7 +16,7 @@ namespace EduNurse.Exams.Api.Commands.Handlers
             _examId = examId;
         }
 
-        public IActionResult Handle(EditExamCommand command)
+        public void Handle(EditExamCommand command)
         {
             var exam = _context.Exams
                 .Include(p => p.Questions)
@@ -64,8 +63,6 @@ namespace EduNurse.Exams.Api.Commands.Handlers
 
             _context.Update(exam);
             _context.SaveChanges();
-
-            return new AcceptedResult();
         }
     }
 }

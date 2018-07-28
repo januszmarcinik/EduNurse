@@ -1,6 +1,5 @@
 ﻿using System;
 using EduNurse.Exams.Shared.Commands;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Commands.Handlers
 {
@@ -15,7 +14,7 @@ namespace EduNurse.Exams.Api.Commands.Handlers
             _examId = examId;
         }
 
-        public IActionResult Handle(DeleteExamCommand command)
+        public void Handle(DeleteExamCommand command)
         {
             var exam = _context.Exams.Find(_examId);
             if (exam == null)
@@ -25,8 +24,6 @@ namespace EduNurse.Exams.Api.Commands.Handlers
 
             _context.Exams.Remove(exam);
             _context.SaveChanges();
-
-            return new AcceptedResult();
         }
     }
 }

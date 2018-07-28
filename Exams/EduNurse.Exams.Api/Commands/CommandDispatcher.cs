@@ -4,7 +4,6 @@ using System.Security.Principal;
 using Autofac;
 using Autofac.Core;
 using EduNurse.Exams.Shared;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Commands
 {
@@ -17,22 +16,22 @@ namespace EduNurse.Exams.Api.Commands
             _context = context;
         }
 
-        public IActionResult Dispatch<T>(T command) where T : ICommand
+        public void Dispatch<T>(T command) where T : ICommand
         {
-            return Dispatch(command, null, Guid.Empty);
+            Dispatch(command, null, Guid.Empty);
         }
 
-        public IActionResult Dispatch<T>(T command, IPrincipal user) where T : ICommand
+        public void Dispatch<T>(T command, IPrincipal user) where T : ICommand
         {
-            return Dispatch(command, user, Guid.Empty);
+            Dispatch(command, user, Guid.Empty);
         }
 
-        public IActionResult Dispatch<T>(T command, Guid objectId) where T : ICommand
+        public void Dispatch<T>(T command, Guid objectId) where T : ICommand
         {
-            return Dispatch(command, null, objectId);
+            Dispatch(command, null, objectId);
         }
 
-        public IActionResult Dispatch<T>(T command, IPrincipal user, Guid objectId) where T : ICommand
+        public void Dispatch<T>(T command, IPrincipal user, Guid objectId) where T : ICommand
         {
             if (command == null)
             {
@@ -52,7 +51,7 @@ namespace EduNurse.Exams.Api.Commands
             }
 
             var handler = _context.Resolve<ICommandHandler<T>>(parameters);
-            return handler.Handle(command);
+            handler.Handle(command);
         }
     }
 }
