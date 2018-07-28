@@ -1,10 +1,11 @@
 ﻿using EduNurse.Exams.Shared;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Queries
 {
-    public interface IQueryHandler<in TQuery> where TQuery : IQuery 
+    public interface IQueryHandler<in TQuery, out TResult> 
+        where TQuery : IQuery<TResult>
+        where TResult : IResult
     {
-        IActionResult Handle(TQuery query);
+        TResult Handle(TQuery query);
     }
 }

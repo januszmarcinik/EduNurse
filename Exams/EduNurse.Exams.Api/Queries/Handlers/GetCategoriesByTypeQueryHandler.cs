@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Queries.Handlers
 {
-    internal class GetCategoriesByTypeQueryHandler : IQueryHandler<GetCategoriesByTypeQuery>
+    internal class GetCategoriesByTypeQueryHandler : IQueryHandler<GetCategoriesByTypeQuery, CategoriesResult>
     {
         private readonly ExamsContext _context;
 
@@ -14,17 +13,17 @@ namespace EduNurse.Exams.Api.Queries.Handlers
             _context = context;
         }
 
-        public IActionResult Handle(GetCategoriesByTypeQuery query)
+        public CategoriesResult Handle(GetCategoriesByTypeQuery query)
         {
             var categories = _context.Exams
                 .AsQueryable()
                 .Where(x => x.Type == query.Type)
                 .Select(x => x.Category)
                 .Distinct()
-                .Select(x => new CategoryResult(x))
+                .Select(x => new CategoriesResult.Category(x))
                 .ToList();
 
-            return new OkObjectResult(categories);
+            return new CategoriesResult(categories);
         }
     }
 }

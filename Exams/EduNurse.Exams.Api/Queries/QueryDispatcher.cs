@@ -3,7 +3,6 @@ using System.Security.Principal;
 using Autofac;
 using Autofac.Core;
 using EduNurse.Exams.Shared;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Queries
 {
@@ -16,12 +15,16 @@ namespace EduNurse.Exams.Api.Queries
             _context = context;
         }
 
-        public IActionResult Dispatch<TQuery>(TQuery query) where TQuery : IQuery
+        public TResult Dispatch<TQuery, TResult>(TQuery query)
+            where TQuery : IQuery<TResult>
+            where TResult : IResult
         {
-            return Dispatch<TQuery>(query, null);
+            return Dispatch<TQuery, TResult>(query, null);
         }
 
-        public IActionResult Dispatch<TQuery>(TQuery query, IPrincipal user) where TQuery : IQuery
+        public TResult Dispatch<TQuery, TResult>(TQuery query, IPrincipal user)
+            where TQuery : IQuery<TResult>
+            where TResult : IResult
         {
             var parameters = new List<Parameter>();
 
@@ -30,7 +33,7 @@ namespace EduNurse.Exams.Api.Queries
                 parameters.Add(new TypedParameter(typeof(IPrincipal), user));
             }
 
-            var handler = _context.Resolve<IQueryHandler<TQuery>>(parameters);
+            var handler = _context.Resolve<IQueryHandler<TQuery, TResult>>(parameters);
             return handler.Handle(query);
         }
     }

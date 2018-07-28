@@ -3,11 +3,10 @@ using System.Linq;
 using AutoMapper;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Queries.Handlers
 {
-    internal class GetExamsByTypeAndCategoryQueryHandler : IQueryHandler<GetExamsByTypeAndCategoryQuery>
+    internal class GetExamsByTypeAndCategoryQueryHandler : IQueryHandler<GetExamsByTypeAndCategoryQuery, ExamsResult>
     {
         private readonly ExamsContext _context;
         private readonly IMapper _mapper;
@@ -18,14 +17,16 @@ namespace EduNurse.Exams.Api.Queries.Handlers
             _mapper = mapper;
         }
 
-        public IActionResult Handle(GetExamsByTypeAndCategoryQuery query)
+        public ExamsResult Handle(GetExamsByTypeAndCategoryQuery query)
         {
             var exams = _context.Exams.AsQueryable()
                 .Where(x => x.Type == query.Type)
                 .Where(x => x.Category == query.Category)
                 .ToList();
 
-            return new OkObjectResult(_mapper.Map<IEnumerable<ExamResult>>(exams));
+            var result = _mapper.Map<IEnumerable<ExamsResult.Exam>>(exams);
+
+            return new ExamsResult(result);
         }
     }
 }

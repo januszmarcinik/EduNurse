@@ -1,6 +1,8 @@
-﻿namespace EduNurse.Exams.Shared
+﻿using System.Collections.Generic;
+
+namespace EduNurse.Exams.Shared
 {
-    public interface IQuery
+    public interface IQuery<TResult> where TResult : IResult
     {
     }
 }

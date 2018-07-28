@@ -30,7 +30,7 @@ namespace EduNurse.Exams.Api.Configuration
                 .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(assembly)
-                .AsClosedTypesOf(typeof(IQueryHandler<>))
+                .AsClosedTypesOf(typeof(IQueryHandler<,>))
                 .InstancePerLifetimeScope();
             builder.RegisterType<QueryDispatcher>()
                 .As<IQueryDispatcher>()

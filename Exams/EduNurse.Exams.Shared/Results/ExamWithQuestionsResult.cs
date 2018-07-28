@@ -4,15 +4,22 @@ using EduNurse.Exams.Shared.Enums;
 
 namespace EduNurse.Exams.Shared.Results
 {
-    public class ExamWithQuestionsResult
+    public class ExamWithQuestionsResult : ExamsResult.Exam, IResult
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public ExamType Type { get; set; }
-        public string Category { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public bool IsConfirmed { get; set; }
-        public IEnumerable<QuestionResult> Questions { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
+
+        public class Question
+        {
+            public Guid Id { get; set; }
+            public Guid ExamId { get; set; }
+            public int Order { get; set; }
+            public string Text { get; set; }
+            public string A { get; set; }
+            public string B { get; set; }
+            public string C { get; set; }
+            public string D { get; set; }
+            public CorrectAnswer CorrectAnswer { get; set; }
+            public string Explanation { get; set; }
+        }
     }
 }

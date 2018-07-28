@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EduNurse.Exams.Shared.Enums;
+using EduNurse.Exams.Shared.Results;
 
 namespace EduNurse.Exams.Shared.Queries
 {
-    public class GetCategoriesByTypeQuery : IQuery
+    public class GetCategoriesByTypeQuery : IQuery<CategoriesResult>
     {
         [Required]
         public ExamType Type { get; set; }

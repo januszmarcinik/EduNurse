@@ -32,13 +32,16 @@ namespace EduNurse.Exams.Tests.Integration
                 });
 
                 var url = $"{Url}/{nameof(ExamType.GeneralKnowledge)}/categories";
-                var apiResponse = sut.HttpGet<IEnumerable<CategoryResult>>(url);
+                var apiResponse = sut.HttpGet<CategoriesResult>(url);
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
-                apiResponse.Body.Should().BeEquivalentTo(
-                    new CategoryResult("Kardiologia"), 
-                    new CategoryResult("Interna"), 
-                    new CategoryResult("Nefrologia")
+                apiResponse.Body.Should().BeEquivalentTo(new CategoriesResult(
+                    new []
+                    {
+                        new CategoriesResult.Category("Kardiologia"), 
+                        new CategoriesResult.Category("Interna"), 
+                        new CategoriesResult.Category("Nefrologia"), 
+                    })
                 );
             }
         }
@@ -55,10 +58,10 @@ namespace EduNurse.Exams.Tests.Integration
                     new ExamBuilder("Third Exam", ExamType.Specialization, "Kardiologia").Build()
                 });
 
-                var expected = new List<ExamResult>() { exams[1].ToExamResult() };
+                var expected = new ExamsResult(new [] { exams[1].ToExamResult() });
 
                 var url = $"{Url}/{nameof(ExamType.GeneralKnowledge)}/Interna";
-                var apiResponse = sut.HttpGet<IEnumerable<ExamResult>>(url);
+                var apiResponse = sut.HttpGet<ExamsResult>(url);
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
                 apiResponse.Body.Should().BeEquivalentTo(expected);
@@ -66,13 +69,13 @@ namespace EduNurse.Exams.Tests.Integration
         }
 
         [Fact]
-        public void GetExamById_WhenExamNotExists_EmptyValueIsReturnedWithStatus404()
+        public void GetExamById_WhenExamNotExists_EmptyValueIsReturnedWithStatus204()
         {
             using (var sut = new SystemUnderTest())
             {
                 var apiResponse = sut.HttpGet<ExamWithQuestionsResult>(Url, Guid.NewGuid());
 
-                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NotFound);
+                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NoContent);
                 apiResponse.Body.Should().BeNull();
             }
         }

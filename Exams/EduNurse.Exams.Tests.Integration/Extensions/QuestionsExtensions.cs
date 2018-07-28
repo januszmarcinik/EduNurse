@@ -6,9 +6,9 @@ namespace EduNurse.Exams.Tests.Integration.Extensions
 {
     internal static class QuestionsExtensions
     {
-        public static QuestionResult ToQuestionResult(this Question question)
+        public static ExamWithQuestionsResult.Question ToQuestionResult(this Question question)
         {
-            return new QuestionResult()
+            return new ExamWithQuestionsResult.Question()
             {
                 Id = question.Id,
                 Order = question.Order,

@@ -3,6 +3,7 @@ using EduNurse.Exams.Api.Commands;
 using EduNurse.Exams.Api.Queries;
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Queries;
+using EduNurse.Exams.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Controllers
@@ -29,7 +30,7 @@ namespace EduNurse.Exams.Api.Controllers
         [HttpGet("{type}/categories")]
         [ProducesResponseType(200)]
         public IActionResult Get([FromRoute] GetCategoriesByTypeQuery query)
-            => _queryDispatcher.Dispatch(query);
+            => Ok(_queryDispatcher.Dispatch<GetCategoriesByTypeQuery, CategoriesResult>(query));
 
         /// <summary>
         /// Get all exams by given parameters
@@ -39,15 +40,15 @@ namespace EduNurse.Exams.Api.Controllers
         [HttpGet("{type}/{category}")]
         [ProducesResponseType(200)]
         public IActionResult Get([FromRoute] GetExamsByTypeAndCategoryQuery query) 
-            => _queryDispatcher.Dispatch(query);
+            => Ok(_queryDispatcher.Dispatch<GetExamsByTypeAndCategoryQuery, ExamsResult>(query));
 
         /// <summary>
         /// Get exam by Id
         /// </summary>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] GetExamByIdQuery query) 
-            => _queryDispatcher.Dispatch(query);
+        public IActionResult Get([FromRoute] GetExamByIdQuery query)
+            => Ok(_queryDispatcher.Dispatch<GetExamByIdQuery, ExamWithQuestionsResult>(query));
 
         /// <summary>
         /// Create new exam

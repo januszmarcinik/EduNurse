@@ -2,12 +2,11 @@
 using AutoMapper;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EduNurse.Exams.Api.Queries.Handlers
 {
-    internal class GetExamByIdQueryHandler : IQueryHandler<GetExamByIdQuery>
+    internal class GetExamByIdQueryHandler : IQueryHandler<GetExamByIdQuery, ExamWithQuestionsResult>
     {
         private readonly ExamsContext _context;
         private readonly IMapper _mapper;
@@ -18,7 +17,7 @@ namespace EduNurse.Exams.Api.Queries.Handlers
             _mapper = mapper;
         }
 
-        public IActionResult Handle(GetExamByIdQuery query)
+        public ExamWithQuestionsResult Handle(GetExamByIdQuery query)
         {
             var exam = _context.Exams
                 .Include(x => x.Questions)
@@ -26,13 +25,13 @@ namespace EduNurse.Exams.Api.Queries.Handlers
 
             if (exam == null)
             {
-                return new NotFoundResult();
+                return null;
             }
 
             var result = _mapper.Map<ExamWithQuestionsResult>(exam);
             result.Questions = result.Questions.OrderBy(x => x.Order).ToList();
 
-            return new OkObjectResult(result);
+            return result;
         }
     }
 }

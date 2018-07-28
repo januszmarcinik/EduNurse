@@ -1,13 +1,16 @@
 ﻿using System.Security.Principal;
 using EduNurse.Exams.Shared;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Exams.Api.Queries
 {
     public interface IQueryDispatcher
     {
-        IActionResult Dispatch<TQuery>(TQuery query) where TQuery : IQuery;
+        TResult Dispatch<TQuery, TResult>(TQuery query)
+            where TQuery : IQuery<TResult>
+            where TResult : IResult;
 
-        IActionResult Dispatch<TQuery>(TQuery query, IPrincipal user) where TQuery : IQuery;
+        TResult Dispatch<TQuery, TResult>(TQuery query, IPrincipal user)
+            where TQuery : IQuery<TResult>
+            where TResult : IResult;
     }
 }

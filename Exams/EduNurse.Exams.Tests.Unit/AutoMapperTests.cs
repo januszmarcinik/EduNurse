@@ -35,7 +35,7 @@ namespace EduNurse.Exams.Tests.Unit
                 correctAnswer: Shared.Enums.CorrectAnswer.C,
                 explanation: "exmplantation-sample"
             );
-            var expected = new QuestionResult()
+            var expected = new ExamWithQuestionsResult.Question()
             {
                 Id = uut.Id,
                 ExamId = uut.ExamId,
@@ -49,7 +49,7 @@ namespace EduNurse.Exams.Tests.Unit
                 Text = uut.Text
             };
 
-            var result = _mapper.Map<QuestionResult>(uut);
+            var result = _mapper.Map<ExamWithQuestionsResult.Question>(uut);
 
             result.Should().BeEquivalentTo(expected);
         }
@@ -74,7 +74,7 @@ namespace EduNurse.Exams.Tests.Unit
                 Id = uut.Id,
                 IsConfirmed = uut.IsConfirmed,
                 Name = uut.Name,
-                Questions = Enumerable.Empty<QuestionResult>(),
+                Questions = Enumerable.Empty<ExamWithQuestionsResult.Question>(),
                 Type = uut.Type
             };
 
