@@ -1,7 +1,6 @@
 ﻿using System;
 using EduNurse.Exams.Api.Entities;
 using EduNurse.Exams.Shared.Enums;
-using EduNurse.Tools;
 using FluentAssertions;
 using Xunit;
 

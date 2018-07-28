@@ -3,7 +3,6 @@ using System.Linq;
 using System.Security.Principal;
 using EduNurse.Exams.Api.Entities;
 using EduNurse.Exams.Shared.Commands;
-using EduNurse.Tools;
 
 namespace EduNurse.Exams.Api.Commands.Handlers
 {
@@ -21,7 +20,7 @@ namespace EduNurse.Exams.Api.Commands.Handlers
         public void Handle(AddExamCommand command)
         {
             var examId = Guid.NewGuid();
-            var exam = new Exam(examId, command.Name, command.Type, command.Category, _user.Identity.Name, SystemTime.Now, false);
+            var exam = new Exam(examId, command.Name, command.Type, command.Category, _user.Identity.Name, DateTime.Now, false);
             _context.Exams.Add(exam);
 
             var questions = command.Questions

@@ -5,7 +5,6 @@ using EduNurse.Exams.Api;
 using EduNurse.Exams.Api.Entities;
 using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Shared.Results;
-using EduNurse.Tools;
 using FluentAssertions;
 using Xunit;
 
@@ -63,7 +62,7 @@ namespace EduNurse.Exams.Tests.Unit
                 type: ExamType.Specialization,
                 category: "sample-category",
                 createdBy: "created-by",
-                createdDate: SystemTime.Now,
+                createdDate: DateTime.Now,
                 isConfirmed: false
             );
             var expected = new ExamWithQuestionsResult()

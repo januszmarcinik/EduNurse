@@ -30,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Tools\EduNurse.Tools\EduNurse.Tools.csproj" />
     <ProjectReference Include="..\EduNurse.Exams.Shared\EduNurse.Exams.Shared.csproj" />
   </ItemGroup>
 
