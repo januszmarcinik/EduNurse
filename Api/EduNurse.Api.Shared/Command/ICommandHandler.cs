@@ -1,6 +1,4 @@
-﻿using EduNurse.Exams.Shared;
-
-namespace EduNurse.Exams.Api.Commands
+﻿namespace EduNurse.Api.Shared.Command
 {
     public interface ICommandHandler<in T> where T : ICommand
     {

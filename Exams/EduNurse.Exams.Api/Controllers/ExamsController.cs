@@ -1,4 +1,6 @@
 ﻿using System;
+using EduNurse.Api.Shared.Command;
+using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Api.Commands;
 using EduNurse.Exams.Api.Queries;
 using EduNurse.Exams.Shared.Commands;

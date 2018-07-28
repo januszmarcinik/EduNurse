@@ -1,6 +1,7 @@
 ﻿using EduNurse.Exams.Shared.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using EduNurse.Api.Shared.Command;
 
 namespace EduNurse.Exams.Shared.Commands
 {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using EduNurse.Api.Shared.Result;
 
 namespace EduNurse.Exams.Shared.Results
 {

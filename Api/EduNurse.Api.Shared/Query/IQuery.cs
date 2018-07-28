@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using EduNurse.Api.Shared.Result;
 
-namespace EduNurse.Exams.Shared
+namespace EduNurse.Api.Shared.Query
 {
     public interface IQuery<TResult> where TResult : IResult
     {

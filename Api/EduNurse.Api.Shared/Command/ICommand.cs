@@ -1,4 +1,4 @@
-﻿namespace EduNurse.Exams.Shared
+﻿namespace EduNurse.Api.Shared.Command
 {
     public interface ICommand
     {

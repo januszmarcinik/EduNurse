@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
 

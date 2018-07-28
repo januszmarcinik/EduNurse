@@ -1,7 +1,7 @@
 ﻿using System.Security.Principal;
-using EduNurse.Exams.Shared;
+using EduNurse.Api.Shared.Result;
 
-namespace EduNurse.Exams.Api.Queries
+namespace EduNurse.Api.Shared.Query
 {
     public interface IQueryDispatcher
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EduNurse.Api.Shared.Result;
 using EduNurse.Exams.Shared.Enums;
 
 namespace EduNurse.Exams.Shared.Results

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
 

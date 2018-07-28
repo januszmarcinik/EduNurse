@@ -1,4 +1,5 @@
-﻿using EduNurse.Exams.Shared.Enums;
+﻿using EduNurse.Api.Shared.Query;
+using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Shared.Results;
 
 namespace EduNurse.Exams.Shared.Queries

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EduNurse.Api.Shared.Command;
 using EduNurse.Exams.Shared.Commands;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Security.Principal;
-using EduNurse.Exams.Shared;
 
-namespace EduNurse.Exams.Api.Commands
+namespace EduNurse.Api.Shared.Command
 {
     public interface ICommandDispatcher
     {

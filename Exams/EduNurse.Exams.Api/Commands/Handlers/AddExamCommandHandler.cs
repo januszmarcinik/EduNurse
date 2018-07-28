@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Principal;
+using EduNurse.Api.Shared.Command;
 using EduNurse.Exams.Api.Entities;
 using EduNurse.Exams.Shared.Commands;
 

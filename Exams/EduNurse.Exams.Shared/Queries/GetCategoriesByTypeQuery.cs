@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Shared.Results;
 

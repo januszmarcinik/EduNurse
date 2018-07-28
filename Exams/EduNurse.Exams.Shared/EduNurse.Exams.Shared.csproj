@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Api\EduNurse.Api.Shared\EduNurse.Api.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

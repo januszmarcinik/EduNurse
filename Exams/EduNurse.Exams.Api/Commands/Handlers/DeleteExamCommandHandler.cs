@@ -1,4 +1,5 @@
 ﻿using System;
+using EduNurse.Api.Shared.Command;
 using EduNurse.Exams.Shared.Commands;
 
 namespace EduNurse.Exams.Api.Commands.Handlers

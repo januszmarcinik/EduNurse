@@ -2,6 +2,8 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using EduNurse.Api.Shared.Command;
+using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Api.Commands;
 using EduNurse.Exams.Api.Queries;
 using Microsoft.AspNetCore.Hosting;

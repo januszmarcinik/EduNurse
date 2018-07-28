@@ -2,6 +2,8 @@
 using System.Security.Principal;
 using Autofac;
 using Autofac.Core;
+using EduNurse.Api.Shared.Query;
+using EduNurse.Api.Shared.Result;
 using EduNurse.Exams.Shared;
 
 namespace EduNurse.Exams.Api.Queries

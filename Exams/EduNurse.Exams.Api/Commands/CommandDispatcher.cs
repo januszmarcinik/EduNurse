@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Principal;
 using Autofac;
 using Autofac.Core;
+using EduNurse.Api.Shared.Command;
 using EduNurse.Exams.Shared;
 
 namespace EduNurse.Exams.Api.Commands
