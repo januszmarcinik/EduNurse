@@ -7,20 +7,16 @@ namespace EduNurse.Exams.QueryHandlers
 {
     internal class GetCategoriesByTypeQueryHandler : IQueryHandler<GetCategoriesByTypeQuery, CategoriesResult>
     {
-        private readonly ExamsContext _context;
+        private readonly IExamsRepository _examsRepository;
 
-        public GetCategoriesByTypeQueryHandler(ExamsContext context)
+        public GetCategoriesByTypeQueryHandler(IExamsRepository examsRepository)
         {
-            _context = context;
+            _examsRepository = examsRepository;
         }
 
         public CategoriesResult Handle(GetCategoriesByTypeQuery query)
         {
-            var categories = _context.Exams
-                .AsQueryable()
-                .Where(x => x.Type == query.Type)
-                .Select(x => x.Category)
-                .Distinct()
+            var categories = _examsRepository.GetCategoriesByType(query.Type)
                 .Select(x => new CategoriesResult.Category(x))
                 .ToList();
 

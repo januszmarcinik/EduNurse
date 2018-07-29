@@ -16,7 +16,8 @@ namespace EduNurse.Exams
                 .SetupCommandHandlers(assembly)
                 .SetupQueryHandlers(assembly)
                 .SubscribeToConnectionString("MSSQL", Settings.Initialize)
-                .RegisterScoped<ExamsContext>();
+                .RegisterScoped<ExamsContext>()
+                .RegisterScoped<IExamsRepository, EfCoreExamsRepository>();
         }
     }
 }

@@ -75,7 +75,7 @@ namespace EduNurse.Api
 
         public IFactoryBuilder RegisterScoped<TPort, TAdapter>()
         {
-            _builder.RegisterType<TPort>().As<TAdapter>().InstancePerLifetimeScope();
+            _builder.RegisterType<TAdapter>().As<TPort>().InstancePerLifetimeScope();
             return this;
         }
 

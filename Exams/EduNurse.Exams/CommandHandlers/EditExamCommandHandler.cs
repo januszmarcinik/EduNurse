@@ -2,27 +2,23 @@
 using System.Linq;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Exams.Shared.Commands;
-using Microsoft.EntityFrameworkCore;
 
 namespace EduNurse.Exams.CommandHandlers
 {
     internal class EditExamCommandHandler : ICommandHandler<EditExamCommand>
     {
-        private readonly ExamsContext _context;
+        private readonly IExamsRepository _examsRepository;
         private readonly Guid _examId;
 
-        public EditExamCommandHandler(ExamsContext context, Guid examId)
+        public EditExamCommandHandler(IExamsRepository examsRepository, Guid examId)
         {
-            _context = context;
+            _examsRepository = examsRepository;
             _examId = examId;
         }
 
         public void Handle(EditExamCommand command)
         {
-            var exam = _context.Exams
-                .Include(p => p.Questions)
-                .SingleOrDefault(x => x.Id == _examId);
-
+            var exam = _examsRepository.GetById(_examId);
             if (exam == null)
             {
                 throw new NullReferenceException($"Exam with ID '{_examId}' was not found.");
@@ -62,8 +58,7 @@ namespace EduNurse.Exams.CommandHandlers
                 exam.AddQuestion(q.Order, q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation);
             }
 
-            _context.Update(exam);
-            _context.SaveChanges();
+            _examsRepository.Update(exam);
         }
     }
 }

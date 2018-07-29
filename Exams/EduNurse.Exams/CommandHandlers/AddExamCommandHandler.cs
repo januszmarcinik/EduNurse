@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Security.Principal;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Exams.Entities;
@@ -9,26 +8,25 @@ namespace EduNurse.Exams.CommandHandlers
 {
     internal class AddExamCommandHandler : ICommandHandler<AddExamCommand>
     {
-        private readonly ExamsContext _context;
+        private readonly IExamsRepository _examsRepository;
         private readonly IPrincipal _user;
 
-        public AddExamCommandHandler(ExamsContext context, IPrincipal user)
+        public AddExamCommandHandler(IExamsRepository examsRepository, IPrincipal user)
         {
-            _context = context;
+            _examsRepository = examsRepository;
             _user = user;
         }
 
         public void Handle(AddExamCommand command)
         {
-            var examId = Guid.NewGuid();
-            var exam = new Exam(examId, command.Name, command.Type, command.Category, _user.Identity.Name, DateTime.Now, false);
-            _context.Exams.Add(exam);
+            var exam = new Exam(Guid.NewGuid(), command.Name, command.Type, command.Category, _user.Identity.Name, DateTime.Now, false);
 
-            var questions = command.Questions
-                .Select(q => new Question(Guid.NewGuid(), examId, q.Order, q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation));
-            _context.Questions.AddRange(questions);
+            foreach (var q in command.Questions)
+            {
+                exam.AddQuestion(q.Order, q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation);
+            }
 
-            _context.SaveChanges();
+            _examsRepository.Add(exam);
         }
     }
 }

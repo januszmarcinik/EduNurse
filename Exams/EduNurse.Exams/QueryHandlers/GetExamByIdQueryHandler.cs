@@ -3,27 +3,23 @@ using AutoMapper;
 using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
-using Microsoft.EntityFrameworkCore;
 
 namespace EduNurse.Exams.QueryHandlers
 {
     internal class GetExamByIdQueryHandler : IQueryHandler<GetExamByIdQuery, ExamWithQuestionsResult>
     {
-        private readonly ExamsContext _context;
+        private readonly IExamsRepository _examsRepository;
         private readonly IMapper _mapper;
 
-        public GetExamByIdQueryHandler(ExamsContext context, IMapper mapper)
+        public GetExamByIdQueryHandler(IExamsRepository examsRepository, IMapper mapper)
         {
-            _context = context;
+            _examsRepository = examsRepository;
             _mapper = mapper;
         }
 
         public ExamWithQuestionsResult Handle(GetExamByIdQuery query)
         {
-            var exam = _context.Exams
-                .Include(x => x.Questions)
-                .SingleOrDefault(x => x.Id == query.Id);
-
+            var exam = _examsRepository.GetById(query.Id);
             if (exam == null)
             {
                 return null;
