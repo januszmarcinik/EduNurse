@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using EduNurse.Exams.Api;
-using EduNurse.Exams.Api.Entities;
+using EduNurse.Exams.Entities;
 using EduNurse.Exams.Tests.Integration.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -16,51 +15,57 @@ namespace EduNurse.Exams.Tests.Integration
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
-        private readonly ExamsContext _context;
 
         public SystemUnderTest()
         {
             _server = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Testing")
-                .UseStartup<Startup>()
+                .UseSetting("ConnectionStrings:MSSQL", Guid.NewGuid().ToString())
+                .UseStartup<Api.Startup>()
             );
             _client = _server.CreateClient();
-            _context = _server.Host.Services.GetService<ExamsContext>();
         }
 
         public T Create<T>(T entity) where T : Entity
         {
-            _context.Add(entity);
-            _context.SaveChanges();
+            using (var scope = _server.Host.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<ExamsContext>();
+                context.Add(entity);
+                context.SaveChanges();
+            }
 
             return entity;
         }
 
         public List<T> CreateMany<T>(List<T> entities) where T : Entity
         {
-            _context.AddRange(entities);
-            _context.SaveChanges();
+            using (var scope = _server.Host.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<ExamsContext>();
+                context.AddRange(entities);
+                context.SaveChanges();
+            }
 
             return entities;
         }
 
-        public Exam GetExamById(Guid id, bool onScope = false)
+        public Exam GetExamById(Guid id)
         {
-            if (onScope)
+            using (var scope = _server.Host.Services.CreateScope())
             {
-                using (var scope = _server.Host.Services.CreateScope())
-                {
-                    var context = scope.ServiceProvider.GetService<ExamsContext>();
-                    return context.Exams.Include(x => x.Questions).SingleOrDefault(x => x.Id == id);
-                }
+                var context = scope.ServiceProvider.GetService<ExamsContext>();
+                return context.Exams.Include(x => x.Questions).SingleOrDefault(x => x.Id == id);
             }
-
-            return _context.Exams.Include(x => x.Questions).SingleOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<Exam> GetAllExams()
         {
-            return _context.Exams.Include(x => x.Questions);
+            using (var scope = _server.Host.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetService<ExamsContext>();
+                return context.Exams.Include(x => x.Questions).ToList();
+            }
         }
 
         public ApiResponse<T> HttpGet<T>(string url)
@@ -92,7 +97,6 @@ namespace EduNurse.Exams.Tests.Integration
         {
             _server?.Dispose();
             _client?.Dispose();
-            _context?.Dispose();
         }
     }
 }

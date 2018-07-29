@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0">
       <PrivateAssets>all</PrivateAssets>
@@ -19,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EduNurse.Exams.Api\EduNurse.Exams.Api.csproj" />
+    <ProjectReference Include="..\..\Api\EduNurse.Api\EduNurse.Api.csproj" />
   </ItemGroup>
 
 </Project>

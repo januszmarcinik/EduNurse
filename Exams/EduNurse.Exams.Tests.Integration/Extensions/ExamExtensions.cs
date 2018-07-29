@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using EduNurse.Exams.Api.Entities;
+using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Results;
 

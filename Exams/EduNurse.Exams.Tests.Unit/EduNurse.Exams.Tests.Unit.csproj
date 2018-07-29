@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EduNurse.Exams.Api\EduNurse.Exams.Api.csproj" />
+    <ProjectReference Include="..\EduNurse.Exams\EduNurse.Exams.csproj" />
   </ItemGroup>
 
 </Project>

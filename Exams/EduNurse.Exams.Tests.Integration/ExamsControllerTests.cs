@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using EduNurse.Exams.Api.Entities;
+using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Shared.Results;
 using EduNurse.Exams.Tests.Integration.Extensions;
@@ -20,7 +20,7 @@ namespace EduNurse.Exams.Tests.Integration
         {
             using (var sut = new SystemUnderTest())
             {
-                var exams = sut.CreateMany(new List<Exam>()
+                sut.CreateMany(new List<Exam>()
                 {
                     new ExamBuilder("First Exam", ExamType.GeneralKnowledge, "Kardiologia").Build(),
                     new ExamBuilder("Second Exam", ExamType.GeneralKnowledge, "Interna").Build(),
@@ -172,7 +172,7 @@ namespace EduNurse.Exams.Tests.Integration
                 var command = modified.ToEditExamCommand();
 
                 var apiResponse = sut.HttpPut(Url, modified.Id, command);
-                var result = sut.GetExamById(modified.Id, true);
+                var result = sut.GetExamById(modified.Id);
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Accepted);
                 result.Should().NotBe(original);
