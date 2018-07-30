@@ -1,10 +1,6 @@
-﻿using EduNurse.Api.Shared.Result;
-
-namespace EduNurse.Api.Shared.Query
+﻿namespace EduNurse.Api.Shared.Query
 {
-    public interface IQueryHandler<in TQuery, out TResult>
-        where TQuery : IQuery<TResult>
-        where TResult : IResult
+    public interface IQueryHandler<in TQuery, out TResult> where TQuery : IQuery<TResult>
     {
         TResult Handle(TQuery query);
     }

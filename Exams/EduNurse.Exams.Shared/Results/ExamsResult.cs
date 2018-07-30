@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using EduNurse.Api.Shared.Result;
 using EduNurse.Exams.Shared.Enums;
 
 namespace EduNurse.Exams.Shared.Results
 {
-    public class ExamsResult : IResult
+    public class ExamsResult
     {
         public IEnumerable<Exam> Exams { get; }
 

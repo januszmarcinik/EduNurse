@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using EduNurse.Api.Shared.Result;
 
 namespace EduNurse.Exams.Shared.Results
 {
-    public class CategoriesResult : IResult
+    public class CategoriesResult
     {
         public IEnumerable<Category> Categories { get; }
 

@@ -3,7 +3,6 @@ using System.Security.Principal;
 using Autofac;
 using Autofac.Core;
 using EduNurse.Api.Shared.Query;
-using EduNurse.Api.Shared.Result;
 
 namespace EduNurse.Api.Dispatchers
 {
@@ -16,12 +15,12 @@ namespace EduNurse.Api.Dispatchers
             _context = context;
         }
 
-        public TResult Dispatch<TResult>(IQuery<TResult> query) where TResult : IResult
+        public TResult Dispatch<TResult>(IQuery<TResult> query)
         {
             return Dispatch(query, null);
         }
 
-        public TResult Dispatch<TResult>(IQuery<TResult> query, IPrincipal user) where TResult : IResult
+        public TResult Dispatch<TResult>(IQuery<TResult> query, IPrincipal user)
         {
             var parameters = new List<Parameter>();
 
