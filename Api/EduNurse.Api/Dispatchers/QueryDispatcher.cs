@@ -16,16 +16,12 @@ namespace EduNurse.Api.Dispatchers
             _context = context;
         }
 
-        public TResult Dispatch<TQuery, TResult>(TQuery query)
-            where TQuery : IQuery<TResult>
-            where TResult : IResult
+        public TResult Dispatch<TResult>(IQuery<TResult> query) where TResult : IResult
         {
-            return Dispatch<TQuery, TResult>(query, null);
+            return Dispatch(query, null);
         }
 
-        public TResult Dispatch<TQuery, TResult>(TQuery query, IPrincipal user)
-            where TQuery : IQuery<TResult>
-            where TResult : IResult
+        public TResult Dispatch<TResult>(IQuery<TResult> query, IPrincipal user) where TResult : IResult
         {
             var parameters = new List<Parameter>();
 
@@ -34,8 +30,11 @@ namespace EduNurse.Api.Dispatchers
                 parameters.Add(new TypedParameter(typeof(IPrincipal), user));
             }
 
-            var handler = _context.Resolve<IQueryHandler<TQuery, TResult>>(parameters);
-            return handler.Handle(query);
+            var handlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), typeof(TResult));
+            var handler = _context.Resolve(handlerType, parameters);
+
+            var handleMethod = handlerType.GetMethod("Handle");
+            return (TResult)handleMethod.Invoke(handler, new object[] { query });
         }
     }
 }

@@ -30,7 +30,7 @@ namespace EduNurse.Api.Controllers
         [HttpGet("{type}/categories")]
         [ProducesResponseType(200)]
         public IActionResult Get([FromRoute] GetCategoriesByTypeQuery query)
-            => Ok(_queryDispatcher.Dispatch<GetCategoriesByTypeQuery, CategoriesResult>(query));
+            => Ok(_queryDispatcher.Dispatch(query));
 
         /// <summary>
         /// Get all exams by given parameters
@@ -40,7 +40,7 @@ namespace EduNurse.Api.Controllers
         [HttpGet("{type}/{category}")]
         [ProducesResponseType(200)]
         public IActionResult Get([FromRoute] GetExamsByTypeAndCategoryQuery query) 
-            => Ok(_queryDispatcher.Dispatch<GetExamsByTypeAndCategoryQuery, ExamsResult>(query));
+            => Ok(_queryDispatcher.Dispatch(query));
 
         /// <summary>
         /// Get exam by Id
@@ -48,7 +48,7 @@ namespace EduNurse.Api.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] GetExamByIdQuery query)
-            => Ok(_queryDispatcher.Dispatch<GetExamByIdQuery, ExamWithQuestionsResult>(query));
+            => Ok(_queryDispatcher.Dispatch(query));
 
         /// <summary>
         /// Create new exam
