@@ -2,7 +2,7 @@
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Results;
 
-namespace EduNurse.Exams.Tests.Integration.Extensions
+namespace EduNurse.Exams.Tests.Shared.Extensions
 {
     internal static class QuestionsExtensions
     {

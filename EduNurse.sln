@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Exams.Tests.Unit",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{32F144EF-7AC5-4059-93E5-37E775B540E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Api.Shared", "Api\EduNurse.Api.Shared\EduNurse.Api.Shared.csproj", "{2A0E1136-9E08-4347-80D0-E8A5C28035BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Api.Shared", "Api\EduNurse.Api.Shared\EduNurse.Api.Shared.csproj", "{2A0E1136-9E08-4347-80D0-E8A5C28035BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Api", "Api\EduNurse.Api\EduNurse.Api.csproj", "{67F940D4-8C49-4E40-B290-CFC4AB2A8498}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Api", "Api\EduNurse.Api\EduNurse.Api.csproj", "{67F940D4-8C49-4E40-B290-CFC4AB2A8498}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Exams", "Exams\EduNurse.Exams\EduNurse.Exams.csproj", "{EC907A0A-157D-40E3-95C0-56B9F80F7322}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Exams", "Exams\EduNurse.Exams\EduNurse.Exams.csproj", "{EC907A0A-157D-40E3-95C0-56B9F80F7322}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Exams.Tests.Shared", "Exams\EduNurse.Exams.Tests.Shared\EduNurse.Exams.Tests.Shared.csproj", "{897FC118-2243-479A-BF9A-C1FDC2BED04C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{EC907A0A-157D-40E3-95C0-56B9F80F7322}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC907A0A-157D-40E3-95C0-56B9F80F7322}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC907A0A-157D-40E3-95C0-56B9F80F7322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{897FC118-2243-479A-BF9A-C1FDC2BED04C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897FC118-2243-479A-BF9A-C1FDC2BED04C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{897FC118-2243-479A-BF9A-C1FDC2BED04C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897FC118-2243-479A-BF9A-C1FDC2BED04C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 		{2A0E1136-9E08-4347-80D0-E8A5C28035BE} = {32F144EF-7AC5-4059-93E5-37E775B540E6}
 		{67F940D4-8C49-4E40-B290-CFC4AB2A8498} = {32F144EF-7AC5-4059-93E5-37E775B540E6}
 		{EC907A0A-157D-40E3-95C0-56B9F80F7322} = {90CB66DF-A12C-4265-8CAF-142D20D652D2}
+		{897FC118-2243-479A-BF9A-C1FDC2BED04C} = {90CB66DF-A12C-4265-8CAF-142D20D652D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AD21FB2-C9D0-4E6D-BCA6-E01889B6069A}

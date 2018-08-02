@@ -70,10 +70,5 @@ namespace EduNurse.Exams.Entities
 
             _questions.Remove(question);
         }
-
-        public Exam Clone()
-        {
-            return (Exam)MemberwiseClone();
-        }
     }
 }

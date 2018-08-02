@@ -6,7 +6,8 @@ using System.Net;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Shared.Results;
-using EduNurse.Exams.Tests.Integration.Extensions;
+using EduNurse.Exams.Tests.Shared.Extensions;
+using EduNurse.Exams.Tests.Shared;
 using Xunit;
 
 namespace EduNurse.Exams.Tests.Integration
@@ -158,7 +159,7 @@ namespace EduNurse.Exams.Tests.Integration
                 );
 
                 var original = sut.GetAllExams().First();
-                var modified = original.Clone();
+                var modified = original.DeepClone();
 
                 modified.SetName("Different name");
                 modified.SetCategory("Interna");

@@ -2,7 +2,7 @@
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Enums;
 
-namespace EduNurse.Exams.Tests.Integration
+namespace EduNurse.Exams.Tests.Shared
 {
     internal class ExamBuilder
     {
