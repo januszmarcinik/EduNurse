@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Tests.Shared.Extensions;
@@ -12,42 +13,49 @@ namespace EduNurse.Exams.Tests.Unit
         private readonly List<Exam> _exams = new List<Exam>();
         public IReadOnlyCollection<Exam> Exams => _exams;
 
-        public Exam GetById(Guid id)
+        public async Task<Exam> GetByIdAsync(Guid id)
         {
-            return _exams.SingleOrDefault(x => x.Id == id);
+            var exam = _exams.SingleOrDefault(x => x.Id == id);
+            return await Task.FromResult(exam);
         }
 
-        public IEnumerable<string> GetCategoriesByType(ExamType type)
+        public async Task<IEnumerable<string>> GetCategoriesByTypeAsync(ExamType type)
         {
-            return _exams
+            var categories = _exams
                 .Where(x => x.Type == type)
                 .Select(x => x.Category)
                 .Distinct()
                 .ToList();
+
+            return await Task.FromResult(categories);
         }
 
-        public IEnumerable<Exam> GetExamsByTypeAndCategory(ExamType type, string category)
+        public async Task<IEnumerable<Exam>> GetExamsByTypeAndCategoryAsync(ExamType type, string category)
         {
-            return _exams
+            var exams = _exams
                 .Where(x => x.Type == type)
                 .Where(x => x.Category == category)
                 .ToList();
+
+            return await Task.FromResult(exams);
         }
 
-        public void Add(Exam exam)
+        public async Task AddAsync(Exam exam)
         {
             _exams.Add(exam);
+            await Task.CompletedTask;
         }
 
-        public void Update(Exam exam)
+        public async Task UpdateAsync(Exam exam)
         {
-            Remove(exam);
-            Add(exam.DeepClone());
+            await RemoveAsync(exam);
+            await AddAsync(exam.DeepClone());
         }
 
-        public void Remove(Exam exam)
+        public async Task RemoveAsync(Exam exam)
         {
             _exams.RemoveAll(x => x.Id == exam.Id);
+            await Task.CompletedTask;
         }
     }
 }

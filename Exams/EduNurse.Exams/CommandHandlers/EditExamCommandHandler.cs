@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Exams.Shared.Commands;
 
@@ -16,9 +17,9 @@ namespace EduNurse.Exams.CommandHandlers
             _examId = examId;
         }
 
-        public void Handle(EditExamCommand command)
+        public async Task HandleAsync(EditExamCommand command)
         {
-            var exam = _examsRepository.GetById(_examId);
+            var exam = await _examsRepository.GetByIdAsync(_examId);
             if (exam == null)
             {
                 throw new NullReferenceException($"Exam with ID '{_examId}' was not found.");
@@ -58,7 +59,7 @@ namespace EduNurse.Exams.CommandHandlers
                 exam.AddQuestion(q.Order, q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation);
             }
 
-            _examsRepository.Update(exam);
+            await _examsRepository.UpdateAsync(exam);
         }
     }
 }

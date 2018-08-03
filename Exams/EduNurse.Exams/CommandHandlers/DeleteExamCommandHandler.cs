@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Exams.Shared.Commands;
 
@@ -15,15 +16,15 @@ namespace EduNurse.Exams.CommandHandlers
             _examId = examId;
         }
 
-        public void Handle(DeleteExamCommand command)
+        public async Task HandleAsync(DeleteExamCommand command)
         {
-            var exam = _examsRepository.GetById(_examId);
+            var exam = await _examsRepository.GetByIdAsync(_examId);
             if (exam == null)
             {
                 throw new NullReferenceException($"Exam with ID '{_examId}' was not found.");
             }
 
-            _examsRepository.Remove(exam);
+            await _examsRepository.RemoveAsync(exam);
         }
     }
 }

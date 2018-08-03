@@ -1,10 +1,11 @@
 ﻿using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace EduNurse.Api.Shared.Query
 {
     public interface IQueryDispatcher
     {
-        TResult Dispatch<TResult>(IQuery<TResult> query);
-        TResult Dispatch<TResult>(IQuery<TResult> query, IPrincipal user);
+        Task<TResult> DispatchAsync<TResult>(IQuery<TResult> query);
+        Task<TResult> DispatchAsync<TResult>(IQuery<TResult> query, IPrincipal user);
     }
 }

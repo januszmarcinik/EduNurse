@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Commands;
@@ -17,7 +18,7 @@ namespace EduNurse.Exams.CommandHandlers
             _user = user;
         }
 
-        public void Handle(AddExamCommand command)
+        public async Task HandleAsync(AddExamCommand command)
         {
             var exam = new Exam(Guid.NewGuid(), command.Name, command.Type, command.Category, _user.Identity.Name, DateTime.Now, false);
 
@@ -26,7 +27,7 @@ namespace EduNurse.Exams.CommandHandlers
                 exam.AddQuestion(q.Order, q.Text, q.A, q.B, q.C, q.D, q.CorrectAnswer, q.Explanation);
             }
 
-            _examsRepository.Add(exam);
+            await _examsRepository.AddAsync(exam);
         }
     }
 }

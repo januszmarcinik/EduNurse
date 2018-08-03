@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Core;
 using EduNurse.Api.Shared.Command;
@@ -16,22 +17,22 @@ namespace EduNurse.Api.Dispatchers
             _context = context;
         }
 
-        public void Dispatch<T>(T command) where T : ICommand
+        public async Task DispatchAsync<T>(T command) where T : ICommand
         {
-            Dispatch(command, null, Guid.Empty);
+            await DispatchAsync(command, null, Guid.Empty);
         }
 
-        public void Dispatch<T>(T command, IPrincipal user) where T : ICommand
+        public async Task DispatchAsync<T>(T command, IPrincipal user) where T : ICommand
         {
-            Dispatch(command, user, Guid.Empty);
+            await DispatchAsync(command, user, Guid.Empty);
         }
 
-        public void Dispatch<T>(T command, Guid objectId) where T : ICommand
+        public async Task DispatchAsync<T>(T command, Guid objectId) where T : ICommand
         {
-            Dispatch(command, null, objectId);
+            await DispatchAsync(command, null, objectId);
         }
 
-        public void Dispatch<T>(T command, IPrincipal user, Guid objectId) where T : ICommand
+        public async Task DispatchAsync<T>(T command, IPrincipal user, Guid objectId) where T : ICommand
         {
             if (command == null)
             {
@@ -51,7 +52,7 @@ namespace EduNurse.Api.Dispatchers
             }
 
             var handler = _context.Resolve<ICommandHandler<T>>(parameters);
-            handler.Handle(command);
+            await handler.HandleAsync(command);
         }
     }
 }

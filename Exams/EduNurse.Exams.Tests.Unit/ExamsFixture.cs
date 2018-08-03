@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using AutoMapper;
 using EduNurse.Exams.Entities;
 using Moq;
@@ -25,11 +26,11 @@ namespace EduNurse.Exams.Tests.Unit
             Mapper = new MapperConfiguration(x => x.AddProfile<AutoMapperProfile>()).CreateMapper();
         }
 
-        public void AddMany(IEnumerable<Exam> exams)
+        public async Task AddMany(IEnumerable<Exam> exams)
         {
             foreach (var exam in exams)
             {
-                Repository.Add(exam);
+                await Repository.AddAsync(exam);
             }
         }
 

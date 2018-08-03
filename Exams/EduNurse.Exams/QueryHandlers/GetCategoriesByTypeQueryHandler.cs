@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
@@ -14,9 +15,9 @@ namespace EduNurse.Exams.QueryHandlers
             _examsRepository = examsRepository;
         }
 
-        public CategoriesResult Handle(GetCategoriesByTypeQuery query)
+        public async Task<CategoriesResult> HandleAsync(GetCategoriesByTypeQuery query)
         {
-            var categories = _examsRepository.GetCategoriesByType(query.Type)
+            var categories = (await _examsRepository.GetCategoriesByTypeAsync(query.Type))
                 .Select(x => new CategoriesResult.Category(x))
                 .ToList();
 

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Queries;
@@ -17,9 +18,9 @@ namespace EduNurse.Exams.QueryHandlers
             _mapper = mapper;
         }
 
-        public ExamWithQuestionsResult Handle(GetExamByIdQuery query)
+        public async Task<ExamWithQuestionsResult> HandleAsync(GetExamByIdQuery query)
         {
-            var exam = _examsRepository.GetById(query.Id);
+            var exam = await _examsRepository.GetByIdAsync(query.Id);
             if (exam == null)
             {
                 return null;

@@ -1,7 +1,9 @@
-﻿namespace EduNurse.Api.Shared.Command
+﻿using System.Threading.Tasks;
+
+namespace EduNurse.Api.Shared.Command
 {
     public interface ICommandHandler<in T> where T : ICommand
     {
-        void Handle(T command);
+        Task HandleAsync(T command);
     }
 }

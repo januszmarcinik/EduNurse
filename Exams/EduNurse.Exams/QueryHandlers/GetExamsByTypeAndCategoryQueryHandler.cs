@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Queries;
@@ -17,9 +18,9 @@ namespace EduNurse.Exams.QueryHandlers
             _mapper = mapper;
         }
 
-        public ExamsResult Handle(GetExamsByTypeAndCategoryQuery query)
+        public async Task<ExamsResult> HandleAsync(GetExamsByTypeAndCategoryQuery query)
         {
-            var exams = _examsRepository.GetExamsByTypeAndCategory(query.Type, query.Category);
+            var exams = await _examsRepository.GetExamsByTypeAndCategoryAsync(query.Type, query.Category);
             var result = _mapper.Map<IEnumerable<ExamsResult.Exam>>(exams);
 
             return new ExamsResult(result);

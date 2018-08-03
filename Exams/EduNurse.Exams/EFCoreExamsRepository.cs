@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -16,50 +17,50 @@ namespace EduNurse.Exams
             _context = context;
         }
 
-        public Exam GetById(Guid id)
+        public async Task<Exam> GetByIdAsync(Guid id)
         {
-            return _context.Exams
+            return await _context.Exams
                 .Include(p => p.Questions)
-                .SingleOrDefault(x => x.Id == id);
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public IEnumerable<string> GetCategoriesByType(ExamType type)
+        public async Task<IEnumerable<string>> GetCategoriesByTypeAsync(ExamType type)
         {
-            return _context.Exams
+            return await _context.Exams
                 .AsNoTracking()
                 .AsQueryable()
                 .Where(x => x.Type == type)
                 .Select(x => x.Category)
                 .Distinct()
-                .ToList();
+                .ToListAsync();
         }
 
-        public IEnumerable<Exam> GetExamsByTypeAndCategory(ExamType type, string category)
+        public async Task<IEnumerable<Exam>> GetExamsByTypeAndCategoryAsync(ExamType type, string category)
         {
-            return _context.Exams
+            return await _context.Exams
                 .AsNoTracking()
                 .AsQueryable()
                 .Where(x => x.Type == type)
                 .Where(x => x.Category == category)
-                .ToList();
+                .ToListAsync();
         }
 
-        public void Add(Exam exam)
+        public async Task AddAsync(Exam exam)
         {
-            _context.Add(exam);
-            _context.SaveChanges();
+            await _context.AddAsync(exam);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Exam exam)
+        public async Task UpdateAsync(Exam exam)
         {
             _context.Update(exam);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Remove(Exam exam)
+        public async Task RemoveAsync(Exam exam)
         {
             _context.Remove(exam);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

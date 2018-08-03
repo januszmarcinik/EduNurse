@@ -13,7 +13,7 @@ namespace EduNurse.Exams.Tests.Unit
     public class ExamCommandsTests
     {
         [Fact]
-        public void AddExamWithQuestions_WhenCalled_CorrectlyCreatesObjects()
+        public async void AddExamWithQuestions_WhenCalled_CorrectlyCreatesObjects()
         {
             using (var fixture = new ExamsFixture())
             {
@@ -25,7 +25,7 @@ namespace EduNurse.Exams.Tests.Unit
 
                 var command = exam.ToAddExamCommand();
                 var handler = new AddExamCommandHandler(fixture.Repository, fixture.User);
-                handler.Handle(command);
+                await handler.HandleAsync(command);
 
                 var allExams = fixture.GetAllExams();
 
@@ -49,11 +49,11 @@ namespace EduNurse.Exams.Tests.Unit
         }
 
         [Fact]
-        public void EditExamWithQuestions_WhenExamExists_CorrectlyModifyExamAndQuestions()
+        public async void EditExamWithQuestions_WhenExamExists_CorrectlyModifyExamAndQuestions()
         {
             using (var fixture = new ExamsFixture())
             {
-                fixture.Repository.Add(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
+                await fixture.Repository.AddAsync(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.A)
                     .WithQuestion("Q2", CorrectAnswer.B)
                     .WithQuestion("Q3", CorrectAnswer.C)
@@ -73,9 +73,9 @@ namespace EduNurse.Exams.Tests.Unit
 
                 var command = modified.ToEditExamCommand();
                 var handler = new EditExamCommandHandler(fixture.Repository, modified.Id);
-                handler.Handle(command);
+                await handler.HandleAsync(command);
 
-                var result = fixture.Repository.GetById(modified.Id);
+                var result = await fixture.Repository.GetByIdAsync(modified.Id);
 
                 result.Should().NotBe(original);
                 result.Questions.Count.Should().Be(4);
@@ -84,11 +84,11 @@ namespace EduNurse.Exams.Tests.Unit
         }
 
         [Fact]
-        public void RemoveExamWithQuestions_WhenExamExists_DeleteExamsAndQuestions()
+        public async void RemoveExamWithQuestions_WhenExamExists_DeleteExamsAndQuestions()
         {
             using (var fixture = new ExamsFixture())
             {
-                fixture.Repository.Add(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
+                await fixture.Repository.AddAsync(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.B)
                     .WithQuestion("Q2", CorrectAnswer.D)
                     .Build()
@@ -99,9 +99,9 @@ namespace EduNurse.Exams.Tests.Unit
 
                 var command = new DeleteExamCommand();
                 var handler = new DeleteExamCommandHandler(fixture.Repository, allExams.First().Id);
-                handler.Handle(command);
+                await handler.HandleAsync(command);
 
-                var result = fixture.Repository.GetById(allExams.First().Id);
+                var result = await fixture.Repository.GetByIdAsync(allExams.First().Id);
 
                 examsCountBeforeDelete.Should().Be(1);
                 result.Should().BeNull();

@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Queries;
-using EduNurse.Exams.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Api.Controllers
@@ -29,8 +29,8 @@ namespace EduNurse.Api.Controllers
         /// <returns>Distincted categories by given exam type</returns>
         [HttpGet("{type}/categories")]
         [ProducesResponseType(200)]
-        public IActionResult Get([FromRoute] GetCategoriesByTypeQuery query)
-            => Ok(_queryDispatcher.Dispatch(query));
+        public async Task<IActionResult> Get([FromRoute] GetCategoriesByTypeQuery query)
+            => Ok(await _queryDispatcher.DispatchAsync(query));
 
         /// <summary>
         /// Get all exams by given parameters
@@ -39,16 +39,16 @@ namespace EduNurse.Api.Controllers
         /// <returns>All exams by given parameters</returns>
         [HttpGet("{type}/{category}")]
         [ProducesResponseType(200)]
-        public IActionResult Get([FromRoute] GetExamsByTypeAndCategoryQuery query) 
-            => Ok(_queryDispatcher.Dispatch(query));
+        public async Task<IActionResult> Get([FromRoute] GetExamsByTypeAndCategoryQuery query) 
+            => Ok(await _queryDispatcher.DispatchAsync(query));
 
         /// <summary>
         /// Get exam by Id
         /// </summary>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] GetExamByIdQuery query)
-            => Ok(_queryDispatcher.Dispatch(query));
+        public async Task<IActionResult> Get([FromRoute] GetExamByIdQuery query)
+            => Ok(await _queryDispatcher.DispatchAsync(query));
 
         /// <summary>
         /// Create new exam
@@ -62,9 +62,9 @@ namespace EduNurse.Api.Controllers
         [HttpPost]
         [ProducesResponseType(202)]
         [ProducesResponseType(400)]
-        public IActionResult Post([FromBody] AddExamCommand command)
+        public async Task<IActionResult> Post([FromBody] AddExamCommand command)
         {
-            _commandDispatcher.Dispatch(command, User);
+            await _commandDispatcher.DispatchAsync(command, User);
             return Accepted();
         }
 
@@ -83,9 +83,9 @@ namespace EduNurse.Api.Controllers
         [ProducesResponseType(202)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        public IActionResult Put(Guid id, [FromBody] EditExamCommand command)
+        public async Task<IActionResult> Put(Guid id, [FromBody] EditExamCommand command)
         {
-            _commandDispatcher.Dispatch(command, User, id);
+            await _commandDispatcher.DispatchAsync(command, User, id);
             return Accepted();
         }
 
@@ -102,9 +102,9 @@ namespace EduNurse.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(202)]
         [ProducesResponseType(404)]
-        public IActionResult Delete(Guid id, [FromRoute] DeleteExamCommand command)
+        public async Task<IActionResult> Delete(Guid id, [FromRoute] DeleteExamCommand command)
         {
-            _commandDispatcher.Dispatch(command, User, id);
+            await _commandDispatcher.DispatchAsync(command, User, id);
             return Accepted();
         }
     }
