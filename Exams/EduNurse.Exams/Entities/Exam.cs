@@ -5,16 +5,17 @@ using EduNurse.Exams.Shared.Enums;
 
 namespace EduNurse.Exams.Entities
 {
-    internal class Exam : Entity
+    internal class Exam
     {
+        public Guid Id { get; }
         public string Name { get; private set; }
         public ExamType Type { get; private set; }
         public string Category { get; private set; }
-        public string CreatedBy { get; private set; }
-        public DateTime CreatedDate { get; private set; }
+        public string CreatedBy { get; }
+        public DateTime CreatedDate { get; }
         public bool IsConfirmed { get; private set; }
 
-        private readonly List<Question> _questions = new List<Question>();
+        private readonly List<Question> _questions;
         public IReadOnlyCollection<Question> Questions => _questions;
 
         public Exam(
@@ -25,14 +26,16 @@ namespace EduNurse.Exams.Entities
             string createdBy, 
             DateTime createdDate, 
             bool isConfirmed
-            ) : base(id)
+            )
         {
+            Id = id;
             Name = name;
             Type = type;
             Category = category;
             CreatedBy = createdBy;
             CreatedDate = createdDate;
             IsConfirmed = isConfirmed;
+            _questions = new List<Question>();
         }
 
         public void SetName(string name)
@@ -57,7 +60,7 @@ namespace EduNurse.Exams.Entities
 
         public void AddQuestion(int order, string text, string a, string b, string c, string d, CorrectAnswer correctAnswer, string explanation)
         {
-            _questions.Add(new Question(Guid.NewGuid(), Id, order, text, a, b, c, d, correctAnswer, explanation));
+            _questions.Add(new Question(Guid.NewGuid(), this, order, text, a, b, c, d, correctAnswer, explanation));
         }
 
         public void RemoveQuestion(Guid id)

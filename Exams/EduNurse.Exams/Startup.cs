@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using EduNurse.Api.Shared;
+using EduNurse.Exams.AzureTableStorage;
 
 namespace EduNurse.Exams
 {
@@ -12,12 +13,12 @@ namespace EduNurse.Exams
                 .Assembly;
 
             factoryBuilder
-                .SetupMapper(config => { config.AddProfile<AutoMapperProfile>(); })
+                .SetupMapper(config => { config.AddProfile<ExamsAutoMapperProfile>(); })
                 .SetupCommandHandlers(assembly)
                 .SetupQueryHandlers(assembly)
-                .SubscribeToConnectionString("MSSQL", Settings.Initialize)
-                .RegisterScoped<ExamsContext>()
-                .RegisterScoped<IExamsRepository, EfCoreExamsRepository>();
+                .SubscribeToSettings<ExamsSettings>("Exams")
+                .RegisterScoped<AtsExamsContext>()
+                .RegisterScoped<IExamsRepository, AtsExamsRepository>();
         }
     }
 }

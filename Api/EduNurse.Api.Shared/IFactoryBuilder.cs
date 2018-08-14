@@ -9,8 +9,8 @@ namespace EduNurse.Api.Shared
         IFactoryBuilder SetupMapper(Action<IMapperConfigurationExpression> config);
         IFactoryBuilder SetupCommandHandlers(Assembly assembly);
         IFactoryBuilder SetupQueryHandlers(Assembly assembly);
-        IFactoryBuilder SubscribeToConnectionString(string name, Action<string, bool> subscription);
-        IFactoryBuilder RegisterScoped<TPort, TAdapter>();
+        IFactoryBuilder SubscribeToSettings<T>(string name) where T : class, new();
+        IFactoryBuilder RegisterScoped<TPort, TAdapter>() where TAdapter : TPort;
         IFactoryBuilder RegisterScoped<TAdapter>();
     }
 }

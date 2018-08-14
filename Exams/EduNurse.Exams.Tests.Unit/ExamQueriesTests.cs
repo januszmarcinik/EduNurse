@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Transactions;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.QueryHandlers;
 using EduNurse.Exams.Shared.Enums;
@@ -58,7 +59,7 @@ namespace EduNurse.Exams.Tests.Unit
                     new ExamBuilder("Third Exam", ExamType.Specialization, "Kardiologia").Build()
                 };
                 await fixture.AddMany(exams);
-                var expected = new ExamsResult(new[] { exams[1].ToExamResult() });
+                var expected = new ExamsResult(new[] { fixture.Mapper.Map<ExamsResult.Exam>(exams[1]) });
 
                 var query = new GetExamsByTypeAndCategoryQuery()
                 {
@@ -106,7 +107,7 @@ namespace EduNurse.Exams.Tests.Unit
                         .Build()
                 };
                 await fixture.AddMany(exams);
-                var expected = exams[1].ToExamWithQuestionsResult();
+                var expected = fixture.Mapper.Map<ExamWithQuestionsResult>(exams[1]);
 
                 var query = new GetExamByIdQuery { Id = exams[1].Id };
                 var handler = new GetExamByIdQueryHandler(fixture.Repository, fixture.Mapper);

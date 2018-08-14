@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using EduNurse.Exams.Entities;
+using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Shared.Results;
 using EduNurse.Exams.Tests.Shared.Extensions;
@@ -17,11 +18,11 @@ namespace EduNurse.Exams.Tests.Integration
         private const string Url = "api/v1/exams";
 
         [Fact]
-        public void GetCategoriesByType_WhenExists_ReturnsDistinctedWithStatus200()
+        public async void GetCategoriesByType_WhenExists_ReturnsDistinctedWithStatus200()
         {
             using (var sut = new SystemUnderTest())
             {
-                sut.CreateMany(new List<Exam>()
+                await sut.CreateManyAsync(new List<Exam>()
                 {
                     new ExamBuilder("First Exam", ExamType.GeneralKnowledge, "Kardiologia").Build(),
                     new ExamBuilder("Second Exam", ExamType.GeneralKnowledge, "Interna").Build(),
@@ -48,18 +49,18 @@ namespace EduNurse.Exams.Tests.Integration
         }
 
         [Fact]
-        public void GetExamsByTypeAndCategory_WhenExists_ReturnsResultWithStatus200()
+        public async void GetExamsByTypeAndCategory_WhenExists_ReturnsResultWithStatus200()
         {
             using (var sut = new SystemUnderTest())
             {
-                var exams = sut.CreateMany(new List<Exam>()
+                var exams = await sut.CreateManyAsync(new List<Exam>()
                 {
                     new ExamBuilder("First Exam", ExamType.GeneralKnowledge, "Kardiologia").Build(),
                     new ExamBuilder("Second Exam", ExamType.GeneralKnowledge, "Interna").Build(),
                     new ExamBuilder("Third Exam", ExamType.Specialization, "Kardiologia").Build()
                 });
 
-                var expected = new ExamsResult(new [] { exams[1].ToExamResult() });
+                var expected = new ExamsResult(new [] { sut.Mapper.Map<ExamsResult.Exam>(exams[1]) });
 
                 var url = $"{Url}/{nameof(ExamType.GeneralKnowledge)}/Interna";
                 var apiResponse = sut.HttpGet<ExamsResult>(url);
@@ -82,11 +83,11 @@ namespace EduNurse.Exams.Tests.Integration
         }
 
         [Fact]
-        public void GetExamById_WhenExamsExists_ExamIsReturnedWithStatus200()
+        public async void GetExamById_WhenExamsExists_ExamIsReturnedWithStatus200()
         {
             using (var sut = new SystemUnderTest())
             {
-                var exams = sut.CreateMany(new List<Exam>()
+                var exams = await sut.CreateManyAsync(new List<Exam>()
                 { 
                     new ExamBuilder("First Exam", ExamType.GeneralKnowledge, "Kardiologia")
                         .WithQuestion("e1q1", CorrectAnswer.A)
@@ -102,17 +103,18 @@ namespace EduNurse.Exams.Tests.Integration
                         .Build()
                 });
 
-                var expected = exams[1].ToExamWithQuestionsResult();
+                var expected = sut.Mapper.Map<ExamWithQuestionsResult>(exams[1]);
 
                 var apiResponse = sut.HttpGet<ExamWithQuestionsResult>($"{Url}/{exams[1].Id}");
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
-                apiResponse.Body.Should().BeEquivalentTo(expected);
+                apiResponse.Body.Should().BeEquivalentTo(expected, o => o.Excluding(x => x.Questions));
+                apiResponse.Body.Questions.Should().BeEquivalentTo(expected.Questions, o => o.Excluding(x => x.Id));
             }
         }
 
         [Fact]
-        public void AddExamWithQuestions_WhenCalled_CorrectlyCreatesObjectsWithStatus202()
+        public async void AddExamWithQuestions_WhenCalled_CorrectlyCreatesObjectsWithStatus202()
         {
             using (var sut = new SystemUnderTest())
             {
@@ -121,14 +123,16 @@ namespace EduNurse.Exams.Tests.Integration
                     .WithQuestion("Q2", CorrectAnswer.B)
                     .WithQuestion("Q3", CorrectAnswer.C)
                     .Build();
-                var command = exam.ToAddExamCommand();
+                var command = sut.Mapper.Map<AddExamCommand>(exam);
 
                 var apiResponse = sut.HttpPost(Url, command);
-                var allExams = sut.GetAllExams().ToList();
+                var allExams = await sut.GetAllExamsAsync();
+                var result = await sut.GetExamByIdAsync(allExams.First().Id);
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Accepted);
                 allExams.Count.Should().Be(1);
-                allExams.First().Should().BeEquivalentTo(
+                result.CreatedDate.Should().BeAfter(exam.CreatedDate);
+                result.Should().BeEquivalentTo(
                     exam,
                     options => options
                         .Excluding(p => p.Id)
@@ -136,29 +140,29 @@ namespace EduNurse.Exams.Tests.Integration
                         .Excluding(p => p.CreatedBy)
                         .Excluding(p => p.Questions)
                 );
-                allExams.First().Questions.Should().BeEquivalentTo(
+                result.Questions.Should().BeEquivalentTo(
                     exam.Questions,
                     options => options
                         .Excluding(p => p.Id)
-                        .Excluding(p => p.ExamId)
                         .Excluding(p => p.Exam)
                 );
             }
         }
 
         [Fact]
-        public void EditExamWithQuestions_WhenExamExists_CorrectlyModifyExamAndQuestionsWithStatus202()
+        public async void EditExamWithQuestions_WhenExamExists_CorrectlyModifyExamAndQuestionsWithStatus202()
         {
             using (var sut = new SystemUnderTest())
             {
-                sut.Create(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
+                await sut.CreateAsync(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.A)
                     .WithQuestion("Q2", CorrectAnswer.B)
                     .WithQuestion("Q3", CorrectAnswer.C)
                     .Build()
                 );
 
-                var original = sut.GetAllExams().First();
+                var allExams = await sut.GetAllExamsAsync();
+                var original = await sut.GetExamByIdAsync(allExams.First().Id);
                 var modified = original.DeepClone();
 
                 modified.SetName("Different name");
@@ -170,10 +174,10 @@ namespace EduNurse.Exams.Tests.Integration
                 modified.AddQuestion(4, "text-second", "e", "f", "g", "h", CorrectAnswer.A, "testing");
                 modified.Questions.First().SetText("Changed text");
 
-                var command = modified.ToEditExamCommand();
+                var command = sut.Mapper.Map<EditExamCommand>(modified);
 
                 var apiResponse = sut.HttpPut(Url, modified.Id, command);
-                var result = sut.GetExamById(modified.Id);
+                var result = await sut.GetExamByIdAsync(modified.Id);
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Accepted);
                 result.Should().NotBe(original);
@@ -183,26 +187,24 @@ namespace EduNurse.Exams.Tests.Integration
         }
 
         [Fact]
-        public void RemoveExamWithQuestions_WhenExamExists_DeleteExamsAndQuestionsWithStatus202()
+        public async void RemoveExamWithQuestions_WhenExamExists_DeleteExamsAndQuestionsWithStatus202()
         {
             using (var sut = new SystemUnderTest())
             {
-                sut.Create(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
+                var exam = await sut.CreateAsync(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.B)
                     .WithQuestion("Q2", CorrectAnswer.D)
                     .Build()
                 );
 
-                var allExams = sut.GetAllExams().ToList();
+                var addedExam = await sut.GetExamByIdAsync(exam.Id);
 
-                sut.GetAllExams().Count().Should().Be(1);
-
-                var apiResponse = sut.HttpDelete(Url, allExams.First().Id);
-                var result = sut.GetExamById(allExams.First().Id);
+                var apiResponse = sut.HttpDelete(Url, addedExam.Id);
+                var result = await sut.GetExamByIdAsync(addedExam.Id);
 
                 apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Accepted);
+                addedExam.Should().NotBeNull();
                 result.Should().BeNull();
-                sut.GetAllExams().Count().Should().Be(0);
             }
         }
     }

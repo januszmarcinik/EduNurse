@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
+using AutoMapper;
+using EduNurse.Exams.AzureTableStorage;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Tests.Integration.Extensions;
+using EduNurse.Exams.Tests.Shared;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EduNurse.Exams.Tests.Integration
@@ -15,57 +18,53 @@ namespace EduNurse.Exams.Tests.Integration
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
+        private readonly IExamsRepository _examsRepository;
+
+        public IMapper Mapper { get; }
 
         public SystemUnderTest()
         {
+            var tableName = string.Concat(Guid.NewGuid().ToString().Where(char.IsLetter));
+
             _server = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Testing")
-                .UseSetting("ConnectionStrings:MSSQL", Guid.NewGuid().ToString())
+                .UseSetting("Exams:AzureTableStorage", "UseDevelopmentStorage=true")
+                .UseSetting("Exams:ExamsTableName", tableName)
                 .UseStartup<Api.Startup>()
             );
+
             _client = _server.CreateClient();
+
+            _examsRepository = _server.Host.Services.GetService<IExamsRepository>();
+
+            Mapper = AutoMapperConfiguration.GetMapper();
         }
 
-        public T Create<T>(T entity) where T : Entity
+        public async Task<Exam> CreateAsync(Exam entity)
         {
-            using (var scope = _server.Host.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetService<ExamsContext>();
-                context.Add(entity);
-                context.SaveChanges();
-            }
-
+            await _examsRepository.AddAsync(entity);
             return entity;
         }
 
-        public List<T> CreateMany<T>(List<T> entities) where T : Entity
+        public async Task<List<Exam>> CreateManyAsync(List<Exam> entities)
         {
-            using (var scope = _server.Host.Services.CreateScope())
+            foreach (var e in entities)
             {
-                var context = scope.ServiceProvider.GetService<ExamsContext>();
-                context.AddRange(entities);
-                context.SaveChanges();
+                await _examsRepository.AddAsync(e);
             }
 
             return entities;
         }
 
-        public Exam GetExamById(Guid id)
+        public async Task<Exam> GetExamByIdAsync(Guid id)
         {
-            using (var scope = _server.Host.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetService<ExamsContext>();
-                return context.Exams.Include(x => x.Questions).SingleOrDefault(x => x.Id == id);
-            }
+            return await _examsRepository.GetByIdAsync(id);
         }
 
-        public IEnumerable<Exam> GetAllExams()
+        public async Task<List<Exam>> GetAllExamsAsync()
         {
-            using (var scope = _server.Host.Services.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetService<ExamsContext>();
-                return context.Exams.Include(x => x.Questions).ToList();
-            }
+            var atsRepository = (AtsExamsRepository) _examsRepository;
+            return (await atsRepository.GetAllExamsAsync()).ToList();
         }
 
         public ApiResponse<T> HttpGet<T>(string url)
@@ -95,6 +94,9 @@ namespace EduNurse.Exams.Tests.Integration
 
         public void Dispose()
         {
+            var context = _server.Host.Services.GetService<AtsExamsContext>();
+            context.DeleteTableIfExistsAsync().GetAwaiter().GetResult();
+
             _server?.Dispose();
             _client?.Dispose();
         }

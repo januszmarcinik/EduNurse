@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using AutoMapper;
 using EduNurse.Exams.Entities;
+using EduNurse.Exams.Tests.Shared;
 using Moq;
 
 namespace EduNurse.Exams.Tests.Unit
@@ -23,7 +24,7 @@ namespace EduNurse.Exams.Tests.Unit
             principalMock.SetupGet(x => x.Identity.Name).Returns(default(string));
             User = principalMock.Object;
 
-            Mapper = new MapperConfiguration(x => x.AddProfile<AutoMapperProfile>()).CreateMapper();
+            Mapper = AutoMapperConfiguration.GetMapper();
         }
 
         public async Task AddMany(IEnumerable<Exam> exams)

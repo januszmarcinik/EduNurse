@@ -23,7 +23,7 @@ namespace EduNurse.Exams.Tests.Unit
                     .WithQuestion("Q3", CorrectAnswer.C)
                     .Build();
 
-                var command = exam.ToAddExamCommand();
+                var command = fixture.Mapper.Map<AddExamCommand>(exam);
                 var handler = new AddExamCommandHandler(fixture.Repository, fixture.User);
                 await handler.HandleAsync(command);
 
@@ -42,7 +42,6 @@ namespace EduNurse.Exams.Tests.Unit
                     exam.Questions,
                     options => options
                         .Excluding(p => p.Id)
-                        .Excluding(p => p.ExamId)
                         .Excluding(p => p.Exam)
                 );
             }
@@ -71,7 +70,7 @@ namespace EduNurse.Exams.Tests.Unit
                 modified.AddQuestion(4, "text-second", "e", "f", "g", "h", CorrectAnswer.A, "testing");
                 modified.Questions.First().SetText("Changed text");
 
-                var command = modified.ToEditExamCommand();
+                var command = fixture.Mapper.Map<EditExamCommand>(modified);
                 var handler = new EditExamCommandHandler(fixture.Repository, modified.Id);
                 await handler.HandleAsync(command);
 

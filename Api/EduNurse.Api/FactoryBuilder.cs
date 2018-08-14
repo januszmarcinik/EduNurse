@@ -67,13 +67,17 @@ namespace EduNurse.Api
             return this;
         }
 
-        public IFactoryBuilder SubscribeToConnectionString(string name, Action<string, bool> subscription)
+        public IFactoryBuilder SubscribeToSettings<T>(string name) where T : class, new()
         {
-            subscription(_configuration.GetConnectionString(name), _hostingEnvironment.IsEnvironment("Testing"));
+            var settings = new T();
+            _configuration.GetSection(name).Bind(settings);
+
+            _builder.RegisterInstance(settings).SingleInstance();
+
             return this;
         }
 
-        public IFactoryBuilder RegisterScoped<TPort, TAdapter>()
+        public IFactoryBuilder RegisterScoped<TPort, TAdapter>() where TAdapter : TPort
         {
             _builder.RegisterType<TAdapter>().As<TPort>().InstancePerLifetimeScope();
             return this;

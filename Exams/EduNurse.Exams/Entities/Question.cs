@@ -3,10 +3,10 @@ using EduNurse.Exams.Shared.Enums;
 
 namespace EduNurse.Exams.Entities
 {
-    internal class Question : Entity
+    internal class Question
     {
-        public Guid ExamId { get; private set; }
-        public Exam Exam { get; private set; }
+        public Guid Id { get; }
+        public Exam Exam { get; }
 
         public int Order { get; private set; }
         public string Text { get; private set; }
@@ -19,7 +19,7 @@ namespace EduNurse.Exams.Entities
 
         public Question(
             Guid id,
-            Guid examId,
+            Exam exam,
             int order,
             string text, 
             string a, 
@@ -29,9 +29,9 @@ namespace EduNurse.Exams.Entities
             CorrectAnswer correctAnswer,
             string explanation
             )
-            : base(id)
         {
-            ExamId = examId;
+            Id = id;
+            Exam = exam;
             Order = order;
             Text = text;
             A = a;

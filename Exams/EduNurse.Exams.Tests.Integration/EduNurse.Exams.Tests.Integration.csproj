@@ -21,4 +21,8 @@
     <ProjectReference Include="..\EduNurse.Exams.Tests.Shared\EduNurse.Exams.Tests.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>
