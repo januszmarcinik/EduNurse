@@ -19,7 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Api", "Api\EduNurs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Exams", "Exams\EduNurse.Exams\EduNurse.Exams.csproj", "{EC907A0A-157D-40E3-95C0-56B9F80F7322}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Exams.Tests.Shared", "Exams\EduNurse.Exams.Tests.Shared\EduNurse.Exams.Tests.Shared.csproj", "{897FC118-2243-479A-BF9A-C1FDC2BED04C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Exams.Tests.Shared", "Exams\EduNurse.Exams.Tests.Shared\EduNurse.Exams.Tests.Shared.csproj", "{897FC118-2243-479A-BF9A-C1FDC2BED04C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{1DFDB84D-F072-40CB-98A2-6AA04C6DF9B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Authentication", "Authentication\EduNurse.Authentication\EduNurse.Authentication.csproj", "{4749C356-A4D0-4575-9730-C91439339291}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Authentication.Shared", "Authentication\EduNurse.Authentication.Shared\EduNurse.Authentication.Shared.csproj", "{C474F70D-942A-4E81-B26D-F36CE90B3D39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Authentication.Tests.Unit", "Authentication\EduNurse.Authentication.Tests.Unit\EduNurse.Authentication.Tests.Unit.csproj", "{AF54BDCF-A24D-460A-AFE9-91E94F3BE1DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +63,18 @@ Global
 		{897FC118-2243-479A-BF9A-C1FDC2BED04C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{897FC118-2243-479A-BF9A-C1FDC2BED04C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{897FC118-2243-479A-BF9A-C1FDC2BED04C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4749C356-A4D0-4575-9730-C91439339291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4749C356-A4D0-4575-9730-C91439339291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4749C356-A4D0-4575-9730-C91439339291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4749C356-A4D0-4575-9730-C91439339291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C474F70D-942A-4E81-B26D-F36CE90B3D39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C474F70D-942A-4E81-B26D-F36CE90B3D39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C474F70D-942A-4E81-B26D-F36CE90B3D39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C474F70D-942A-4E81-B26D-F36CE90B3D39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF54BDCF-A24D-460A-AFE9-91E94F3BE1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF54BDCF-A24D-460A-AFE9-91E94F3BE1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF54BDCF-A24D-460A-AFE9-91E94F3BE1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF54BDCF-A24D-460A-AFE9-91E94F3BE1DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +87,9 @@ Global
 		{67F940D4-8C49-4E40-B290-CFC4AB2A8498} = {32F144EF-7AC5-4059-93E5-37E775B540E6}
 		{EC907A0A-157D-40E3-95C0-56B9F80F7322} = {90CB66DF-A12C-4265-8CAF-142D20D652D2}
 		{897FC118-2243-479A-BF9A-C1FDC2BED04C} = {90CB66DF-A12C-4265-8CAF-142D20D652D2}
+		{4749C356-A4D0-4575-9730-C91439339291} = {1DFDB84D-F072-40CB-98A2-6AA04C6DF9B0}
+		{C474F70D-942A-4E81-B26D-F36CE90B3D39} = {1DFDB84D-F072-40CB-98A2-6AA04C6DF9B0}
+		{AF54BDCF-A24D-460A-AFE9-91E94F3BE1DC} = {1DFDB84D-F072-40CB-98A2-6AA04C6DF9B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2AD21FB2-C9D0-4E6D-BCA6-E01889B6069A}
