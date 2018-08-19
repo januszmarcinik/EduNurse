@@ -20,17 +20,17 @@ namespace EduNurse.Authentication.CommandHandlers
 
         public async Task HandleAsync(RegisterCommand command)
         {
-            var checkExistsTask = _usersRepository.CheckIfExistsAsync(command.Email);
+            var task = _usersRepository.GetByEmailAsync(command.Email);
 
             var salt = _passwordService.GetSalt();
             var hash = _passwordService.GetHash(command.Password, salt);
 
-            if (checkExistsTask.GetAwaiter().GetResult())
+            if (task.GetAwaiter().GetResult() != null)
             {
                 throw new Exception("Email already exists.");
             }
 
-            var user = new User(Guid.NewGuid(), command.Email, hash, salt);
+            var user = new User(Guid.NewGuid(), command.Email, hash, salt, DateTime.Now);
 
             await _usersRepository.AddAsync(user);
         }

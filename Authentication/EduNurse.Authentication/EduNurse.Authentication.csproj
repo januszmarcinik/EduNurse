@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EduNurse.Authentication.Shared\EduNurse.Authentication.Shared.csproj" />
   </ItemGroup>
 

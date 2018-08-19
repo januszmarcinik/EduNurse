@@ -8,13 +8,15 @@ namespace EduNurse.Authentication.Entities
         public string Email { get; }
         public string PasswordHash { get; }
         public string PasswordSalt { get; }
+        public DateTime CreatedDate { get; }
 
-        public User(Guid id, string email, string passwordHash, string passwordSalt)
+        public User(Guid id, string email, string passwordHash, string passwordSalt, DateTime createdDate)
         {
             Id = id;
             Email = email;
             PasswordHash = passwordHash;
             PasswordSalt = passwordSalt;
+            CreatedDate = createdDate;
         }
     }
 }

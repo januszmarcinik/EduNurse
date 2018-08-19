@@ -15,7 +15,7 @@ namespace EduNurse.Authentication.Tests.Unit
         {
             using (var sut = new SystemUnderTest())
             {
-                var user = new User(Guid.NewGuid(), "some.email@edunurse.pl", "someHash", "someSalt");
+                var user = new User(Guid.NewGuid(), "some.email@edunurse.pl", "someHash", "someSalt", DateTime.Now);
                 await sut.UsersRepository.AddAsync(user);
 
                 var command = new RegisterCommand
