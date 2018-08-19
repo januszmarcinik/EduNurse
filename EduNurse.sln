@@ -21,13 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Exams", "Exams\Edu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduNurse.Exams.Tests.Shared", "Exams\EduNurse.Exams.Tests.Shared\EduNurse.Exams.Tests.Shared.csproj", "{897FC118-2243-479A-BF9A-C1FDC2BED04C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{1DFDB84D-F072-40CB-98A2-6AA04C6DF9B0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{1DFDB84D-F072-40CB-98A2-6AA04C6DF9B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Authentication", "Authentication\EduNurse.Authentication\EduNurse.Authentication.csproj", "{4749C356-A4D0-4575-9730-C91439339291}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Auth", "Auth\EduNurse.Auth\EduNurse.Auth.csproj", "{4749C356-A4D0-4575-9730-C91439339291}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Authentication.Shared", "Authentication\EduNurse.Authentication.Shared\EduNurse.Authentication.Shared.csproj", "{C474F70D-942A-4E81-B26D-F36CE90B3D39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Auth.Shared", "Auth\EduNurse.Auth.Shared\EduNurse.Auth.Shared.csproj", "{C474F70D-942A-4E81-B26D-F36CE90B3D39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Authentication.Tests.Unit", "Authentication\EduNurse.Authentication.Tests.Unit\EduNurse.Authentication.Tests.Unit.csproj", "{AF54BDCF-A24D-460A-AFE9-91E94F3BE1DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduNurse.Auth.Tests.Unit", "Auth\EduNurse.Auth.Tests.Unit\EduNurse.Auth.Tests.Unit.csproj", "{AF54BDCF-A24D-460A-AFE9-91E94F3BE1DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

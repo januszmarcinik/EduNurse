@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
 using EduNurse.Api.Shared;
-using EduNurse.Authentication.AzureTableStorage;
-using EduNurse.Authentication.Services;
+using EduNurse.Auth.AzureTableStorage;
+using EduNurse.Auth.Services;
 
-namespace EduNurse.Authentication
+namespace EduNurse.Auth
 {
     public static class Startup
     {
@@ -16,7 +16,7 @@ namespace EduNurse.Authentication
             factoryBuilder
                 .SetupMapper(config => { config.AddProfile<AutoMapperProfile>(); })
                 .SetupCommandHandlers(assembly)
-                .SubscribeToSettings<Settings>("Authentication")
+                .SubscribeToSettings<Settings>("Auth")
                 .RegisterScoped<AtsUsersContext>()
                 .RegisterScoped<IPasswordService, PasswordService>()
                 .RegisterScoped<IUsersRepository, AtsUsersRepository>();

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EduNurse.Authentication.Entities;
+using EduNurse.Auth.Entities;
 
-namespace EduNurse.Authentication.Tests.Unit
+namespace EduNurse.Auth.Tests.Unit
 {
     internal class FakeUsersRepository : IUsersRepository
     {

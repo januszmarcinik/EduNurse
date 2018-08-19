@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EduNurse.Api.Shared.Command;
-using EduNurse.Authentication.Entities;
-using EduNurse.Authentication.Services;
-using EduNurse.Authentication.Shared.Commands;
+using EduNurse.Auth.Entities;
+using EduNurse.Auth.Services;
+using EduNurse.Auth.Shared.Commands;
 
-namespace EduNurse.Authentication.CommandHandlers
+namespace EduNurse.Auth.CommandHandlers
 {
     internal class RegisterCommandHandler : ICommandHandler<RegisterCommand>
     {

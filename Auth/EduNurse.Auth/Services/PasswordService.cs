@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace EduNurse.Authentication.Services
+namespace EduNurse.Auth.Services
 {
     internal class PasswordService : IPasswordService
     {

@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using EduNurse.Authentication.Entities;
+using EduNurse.Auth.Entities;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace EduNurse.Authentication.AzureTableStorage
+namespace EduNurse.Auth.AzureTableStorage
 {
     internal class AtsUsersRepository : IUsersRepository
     {

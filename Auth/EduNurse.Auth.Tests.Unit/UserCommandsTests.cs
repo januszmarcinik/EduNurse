@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EduNurse.Authentication.CommandHandlers;
-using EduNurse.Authentication.Entities;
-using EduNurse.Authentication.Shared.Commands;
+using EduNurse.Auth.CommandHandlers;
+using EduNurse.Auth.Entities;
+using EduNurse.Auth.Shared.Commands;
 using FluentAssertions;
 using Xunit;
 
-namespace EduNurse.Authentication.Tests.Unit
+namespace EduNurse.Auth.Tests.Unit
 {
     public class UserCommandsTests
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EduNurse.Authentication.Entities
+namespace EduNurse.Auth.Entities
 {
     internal class User
     {

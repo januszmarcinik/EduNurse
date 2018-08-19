@@ -1,4 +1,4 @@
-﻿namespace EduNurse.Authentication.Services
+﻿namespace EduNurse.Auth.Services
 {
     internal interface IPasswordService
     {

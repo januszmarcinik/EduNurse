@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EduNurse.Authentication.Shared\EduNurse.Authentication.Shared.csproj" />
+    <ProjectReference Include="..\EduNurse.Auth.Shared\EduNurse.Auth.Shared.csproj" />
   </ItemGroup>
 
 </Project>

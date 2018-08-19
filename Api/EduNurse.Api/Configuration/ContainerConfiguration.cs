@@ -16,7 +16,7 @@ namespace EduNurse.Api.Configuration
             var factory = new FactoryBuilder(services, configuration, hostingEnvironment);
 
             Exams.Startup.Configure(factory);
-            Authentication.Startup.Configure(factory);
+            Auth.Startup.Configure(factory);
 
             return factory.Build();
         }

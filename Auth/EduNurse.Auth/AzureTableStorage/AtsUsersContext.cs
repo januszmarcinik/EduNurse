@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace EduNurse.Authentication.AzureTableStorage
+namespace EduNurse.Auth.AzureTableStorage
 {
     internal class AtsUsersContext
     {
@@ -15,7 +15,7 @@ namespace EduNurse.Authentication.AzureTableStorage
         {
             var storageAccount = CloudStorageAccount.Parse(settings.AzureTableStorage);
             var tableClient = storageAccount.CreateCloudTableClient();
-            Table = tableClient.GetTableReference(settings.AuthenticationTableName);
+            Table = tableClient.GetTableReference(settings.AuthTableName);
 
             Table.CreateIfNotExistsAsync().GetAwaiter().GetResult();
         }

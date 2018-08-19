@@ -1,7 +1,7 @@
 ﻿using System;
-using EduNurse.Authentication.Services;
+using EduNurse.Auth.Services;
 
-namespace EduNurse.Authentication.Tests.Unit
+namespace EduNurse.Auth.Tests.Unit
 {
     internal class SystemUnderTest : IDisposable
     {

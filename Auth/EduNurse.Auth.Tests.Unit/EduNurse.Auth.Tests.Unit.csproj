@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EduNurse.Authentication\EduNurse.Authentication.csproj" />
+    <ProjectReference Include="..\EduNurse.Auth\EduNurse.Auth.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,18 +1,18 @@
 ﻿using System.Threading.Tasks;
 using EduNurse.Api.Shared.Command;
-using EduNurse.Authentication.Shared.Commands;
+using EduNurse.Auth.Shared.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("api/v1/authentication")]
+    [Route("api/v1/auth")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly ICommandDispatcher _commandDispatcher;
 
-        public AuthenticationController(ICommandDispatcher commandDispatcher)
+        public AuthController(ICommandDispatcher commandDispatcher)
         {
             _commandDispatcher = commandDispatcher;
         }

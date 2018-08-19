@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using EduNurse.Authentication.AzureTableStorage;
-using EduNurse.Authentication.Entities;
+using EduNurse.Auth.AzureTableStorage;
+using EduNurse.Auth.Entities;
 
-namespace EduNurse.Authentication
+namespace EduNurse.Auth
 {
     internal class AutoMapperProfile : Profile
     {

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using EduNurse.Authentication.Entities;
+using EduNurse.Auth.Entities;
 
-namespace EduNurse.Authentication
+namespace EduNurse.Auth
 {
     internal interface IUsersRepository
     {

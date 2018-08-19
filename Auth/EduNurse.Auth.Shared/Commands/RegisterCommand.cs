@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using EduNurse.Api.Shared.Command;
 
-namespace EduNurse.Authentication.Shared.Commands
+namespace EduNurse.Auth.Shared.Commands
 {
     public class RegisterCommand : ICommand
     {
