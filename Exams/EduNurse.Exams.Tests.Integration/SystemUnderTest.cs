@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
+using EduNurse.Api.Shared;
 using EduNurse.Exams.AzureTableStorage;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Tests.Integration.Extensions;
@@ -67,29 +68,29 @@ namespace EduNurse.Exams.Tests.Integration
             return (await atsRepository.GetAllExamsAsync()).ToList();
         }
 
-        public ApiResponse<T> HttpGet<T>(string url)
+        public Result<T> HttpGet<T>(string url)
         {
-            return _client.GetAsync(url).GetApiResponse<T>();
+            return _client.GetAsync(url).GetResult<T>();
         }
 
-        public ApiResponse<T> HttpGet<T>(string url, Guid id)
+        public Result<T> HttpGet<T>(string url, Guid id)
         {
-            return _client.GetAsync($"{url}/{id}").GetApiResponse<T>();
+            return _client.GetAsync($"{url}/{id}").GetResult<T>();
         }
 
-        public ApiResponse<string> HttpPost(string url, object body)
+        public Result<string> HttpPost(string url, object body)
         {
-            return _client.PostAsync(url, body.ToStringContent()).GetApiResponse<string>();
+            return _client.PostAsync(url, body.ToStringContent()).GetResult<string>();
         }
 
-        public ApiResponse<string> HttpPut(string url, Guid id, object body)
+        public Result<string> HttpPut(string url, Guid id, object body)
         {
-            return _client.PutAsync($"{url}/{id}", body.ToStringContent()).GetApiResponse<string>();
+            return _client.PutAsync($"{url}/{id}", body.ToStringContent()).GetResult<string>();
         }
 
-        public ApiResponse<string> HttpDelete(string url, Guid id)
+        public Result<string> HttpDelete(string url, Guid id)
         {
-            return _client.DeleteAsync($"{url}/{id}").GetApiResponse<string>();
+            return _client.DeleteAsync($"{url}/{id}").GetResult<string>();
         }
 
         public void Dispose()

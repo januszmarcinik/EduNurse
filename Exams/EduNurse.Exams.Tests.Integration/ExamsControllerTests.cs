@@ -34,10 +34,10 @@ namespace EduNurse.Exams.Tests.Integration
                 });
 
                 var url = $"{Url}/{nameof(ExamType.GeneralKnowledge)}/categories";
-                var apiResponse = sut.HttpGet<CategoriesResult>(url);
+                var result = sut.HttpGet<CategoriesResult>(url);
 
-                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
-                apiResponse.Body.Should().BeEquivalentTo(new CategoriesResult(
+                result.IsSuccess.Should().BeTrue();
+                result.Content.Should().BeEquivalentTo(new CategoriesResult(
                     new []
                     {
                         new CategoriesResult.Category("Kardiologia"), 
@@ -63,10 +63,10 @@ namespace EduNurse.Exams.Tests.Integration
                 var expected = new ExamsResult(new [] { sut.Mapper.Map<ExamsResult.Exam>(exams[1]) });
 
                 var url = $"{Url}/{nameof(ExamType.GeneralKnowledge)}/Interna";
-                var apiResponse = sut.HttpGet<ExamsResult>(url);
+                var result = sut.HttpGet<ExamsResult>(url);
 
-                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
-                apiResponse.Body.Should().BeEquivalentTo(expected);
+                result.IsSuccess.Should().BeTrue();
+                result.Content.Should().BeEquivalentTo(expected);
             }
         }
 
@@ -75,10 +75,11 @@ namespace EduNurse.Exams.Tests.Integration
         {
             using (var sut = new SystemUnderTest())
             {
-                var apiResponse = sut.HttpGet<ExamWithQuestionsResult>(Url, Guid.NewGuid());
+                var result = sut.HttpGet<ExamWithQuestionsResult>(Url, Guid.NewGuid());
 
-                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NoContent);
-                apiResponse.Body.Should().BeNull();
+                result.Content.Should().BeNull();
+                result.IsSuccess.Should().BeFalse();
+                result.Message.Should().BeEquivalentTo("Exam with given Id does not exists.");
             }
         }
 
@@ -105,11 +106,11 @@ namespace EduNurse.Exams.Tests.Integration
 
                 var expected = sut.Mapper.Map<ExamWithQuestionsResult>(exams[1]);
 
-                var apiResponse = sut.HttpGet<ExamWithQuestionsResult>($"{Url}/{exams[1].Id}");
+                var result = sut.HttpGet<ExamWithQuestionsResult>($"{Url}/{exams[1].Id}");
 
-                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.OK);
-                apiResponse.Body.Should().BeEquivalentTo(expected, o => o.Excluding(x => x.Questions));
-                apiResponse.Body.Questions.Should().BeEquivalentTo(expected.Questions, o => o.Excluding(x => x.Id));
+                result.IsSuccess.Should().BeTrue();
+                result.Content.Should().BeEquivalentTo(expected, o => o.Excluding(x => x.Questions));
+                result.Content.Questions.Should().BeEquivalentTo(expected.Questions, o => o.Excluding(x => x.Id));
             }
         }
 
@@ -125,11 +126,11 @@ namespace EduNurse.Exams.Tests.Integration
                     .Build();
                 var command = sut.Mapper.Map<AddExamCommand>(exam);
 
-                var apiResponse = sut.HttpPost(Url, command);
+                var commandResult = sut.HttpPost(Url, command);
                 var allExams = await sut.GetAllExamsAsync();
                 var result = await sut.GetExamByIdAsync(allExams.First().Id);
 
-                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Accepted);
+                commandResult.IsSuccess.Should().BeTrue();
                 allExams.Count.Should().Be(1);
                 result.CreatedDate.Should().BeAfter(exam.CreatedDate);
                 result.Should().BeEquivalentTo(
@@ -176,10 +177,10 @@ namespace EduNurse.Exams.Tests.Integration
 
                 var command = sut.Mapper.Map<EditExamCommand>(modified);
 
-                var apiResponse = sut.HttpPut(Url, modified.Id, command);
+                var commandResult = sut.HttpPut(Url, modified.Id, command);
                 var result = await sut.GetExamByIdAsync(modified.Id);
 
-                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Accepted);
+                commandResult.IsSuccess.Should().BeTrue();
                 result.Should().NotBe(original);
                 result.Questions.Count.Should().Be(4);
                 result.Questions.Should().NotBeEquivalentTo(original.Questions);
@@ -199,10 +200,10 @@ namespace EduNurse.Exams.Tests.Integration
 
                 var addedExam = await sut.GetExamByIdAsync(exam.Id);
 
-                var apiResponse = sut.HttpDelete(Url, addedExam.Id);
+                var commandResult = sut.HttpDelete(Url, addedExam.Id);
                 var result = await sut.GetExamByIdAsync(addedExam.Id);
 
-                apiResponse.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Accepted);
+                commandResult.IsSuccess.Should().BeTrue();
                 addedExam.Should().NotBeNull();
                 result.Should().BeNull();
             }

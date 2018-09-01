@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using EduNurse.Api.Shared;
 using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
@@ -18,18 +19,18 @@ namespace EduNurse.Exams.QueryHandlers
             _mapper = mapper;
         }
 
-        public async Task<ExamWithQuestionsResult> HandleAsync(GetExamByIdQuery query)
+        public async Task<Result<ExamWithQuestionsResult>> HandleAsync(GetExamByIdQuery query)
         {
             var exam = await _examsRepository.GetByIdAsync(query.Id);
             if (exam == null)
             {
-                return null;
+                return Result.Failure(query, "Exam with given Id does not exists.");
             }
 
             var result = _mapper.Map<ExamWithQuestionsResult>(exam);
             result.Questions = result.Questions.OrderBy(x => x.Order).ToList();
 
-            return result;
+            return Result.Success(result);
         }
     }
 }

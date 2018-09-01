@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using EduNurse.Api.Shared;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -36,7 +37,8 @@ namespace EduNurse.Api.Middleware
                 ? (int)HttpStatusCode.Unauthorized
                 : (int)HttpStatusCode.InternalServerError;
 
-            var responseBody = JsonConvert.SerializeObject(ex.Message);
+            var result = Result.Failure(ex.Message);
+            var responseBody = JsonConvert.SerializeObject(result);
 
             return context.Response.WriteAsync(responseBody);
         }

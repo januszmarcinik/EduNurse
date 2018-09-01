@@ -3,6 +3,7 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Core;
+using EduNurse.Api.Shared;
 using EduNurse.Api.Shared.Query;
 
 namespace EduNurse.Api.Dispatchers
@@ -16,12 +17,12 @@ namespace EduNurse.Api.Dispatchers
             _context = context;
         }
 
-        public async Task<TResult> DispatchAsync<TResult>(IQuery<TResult> query)
+        public async Task<Result<TResult>> DispatchAsync<TResult>(IQuery<TResult> query)
         {
             return await DispatchAsync(query, null);
         }
 
-        public Task<TResult> DispatchAsync<TResult>(IQuery<TResult> query, IPrincipal user)
+        public Task<Result<TResult>> DispatchAsync<TResult>(IQuery<TResult> query, IPrincipal user)
         {
             var parameters = new List<Parameter>();
 
@@ -34,7 +35,7 @@ namespace EduNurse.Api.Dispatchers
             var handler = _context.Resolve(handlerType, parameters);
 
             var handleMethod = handlerType.GetMethod("HandleAsync");
-            var task = (Task<TResult>)handleMethod.Invoke(handler, new object[] { query });
+            var task = (Task<Result<TResult>>)handleMethod.Invoke(handler, new object[] { query });
             task.Wait();
 
             return task;

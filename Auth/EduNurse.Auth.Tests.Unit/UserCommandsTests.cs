@@ -26,9 +26,10 @@ namespace EduNurse.Auth.Tests.Unit
                 };
 
                 var handler = new RegisterCommandHandler(sut.UsersRepository, sut.PasswordService);
-                Func<Task> handle = async () => await handler.HandleAsync(command);
+                var result = await handler.HandleAsync(command);
 
-                handle.Should().Throw<Exception>().WithMessage("Email already exists.");
+                result.IsSuccess.Should().BeFalse();
+                result.Message.Should().BeEquivalentTo("Email already exists.");
             }
         }
 

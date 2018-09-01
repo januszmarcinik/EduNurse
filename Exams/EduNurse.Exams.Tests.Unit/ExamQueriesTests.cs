@@ -36,7 +36,7 @@ namespace EduNurse.Exams.Tests.Unit
                 var handler = new GetCategoriesByTypeQueryHandler(fixture.Repository);
                 var result = await handler.HandleAsync(query);
 
-                result.Should().BeEquivalentTo(new CategoriesResult(
+                result.Content.Should().BeEquivalentTo(new CategoriesResult(
                     new []
                     {
                         new CategoriesResult.Category("Kardiologia"), 
@@ -69,7 +69,7 @@ namespace EduNurse.Exams.Tests.Unit
                 var handler = new GetExamsByTypeAndCategoryQueryHandler(fixture.Repository, fixture.Mapper);
                 var result = await handler.HandleAsync(query);
 
-                result.Should().BeEquivalentTo(expected);
+                result.Content.Should().BeEquivalentTo(expected);
             }
         }
 
@@ -82,7 +82,7 @@ namespace EduNurse.Exams.Tests.Unit
                 var handler = new GetExamByIdQueryHandler(fixture.Repository, fixture.Mapper);
                 var result = await handler.HandleAsync(query);
 
-                result.Should().BeNull();
+                result.Content.Should().BeNull();
             }
         }
 
@@ -113,7 +113,7 @@ namespace EduNurse.Exams.Tests.Unit
                 var handler = new GetExamByIdQueryHandler(fixture.Repository, fixture.Mapper);
                 var result = await handler.HandleAsync(query);
 
-                result.Should().BeEquivalentTo(expected);
+                result.Content.Should().BeEquivalentTo(expected);
             }
         }
     }

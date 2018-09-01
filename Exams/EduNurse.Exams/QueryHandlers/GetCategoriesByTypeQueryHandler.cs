@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using EduNurse.Api.Shared;
 using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
@@ -15,13 +16,13 @@ namespace EduNurse.Exams.QueryHandlers
             _examsRepository = examsRepository;
         }
 
-        public async Task<CategoriesResult> HandleAsync(GetCategoriesByTypeQuery query)
+        public async Task<Result<CategoriesResult>> HandleAsync(GetCategoriesByTypeQuery query)
         {
             var categories = (await _examsRepository.GetCategoriesByTypeAsync(query.Type))
                 .Select(x => new CategoriesResult.Category(x))
                 .ToList();
 
-            return new CategoriesResult(categories);
+            return Result.Success(new CategoriesResult(categories));
         }
     }
 }

@@ -5,7 +5,7 @@ namespace EduNurse.Api.Shared.Query
 {
     public interface IQueryDispatcher
     {
-        Task<TResult> DispatchAsync<TResult>(IQuery<TResult> query);
-        Task<TResult> DispatchAsync<TResult>(IQuery<TResult> query, IPrincipal user);
+        Task<Result<TResult>> DispatchAsync<TResult>(IQuery<TResult> query);
+        Task<Result<TResult>> DispatchAsync<TResult>(IQuery<TResult> query, IPrincipal user);
     }
 }

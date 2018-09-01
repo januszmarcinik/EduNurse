@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using EduNurse.Api.Shared;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Auth.Entities;
 using EduNurse.Auth.Services;
@@ -18,7 +19,7 @@ namespace EduNurse.Auth.CommandHandlers
             _passwordService = passwordService;
         }
 
-        public async Task HandleAsync(RegisterCommand command)
+        public async Task<Result> HandleAsync(RegisterCommand command)
         {
             var task = _usersRepository.GetByEmailAsync(command.Email);
 
@@ -27,12 +28,14 @@ namespace EduNurse.Auth.CommandHandlers
 
             if (task.GetAwaiter().GetResult() != null)
             {
-                throw new Exception("Email already exists.");
+                return Result.Failure("Email already exists.");
             }
 
             var user = new User(Guid.NewGuid(), command.Email, hash, salt, DateTime.Now);
 
             await _usersRepository.AddAsync(user);
+
+            return Result.Success();
         }
     }
 }
