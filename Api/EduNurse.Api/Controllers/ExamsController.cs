@@ -8,18 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Api.Controllers
 {
-    [Produces("application/json")]
     [Route("api/v1/exams")]
-    [ApiController]
-    public class ExamsController : ControllerBase
+    public class ExamsController : ApiControllerBase
     {
-        private readonly IQueryDispatcher _queryDispatcher;
-        private readonly ICommandDispatcher _commandDispatcher;
-
         public ExamsController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
+            : base(commandDispatcher, queryDispatcher)
         {
-            _queryDispatcher = queryDispatcher;
-            _commandDispatcher = commandDispatcher;
         }
 
         /// <summary>
@@ -30,7 +24,7 @@ namespace EduNurse.Api.Controllers
         [HttpGet("{type}/categories")]
         [ProducesResponseType(200)]
         public async Task<IActionResult> Get([FromRoute] GetCategoriesByTypeQuery query)
-            => Ok(await _queryDispatcher.DispatchAsync(query));
+            => await DispatchQueryAsync(query);
 
         /// <summary>
         /// Get all exams by given parameters
@@ -39,8 +33,8 @@ namespace EduNurse.Api.Controllers
         /// <returns>All exams by given parameters</returns>
         [HttpGet("{type}/{category}")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> Get([FromRoute] GetExamsByTypeAndCategoryQuery query) 
-            => Ok(await _queryDispatcher.DispatchAsync(query));
+        public async Task<IActionResult> Get([FromRoute] GetExamsByTypeAndCategoryQuery query)
+            => await DispatchQueryAsync(query);
 
         /// <summary>
         /// Get exam by Id
@@ -48,7 +42,7 @@ namespace EduNurse.Api.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] GetExamByIdQuery query)
-            => Ok(await _queryDispatcher.DispatchAsync(query));
+            => await DispatchQueryAsync(query);
 
         /// <summary>
         /// Create new exam
@@ -63,10 +57,7 @@ namespace EduNurse.Api.Controllers
         [ProducesResponseType(202)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Post([FromBody] AddExamCommand command)
-        {
-            await _commandDispatcher.DispatchAsync(command, User);
-            return Accepted();
-        }
+            => await DispatchCommandAsync(command);
 
         /// <summary>
         /// Update exist exam
@@ -84,10 +75,7 @@ namespace EduNurse.Api.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> Put(Guid id, [FromBody] EditExamCommand command)
-        {
-            await _commandDispatcher.DispatchAsync(command, User, id);
-            return Accepted();
-        }
+            => await DispatchCommandAsync(command, id);
 
         /// <summary>
         /// Remove existing exam
@@ -103,9 +91,6 @@ namespace EduNurse.Api.Controllers
         [ProducesResponseType(202)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> Delete(Guid id, [FromRoute] DeleteExamCommand command)
-        {
-            await _commandDispatcher.DispatchAsync(command, User, id);
-            return Accepted();
-        }
+            => await DispatchCommandAsync(command, id);
     }
 }
