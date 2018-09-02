@@ -23,10 +23,25 @@ namespace EduNurse.Api.Controllers
         /// <response code="202">New user is created</response>
         /// <response code="400">Validation failed</response>   
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("register")]
         [ProducesResponseType(202)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Post([FromBody] RegisterCommand command)
+        public async Task<IActionResult> Register([FromBody] RegisterCommand command)
+            => await DispatchCommandAsync(command);
+
+        /// <summary>
+        /// Sign in user
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <param name="command">command</param>
+        /// <response code="202">User is authenticated</response>
+        /// <response code="400">User is not authenticated</response>   
+        /// <returns></returns>
+        [HttpPost("sign-in")]
+        [ProducesResponseType(202)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> SignIn([FromBody] SignInCommand command)
             => await DispatchCommandAsync(command);
     }
 }

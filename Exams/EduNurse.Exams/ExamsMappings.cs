@@ -5,9 +5,9 @@ using EduNurse.Exams.Shared.Results;
 
 namespace EduNurse.Exams
 {
-    internal class ExamsAutoMapperProfile : Profile
+    internal class ExamsMappings : Profile
     {
-        public ExamsAutoMapperProfile()
+        public ExamsMappings()
         {
             CreateMap<Question, ExamWithQuestionsResult.Question>();
             CreateMap<Question, AtsQuestion>()

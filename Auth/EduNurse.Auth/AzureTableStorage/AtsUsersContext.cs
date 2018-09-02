@@ -25,5 +25,10 @@ namespace EduNurse.Auth.AzureTableStorage
             var segment = await Table.ExecuteQuerySegmentedAsync(query, new TableContinuationToken());
             return segment.SingleOrDefault();
         }
+
+        public async Task DeleteTableIfExistsAsync()
+        {
+            await Table.DeleteIfExistsAsync();
+        }
     }
 }

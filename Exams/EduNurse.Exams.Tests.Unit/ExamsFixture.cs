@@ -23,7 +23,7 @@ namespace EduNurse.Exams.Tests.Unit
             principalMock.SetupGet(x => x.Identity.Name).Returns(default(string));
             User = principalMock.Object;
 
-            Mapper = AutoMapperConfiguration.GetMapper();
+            Mapper = new MapperConfiguration(x => x.AddProfile<ExamsTestMappings>()).CreateMapper();
         }
 
         public async Task AddMany(IEnumerable<Exam> exams)

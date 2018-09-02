@@ -13,7 +13,7 @@ namespace EduNurse.Exams
                 .Assembly;
 
             factoryBuilder
-                .SetupMapper(config => { config.AddProfile<ExamsAutoMapperProfile>(); })
+                .SetupMapper(config => { config.AddProfile<ExamsMappings>(); })
                 .SetupCommandHandlers(assembly)
                 .SetupQueryHandlers(assembly)
                 .SubscribeToSettings<ExamsSettings>("Exams")

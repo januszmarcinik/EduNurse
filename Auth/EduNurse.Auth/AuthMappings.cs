@@ -4,9 +4,9 @@ using EduNurse.Auth.Entities;
 
 namespace EduNurse.Auth
 {
-    internal class AutoMapperProfile : Profile
+    internal class AuthMappings : Profile
     {
-        public AutoMapperProfile()
+        public AuthMappings()
         {
             CreateMap<User, AtsUser>()
                 .ForMember(x => x.PartitionKey, e => e.UseValue(AtsUsersContext.UsersPartitionKey))

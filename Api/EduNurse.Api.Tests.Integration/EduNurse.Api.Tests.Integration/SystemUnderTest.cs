@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EduNurse.Api.Shared;
 using EduNurse.Api.Tests.Integration.Extensions;
+using EduNurse.Auth;
+using EduNurse.Auth.AzureTableStorage;
+using EduNurse.Auth.Entities;
 using EduNurse.Exams;
 using EduNurse.Exams.AzureTableStorage;
 using EduNurse.Exams.Entities;
@@ -20,32 +23,45 @@ namespace EduNurse.Api.Tests.Integration
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
+
         private readonly IExamsRepository _examsRepository;
+        private readonly IUsersRepository _usersRepository;
 
         public IMapper Mapper { get; }
 
         public SystemUnderTest()
         {
-            var tableName = string.Concat(Guid.NewGuid().ToString().Where(char.IsLetter));
-
             _server = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Testing")
                 .UseSetting("Exams:AzureTableStorage", "UseDevelopmentStorage=true")
-                .UseSetting("Exams:ExamsTableName", tableName)
+                .UseSetting("Exams:ExamsTableName", GetRandomNameForTable())
+                .UseSetting("Auth:AzureTableStorage", "UseDevelopmentStorage=true")
+                .UseSetting("Auth:AuthTableName", GetRandomNameForTable())
                 .UseStartup<Startup>()
             );
 
             _client = _server.CreateClient();
 
             _examsRepository = _server.Host.Services.GetService<IExamsRepository>();
+            _usersRepository = _server.Host.Services.GetService<IUsersRepository>();
 
-            Mapper = AutoMapperConfiguration.GetMapper();
+            Mapper = new MapperConfiguration(x =>
+            {
+                x.AddProfile<ExamsTestMappings>();
+                x.AddProfile<AuthMappings>();
+            }).CreateMapper();
         }
 
         public async Task<Exam> CreateAsync(Exam entity)
         {
             await _examsRepository.AddAsync(entity);
             return entity;
+        }
+
+        public async Task<User> CreateAsync(User user)
+        {
+            await _usersRepository.AddAsync(user);
+            return user;
         }
 
         public async Task<List<Exam>> CreateManyAsync(List<Exam> entities)
@@ -61,6 +77,11 @@ namespace EduNurse.Api.Tests.Integration
         public async Task<Exam> GetExamByIdAsync(Guid id)
         {
             return await _examsRepository.GetByIdAsync(id);
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            return await _usersRepository.GetByEmailAsync(email);
         }
 
         public async Task<List<Exam>> GetAllExamsAsync()
@@ -96,11 +117,19 @@ namespace EduNurse.Api.Tests.Integration
 
         public void Dispose()
         {
-            var context = _server.Host.Services.GetService<AtsExamsContext>();
-            context.DeleteTableIfExistsAsync().GetAwaiter().GetResult();
+            var examsContext = _server.Host.Services.GetService<AtsExamsContext>();
+            examsContext.DeleteTableIfExistsAsync().GetAwaiter().GetResult();
+
+            var usersContext = _server.Host.Services.GetService<AtsUsersContext>();
+            usersContext.DeleteTableIfExistsAsync().GetAwaiter().GetResult();
 
             _server?.Dispose();
             _client?.Dispose();
+        }
+
+        private static string GetRandomNameForTable()
+        {
+            return string.Concat(Guid.NewGuid().ToString().Where(char.IsLetter));
         }
     }
 }

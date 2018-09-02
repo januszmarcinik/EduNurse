@@ -52,9 +52,46 @@ namespace EduNurse.Auth.Tests.Unit
 
                 result.Id.Should().NotBeEmpty();
                 result.Email.Should().Be(command.Email);
-                result.PasswordHash.Should().NotBe(command.Password);
+                result.PasswordHash.Should().BeEquivalentTo($"{command.Password}-hash");
                 result.PasswordSalt.Should().NotBe(command.Password);
                 result.PasswordSalt.Should().NotBe(result.PasswordHash);
+            }
+        }
+
+        [Fact]
+        public async Task SignInUser_WhenGivenCredentialsAreValid_ReturnSuccess()
+        {
+            using (var sut = new SystemUnderTest())
+            {
+                await sut.UsersRepository.AddAsync(
+                    new User(Guid.NewGuid(), "janusz@edunurse.pl", "zaq1@WSX-hash", "password-salt", DateTime.Now)
+                );
+
+                var command = new SignInCommand("janusz@edunurse.pl", "zaq1@WSX");
+                var handler = new SignInCommandHandler(sut.UsersRepository, sut.PasswordService);
+
+                var result = await handler.HandleAsync(command);
+
+                result.IsSuccess.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public async Task SignInUser_WhenGivenCredentialsAreNotValid_ReturnFailure()
+        {
+            using (var sut = new SystemUnderTest())
+            {
+                await sut.UsersRepository.AddAsync(
+                    new User(Guid.NewGuid(), "janusz@edunurse.pl", "zaq1@WSX", "pass-salt", DateTime.Now)
+                );
+
+                var command = new SignInCommand("janusz@edunurse.pl", "bad-password");
+                var handler = new SignInCommandHandler(sut.UsersRepository, sut.PasswordService);
+
+                var result = await handler.HandleAsync(command);
+
+                result.IsSuccess.Should().BeFalse();
+                result.Message.Should().BeEquivalentTo("Given email or password are not valid.");
             }
         }
     }

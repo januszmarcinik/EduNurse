@@ -14,7 +14,7 @@ namespace EduNurse.Auth
                 .Assembly;
 
             factoryBuilder
-                .SetupMapper(config => { config.AddProfile<AutoMapperProfile>(); })
+                .SetupMapper(config => { config.AddProfile<AuthMappings>(); })
                 .SetupCommandHandlers(assembly)
                 .SubscribeToSettings<Settings>("Auth")
                 .RegisterScoped<AtsUsersContext>()
