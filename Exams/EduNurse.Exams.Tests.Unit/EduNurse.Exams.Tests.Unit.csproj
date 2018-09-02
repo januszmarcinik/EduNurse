@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="Moq" Version="4.9.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0">
@@ -17,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EduNurse.Exams.Tests.Shared\EduNurse.Exams.Tests.Shared.csproj" />
     <ProjectReference Include="..\EduNurse.Exams\EduNurse.Exams.csproj" />
   </ItemGroup>
 

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using EduNurse.Api.Shared;
 using Newtonsoft.Json;
 
-namespace EduNurse.Exams.Tests.Integration.Extensions
+namespace EduNurse.Api.Tests.Integration.Extensions
 {
     internal static class HttpClientExtensions
     {

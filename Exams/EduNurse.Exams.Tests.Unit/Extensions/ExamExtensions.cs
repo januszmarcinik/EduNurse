@@ -1,6 +1,6 @@
 ﻿using EduNurse.Exams.Entities;
 
-namespace EduNurse.Exams.Tests.Shared.Extensions
+namespace EduNurse.Exams.Tests.Unit.Extensions
 {
     internal static class ExamExtensions
     {

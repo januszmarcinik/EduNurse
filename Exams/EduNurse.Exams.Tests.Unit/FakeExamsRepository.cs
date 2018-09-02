@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Enums;
-using EduNurse.Exams.Tests.Shared.Extensions;
+using EduNurse.Exams.Tests.Unit.Extensions;
 
 namespace EduNurse.Exams.Tests.Unit
 {

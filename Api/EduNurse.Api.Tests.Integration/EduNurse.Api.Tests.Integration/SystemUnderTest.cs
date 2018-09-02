@@ -5,15 +5,16 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
 using EduNurse.Api.Shared;
+using EduNurse.Api.Tests.Integration.Extensions;
+using EduNurse.Exams;
 using EduNurse.Exams.AzureTableStorage;
 using EduNurse.Exams.Entities;
-using EduNurse.Exams.Tests.Integration.Extensions;
-using EduNurse.Exams.Tests.Shared;
+using EduNurse.Exams.Tests.Unit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EduNurse.Exams.Tests.Integration
+namespace EduNurse.Api.Tests.Integration
 {
     internal class SystemUnderTest : IDisposable
     {
@@ -31,7 +32,7 @@ namespace EduNurse.Exams.Tests.Integration
                 .UseEnvironment("Testing")
                 .UseSetting("Exams:AzureTableStorage", "UseDevelopmentStorage=true")
                 .UseSetting("Exams:ExamsTableName", tableName)
-                .UseStartup<Api.Startup>()
+                .UseStartup<Startup>()
             );
 
             _client = _server.CreateClient();

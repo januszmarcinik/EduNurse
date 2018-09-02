@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using EduNurse.Exams.CommandHandlers;
-using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Enums;
-using EduNurse.Exams.Tests.Shared;
-using EduNurse.Exams.Tests.Shared.Extensions;
+using EduNurse.Exams.Tests.Unit.Extensions;
 using FluentAssertions;
 using Xunit;
 

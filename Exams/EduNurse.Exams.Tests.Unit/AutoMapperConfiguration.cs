@@ -2,7 +2,7 @@
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Commands;
 
-namespace EduNurse.Exams.Tests.Shared
+namespace EduNurse.Exams.Tests.Unit
 {
     internal class AutoMapperConfiguration
     {

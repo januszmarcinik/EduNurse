@@ -1,17 +1,16 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Shared.Results;
-using EduNurse.Exams.Tests.Shared.Extensions;
-using EduNurse.Exams.Tests.Shared;
+using EduNurse.Exams.Tests.Unit;
+using EduNurse.Exams.Tests.Unit.Extensions;
+using FluentAssertions;
 using Xunit;
 
-namespace EduNurse.Exams.Tests.Integration
+namespace EduNurse.Api.Tests.Integration
 {
     public class ExamsControllerTests
     {

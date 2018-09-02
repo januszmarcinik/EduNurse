@@ -5,7 +5,6 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using AutoMapper;
 using EduNurse.Exams.Entities;
-using EduNurse.Exams.Tests.Shared;
 using Moq;
 
 namespace EduNurse.Exams.Tests.Unit

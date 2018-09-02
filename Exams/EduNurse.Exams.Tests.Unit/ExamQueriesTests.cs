@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Transactions;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.QueryHandlers;
 using EduNurse.Exams.Shared.Enums;
 using EduNurse.Exams.Shared.Queries;
 using EduNurse.Exams.Shared.Results;
-using EduNurse.Exams.Tests.Shared;
-using EduNurse.Exams.Tests.Shared.Extensions;
 using FluentAssertions;
 using Xunit;
 

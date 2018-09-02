@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -13,16 +13,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Api\EduNurse.Api\EduNurse.Api.csproj" />
-    <ProjectReference Include="..\EduNurse.Exams.Tests.Shared\EduNurse.Exams.Tests.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\..\..\Exams\EduNurse.Exams.Tests.Unit\EduNurse.Exams.Tests.Unit.csproj" />
+    <ProjectReference Include="..\..\EduNurse.Api\EduNurse.Api.csproj" />
   </ItemGroup>
 
 </Project>
