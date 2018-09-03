@@ -1,6 +1,6 @@
 ﻿using EduNurse.Auth.Services;
 
-namespace EduNurse.Auth.Tests.Unit
+namespace EduNurse.Auth.Tests.Unit.Fakes
 {
     internal class FakePasswordService : IPasswordService
     {

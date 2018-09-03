@@ -2,6 +2,7 @@
 using EduNurse.Api.Shared;
 using EduNurse.Auth.AzureTableStorage;
 using EduNurse.Auth.Services;
+using EduNurse.Auth.Settings;
 
 namespace EduNurse.Auth
 {
@@ -16,9 +17,11 @@ namespace EduNurse.Auth
             factoryBuilder
                 .SetupMapper(config => { config.AddProfile<AuthMappings>(); })
                 .SetupCommandHandlers(assembly)
-                .SubscribeToSettings<Settings>("Auth")
+                .SubscribeToSettings<AuthSettings>("Auth")
+                .SubscribeToSettings<JwtSettings>("Jwt")
                 .RegisterScoped<AtsUsersContext>()
                 .RegisterScoped<IPasswordService, PasswordService>()
+                .RegisterScoped<ITokenService, TokenService>()
                 .RegisterScoped<IUsersRepository, AtsUsersRepository>();
         }
     }

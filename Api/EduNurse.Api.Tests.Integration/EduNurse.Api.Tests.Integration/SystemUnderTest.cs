@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using EduNurse.Api.Shared;
@@ -9,6 +10,7 @@ using EduNurse.Api.Tests.Integration.Extensions;
 using EduNurse.Auth;
 using EduNurse.Auth.AzureTableStorage;
 using EduNurse.Auth.Entities;
+using EduNurse.Auth.Services;
 using EduNurse.Exams;
 using EduNurse.Exams.AzureTableStorage;
 using EduNurse.Exams.Entities;
@@ -37,6 +39,9 @@ namespace EduNurse.Api.Tests.Integration
                 .UseSetting("Exams:ExamsTableName", GetRandomNameForTable())
                 .UseSetting("Auth:AzureTableStorage", "UseDevelopmentStorage=true")
                 .UseSetting("Auth:AuthTableName", GetRandomNameForTable())
+                .UseSetting("Jwt:Issuer", "test")
+                .UseSetting("Jwt:Key", "DSdmsadsd8sd8dD@(@MD9msa9mdm9m91d112x019mx8291m")
+                .UseSetting("Jwt:ExpiryMinutes", "1")
                 .UseStartup<Startup>()
             );
 
@@ -44,6 +49,8 @@ namespace EduNurse.Api.Tests.Integration
 
             _examsRepository = _server.Host.Services.GetService<IExamsRepository>();
             _usersRepository = _server.Host.Services.GetService<IUsersRepository>();
+
+            SetupAuthorizationHeader();
 
             Mapper = new MapperConfiguration(x =>
             {
@@ -130,6 +137,15 @@ namespace EduNurse.Api.Tests.Integration
         private static string GetRandomNameForTable()
         {
             return string.Concat(Guid.NewGuid().ToString().Where(char.IsLetter));
+        }
+
+        private void SetupAuthorizationHeader()
+        {
+            var tokenService = _server.Host.Services.GetService<ITokenService>();
+            var user = TestUser.CreateUser();
+            var token = tokenService.CreateToken(user);
+
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token.Token);
         }
     }
 }

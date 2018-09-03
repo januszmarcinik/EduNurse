@@ -25,6 +25,11 @@ namespace EduNurse.Api.Shared
             return new Result<T>(true, string.Empty, content);
         }
 
+        public static Result Success(string message)
+        {
+            return new Result(true, message ?? string.Empty);
+        }
+
         public static Result Failure(string message)
         {
             return new Result(false, message ?? string.Empty);

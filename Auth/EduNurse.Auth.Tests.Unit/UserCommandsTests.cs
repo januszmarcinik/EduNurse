@@ -4,6 +4,7 @@ using EduNurse.Auth.CommandHandlers;
 using EduNurse.Auth.Entities;
 using EduNurse.Auth.Shared.Commands;
 using FluentAssertions;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace EduNurse.Auth.Tests.Unit
@@ -68,11 +69,14 @@ namespace EduNurse.Auth.Tests.Unit
                 );
 
                 var command = new SignInCommand("janusz@edunurse.pl", "zaq1@WSX");
-                var handler = new SignInCommandHandler(sut.UsersRepository, sut.PasswordService);
+                var handler = new SignInCommandHandler(sut.UsersRepository, sut.PasswordService, sut.TokenService);
 
                 var result = await handler.HandleAsync(command);
+                var token = JsonConvert.DeserializeObject<TokenResult>(result.Message);
 
                 result.IsSuccess.Should().BeTrue();
+                token.Token.Should().Be("token");
+                token.Expiry.Should().BeAfter(DateTime.Now);
             }
         }
 
@@ -86,7 +90,7 @@ namespace EduNurse.Auth.Tests.Unit
                 );
 
                 var command = new SignInCommand("janusz@edunurse.pl", "bad-password");
-                var handler = new SignInCommandHandler(sut.UsersRepository, sut.PasswordService);
+                var handler = new SignInCommandHandler(sut.UsersRepository, sut.PasswordService, sut.TokenService);
 
                 var result = await handler.HandleAsync(command);
 

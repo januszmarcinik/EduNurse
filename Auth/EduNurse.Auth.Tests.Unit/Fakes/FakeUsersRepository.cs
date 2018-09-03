@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EduNurse.Auth.Entities;
 
-namespace EduNurse.Auth.Tests.Unit
+namespace EduNurse.Auth.Tests.Unit.Fakes
 {
     internal class FakeUsersRepository : IUsersRepository
     {

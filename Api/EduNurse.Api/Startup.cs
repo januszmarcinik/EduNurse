@@ -27,6 +27,8 @@ namespace EduNurse.Api
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.ConfigureAuthentication(Configuration);
+
             if (!HostingEnvironment.IsEnvironment("Testing"))
             {
                 services.ConfigureSwagger();
@@ -61,6 +63,7 @@ namespace EduNurse.Api
 
             app.ConfigureMiddleware();
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
             appLifetime.ConfigureContainer(Container);
         }

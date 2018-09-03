@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using EduNurse.Auth.Settings;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
@@ -11,11 +12,11 @@ namespace EduNurse.Auth.AzureTableStorage
 
         public CloudTable Table { get; }
 
-        public AtsUsersContext(Settings settings)
+        public AtsUsersContext(AuthSettings authSettings)
         {
-            var storageAccount = CloudStorageAccount.Parse(settings.AzureTableStorage);
+            var storageAccount = CloudStorageAccount.Parse(authSettings.AzureTableStorage);
             var tableClient = storageAccount.CreateCloudTableClient();
-            Table = tableClient.GetTableReference(settings.AuthTableName);
+            Table = tableClient.GetTableReference(authSettings.AuthTableName);
 
             Table.CreateIfNotExistsAsync().GetAwaiter().GetResult();
         }

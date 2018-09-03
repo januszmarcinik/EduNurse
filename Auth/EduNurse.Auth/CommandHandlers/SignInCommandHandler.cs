@@ -3,6 +3,7 @@ using EduNurse.Api.Shared;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Auth.Services;
 using EduNurse.Auth.Shared.Commands;
+using Newtonsoft.Json;
 
 namespace EduNurse.Auth.CommandHandlers
 {
@@ -10,11 +11,13 @@ namespace EduNurse.Auth.CommandHandlers
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IPasswordService _passwordService;
+        private readonly ITokenService _tokenService;
 
-        public SignInCommandHandler(IUsersRepository usersRepository, IPasswordService passwordService)
+        public SignInCommandHandler(IUsersRepository usersRepository, IPasswordService passwordService, ITokenService tokenService)
         {
             _usersRepository = usersRepository;
             _passwordService = passwordService;
+            _tokenService = tokenService;
         }
 
         public async Task<Result> HandleAsync(SignInCommand command)
@@ -25,7 +28,8 @@ namespace EduNurse.Auth.CommandHandlers
                 var hash = _passwordService.GetHash(command.Password, user.PasswordSalt);
                 if (user.PasswordHash == hash)
                 {
-                    return Result.Success();
+                    var token = _tokenService.CreateToken(user);
+                    return Result.Success(JsonConvert.SerializeObject(token));
                 }
             }
 

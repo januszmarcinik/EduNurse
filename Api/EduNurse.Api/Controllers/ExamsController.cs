@@ -4,10 +4,12 @@ using EduNurse.Api.Shared.Command;
 using EduNurse.Api.Shared.Query;
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Api.Controllers
 {
+    [Authorize]
     [Route("api/v1/exams")]
     public class ExamsController : ApiControllerBase
     {
