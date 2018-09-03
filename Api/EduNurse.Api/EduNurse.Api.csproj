@@ -9,6 +9,10 @@
     <NoWarn>1701;1702;1705;1591</NoWarn>
     <UserSecretsId>3cbd44ca-de1e-47b5-8790-fe44145fec69</UserSecretsId>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <EnableMSDeployAppOffline>true</EnableMSDeployAppOffline>
+  </PropertyGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <ItemGroup>
