@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using EduNurse.Auth.Entities;
@@ -20,13 +21,19 @@ namespace EduNurse.Auth.Services
         public TokenResult CreateToken(User user)
         {
             var now = DateTime.UtcNow;
-            var claims = new []
+
+            var roles = user.IsAdmin
+                ? Enum.GetNames(typeof(Role))
+                : user.Roles.Select(r => r.ToString());
+            var rolesClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));
+
+            var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, GetTimeStamp(now).ToString(), ClaimValueTypes.Integer64)
-            };
+            }.Concat(rolesClaims);
 
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)), SecurityAlgorithms.HmacSha256);
             var expiry = now.AddMinutes(_jwtSettings.ExpiryMinutes);

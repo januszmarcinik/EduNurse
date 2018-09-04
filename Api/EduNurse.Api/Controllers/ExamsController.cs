@@ -2,14 +2,13 @@
 using System.Threading.Tasks;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Api.Shared.Query;
+using EduNurse.Auth;
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Queries;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduNurse.Api.Controllers
 {
-    [Authorize]
     [Route("api/v1/exams")]
     public class ExamsController : ApiControllerBase
     {
@@ -23,6 +22,7 @@ namespace EduNurse.Api.Controllers
         /// </summary>
         /// <response code="200">Distincted categories by given exam type</response>
         /// <returns>Distincted categories by given exam type</returns>
+        [Auth(Role.GetCategoriesByType)]
         [HttpGet("{type}/categories")]
         [ProducesResponseType(200)]
         public async Task<IActionResult> Get([FromRoute] GetCategoriesByTypeQuery query)
@@ -33,6 +33,7 @@ namespace EduNurse.Api.Controllers
         /// </summary>
         /// <response code="200">Found exams by given parameters</response>
         /// <returns>All exams by given parameters</returns>
+        [Auth(Role.GetExamByTypeAndCategory)]
         [HttpGet("{type}/{category}")]
         [ProducesResponseType(200)]
         public async Task<IActionResult> Get([FromRoute] GetExamsByTypeAndCategoryQuery query)
@@ -42,6 +43,7 @@ namespace EduNurse.Api.Controllers
         /// Get exam by Id
         /// </summary>
         /// <returns></returns>
+        [Auth(Role.GetExamById)]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] GetExamByIdQuery query)
             => await DispatchQueryAsync(query);
@@ -55,6 +57,7 @@ namespace EduNurse.Api.Controllers
         /// <response code="202">New exam is created</response>
         /// <response code="400">Validation failed</response>   
         /// <returns></returns>
+        [Auth(Role.AddExam)]
         [HttpPost]
         [ProducesResponseType(202)]
         [ProducesResponseType(400)]
@@ -72,6 +75,7 @@ namespace EduNurse.Api.Controllers
         /// <response code="400">Validation failed</response>
         /// <response code="404">Exam with given Id was not found</response> 
         /// <returns></returns>
+        [Auth(Role.EditExam)]
         [HttpPut("{id}")]
         [ProducesResponseType(202)]
         [ProducesResponseType(400)]
@@ -89,6 +93,7 @@ namespace EduNurse.Api.Controllers
         /// <response code="202">Exam is deleted</response>
         /// <response code="404">Exam with given Id was not found</response> 
         /// <returns></returns>
+        [Auth(Role.DeleteExam)]
         [HttpDelete("{id}")]
         [ProducesResponseType(202)]
         [ProducesResponseType(404)]

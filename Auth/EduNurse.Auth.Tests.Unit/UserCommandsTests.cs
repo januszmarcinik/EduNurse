@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EduNurse.Auth.CommandHandlers;
 using EduNurse.Auth.Entities;
@@ -16,7 +17,7 @@ namespace EduNurse.Auth.Tests.Unit
         {
             using (var sut = new SystemUnderTest())
             {
-                var user = new User(Guid.NewGuid(), "some.email@edunurse.pl", "someHash", "someSalt", DateTime.Now);
+                var user = new User(Guid.NewGuid(), "some.email@edunurse.pl", false, Enumerable.Empty<Role>(), "someHash", "someSalt", DateTime.Now);
                 await sut.UsersRepository.AddAsync(user);
 
                 var command = new RegisterCommand
@@ -65,7 +66,7 @@ namespace EduNurse.Auth.Tests.Unit
             using (var sut = new SystemUnderTest())
             {
                 await sut.UsersRepository.AddAsync(
-                    new User(Guid.NewGuid(), "janusz@edunurse.pl", "zaq1@WSX-hash", "password-salt", DateTime.Now)
+                    new User(Guid.NewGuid(), "janusz@edunurse.pl", false, Enumerable.Empty<Role>(), "zaq1@WSX-hash", "password-salt", DateTime.Now)
                 );
 
                 var command = new SignInCommand("janusz@edunurse.pl", "zaq1@WSX");
@@ -86,7 +87,7 @@ namespace EduNurse.Auth.Tests.Unit
             using (var sut = new SystemUnderTest())
             {
                 await sut.UsersRepository.AddAsync(
-                    new User(Guid.NewGuid(), "janusz@edunurse.pl", "zaq1@WSX", "pass-salt", DateTime.Now)
+                    new User(Guid.NewGuid(), "janusz@edunurse.pl", false, Enumerable.Empty<Role>(), "zaq1@WSX", "pass-salt", DateTime.Now)
                 );
 
                 var command = new SignInCommand("janusz@edunurse.pl", "bad-password");

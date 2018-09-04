@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using EduNurse.Auth;
 using EduNurse.Auth.Entities;
 
 namespace EduNurse.Api.Tests.Integration
@@ -12,7 +14,7 @@ namespace EduNurse.Api.Tests.Integration
 
         public static User CreateUser()
         {
-            return new User(Guid.NewGuid(), Email, PasswordHash, PasswordSalt, DateTime.Now);
+            return new User(Guid.NewGuid(), Email, true, Enumerable.Empty<Role>(), PasswordHash, PasswordSalt, DateTime.Now);
         }
     }
 }

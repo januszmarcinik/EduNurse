@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EduNurse.Auth;
 using EduNurse.Auth.Entities;
@@ -18,7 +19,7 @@ namespace EduNurse.Api.Tests.Integration
         {
             using (var sut = new SystemUnderTest())
             {
-                var user = new User(Guid.NewGuid(), "janusz@edunurse.pl", "zaq1@WSX-hash", "password-salt", DateTime.Now);
+                var user = new User(Guid.NewGuid(), "janusz@edunurse.pl", true, Enumerable.Empty<Role>(), "zaq1@WSX-hash", "password-salt", DateTime.Now);
                 await sut.CreateAsync(user);
 
                 var command = new RegisterCommand
@@ -87,7 +88,7 @@ namespace EduNurse.Api.Tests.Integration
             using (var sut = new SystemUnderTest())
             {
                 await sut.CreateAsync(
-                    new User(Guid.NewGuid(), "janusz@edunurse.pl", "zaq1@WSX", "pass-salt", DateTime.Now)
+                    new User(Guid.NewGuid(), "janusz@edunurse.pl", false, new [] { Role.AddExam }, "zaq1@WSX", "pass-salt", DateTime.Now)
                 );
 
                 var command = new SignInCommand("janusz@edunurse.pl", "bad-password");

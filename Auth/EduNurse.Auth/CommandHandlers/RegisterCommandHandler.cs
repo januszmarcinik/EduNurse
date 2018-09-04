@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EduNurse.Api.Shared;
 using EduNurse.Api.Shared.Command;
@@ -31,7 +32,7 @@ namespace EduNurse.Auth.CommandHandlers
                 return Result.Failure("Email already exists.");
             }
 
-            var user = new User(Guid.NewGuid(), command.Email, hash, salt, DateTime.Now);
+            var user = new User(Guid.NewGuid(), command.Email, false, Enumerable.Empty<Role>(), hash, salt, DateTime.Now);
 
             await _usersRepository.AddAsync(user);
 
