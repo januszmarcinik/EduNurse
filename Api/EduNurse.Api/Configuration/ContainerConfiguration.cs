@@ -7,13 +7,9 @@ namespace EduNurse.Api.Configuration
 {
     internal static class ContainerConfiguration
     {
-        public static IContainer ConfigureContainer(
-            this IServiceCollection services, 
-            IConfiguration configuration,
-            IHostingEnvironment hostingEnvironment
-            )
+        public static IContainer ConfigureContainer(this IServiceCollection services, IConfiguration configuration)
         {
-            var factory = new FactoryBuilder(services, configuration, hostingEnvironment);
+            var factory = new FactoryBuilder(services, configuration);
 
             Exams.Startup.Configure(factory);
             Auth.Startup.Configure(factory);

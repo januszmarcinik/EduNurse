@@ -34,7 +34,7 @@ namespace EduNurse.Api
                 services.ConfigureSwagger();
             }
 
-            Container = services.ConfigureContainer(Configuration, HostingEnvironment);
+            Container = services.ConfigureContainer(Configuration);
             return new AutofacServiceProvider(Container);
         }
 

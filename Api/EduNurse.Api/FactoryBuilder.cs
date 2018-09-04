@@ -8,7 +8,6 @@ using EduNurse.Api.Dispatchers;
 using EduNurse.Api.Shared;
 using EduNurse.Api.Shared.Command;
 using EduNurse.Api.Shared.Query;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
@@ -19,17 +18,11 @@ namespace EduNurse.Api
     {
         private readonly ContainerBuilder _builder;
         private readonly IConfiguration _configuration;
-        private readonly IHostingEnvironment _hostingEnvironment;
         private readonly MapperConfigurationExpression _mapperConfigurationExpression;
 
-        public FactoryBuilder(
-            IServiceCollection services, 
-            IConfiguration configuration,
-            IHostingEnvironment hostingEnvironment
-            )
+        public FactoryBuilder(IServiceCollection services, IConfiguration configuration)
         {
             _configuration = configuration;
-            _hostingEnvironment = hostingEnvironment;
             _builder = new ContainerBuilder();
             _builder.Populate(services);
             _mapperConfigurationExpression = new MapperConfigurationExpression();
@@ -47,10 +40,6 @@ namespace EduNurse.Api
                 .AsClosedTypesOf(typeof(ICommandHandler<>))
                 .InstancePerLifetimeScope();
 
-            _builder.RegisterType<CommandDispatcher>()
-                .As<ICommandDispatcher>()
-                .InstancePerLifetimeScope();
-
             return this;
         }
 
@@ -58,10 +47,6 @@ namespace EduNurse.Api
         {
             _builder.RegisterAssemblyTypes(assembly)
                 .AsClosedTypesOf(typeof(IQueryHandler<,>))
-                .InstancePerLifetimeScope();
-
-            _builder.RegisterType<QueryDispatcher>()
-                .As<IQueryDispatcher>()
                 .InstancePerLifetimeScope();
 
             return this;
@@ -92,6 +77,15 @@ namespace EduNurse.Api
         internal IContainer Build()
         {
             _builder.RegisterInstance(BuildMapper()).As<IMapper>().SingleInstance();
+
+            _builder.RegisterType<CommandDispatcher>()
+                .As<ICommandDispatcher>()
+                .InstancePerLifetimeScope();
+
+            _builder.RegisterType<QueryDispatcher>()
+                .As<IQueryDispatcher>()
+                .InstancePerLifetimeScope();
+
             return _builder.Build();
         }
 
