@@ -57,6 +57,8 @@ namespace EduNurse.Api.Tests.Integration
                 result.IsSuccess.Should().BeTrue();
                 user.Id.Should().NotBeEmpty();
                 user.Email.Should().Be(command.Email);
+                user.IsAdmin.Should().BeFalse();
+                user.Roles.Should().BeEmpty();
                 user.PasswordHash.Should().NotBe(command.Password);
                 user.PasswordSalt.Should().NotBe(command.Password);
                 user.PasswordHash.Should().NotBe(user.PasswordSalt);
