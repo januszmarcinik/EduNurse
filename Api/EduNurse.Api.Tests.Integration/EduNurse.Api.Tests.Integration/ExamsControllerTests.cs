@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EduNurse.Auth;
 using EduNurse.Exams.Entities;
 using EduNurse.Exams.Shared.Commands;
 using EduNurse.Exams.Shared.Enums;
@@ -19,7 +20,7 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public async void GetCategoriesByType_WhenExists_ReturnsDistinctedWithStatus200()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl", Role.GetCategoriesByType)))
             {
                 await sut.CreateManyAsync(new List<Exam>()
                 {
@@ -50,7 +51,7 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public async void GetExamsByTypeAndCategory_WhenExists_ReturnsResultWithStatus200()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl", Role.GetExamByTypeAndCategory)))
             {
                 var exams = await sut.CreateManyAsync(new List<Exam>()
                 {
@@ -72,7 +73,7 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public void GetExamById_WhenExamNotExists_EmptyValueIsReturnedWithStatus204()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl", Role.GetExamById)))
             {
                 var result = sut.HttpGet<ExamWithQuestionsResult>(Url, Guid.NewGuid());
 
@@ -85,7 +86,7 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public async void GetExamById_WhenExamsExists_ExamIsReturnedWithStatus200()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl", Role.GetExamById)))
             {
                 var exams = await sut.CreateManyAsync(new List<Exam>()
                 { 
@@ -116,7 +117,7 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public async void AddExamWithQuestions_WhenCalled_CorrectlyCreatesObjectsWithStatus202()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl", Role.AddExam)))
             {
                 var exam = new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.A)
@@ -152,7 +153,7 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public async void EditExamWithQuestions_WhenExamExists_CorrectlyModifyExamAndQuestionsWithStatus202()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl", Role.EditExam)))
             {
                 await sut.CreateAsync(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.A)
@@ -189,7 +190,7 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public async void RemoveExamWithQuestions_WhenExamExists_DeleteExamsAndQuestionsWithStatus202()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl", Role.DeleteExam)))
             {
                 var exam = await sut.CreateAsync(new ExamBuilder("Some-exam", ExamType.Specialization, "Some-category")
                     .WithQuestion("Q1", CorrectAnswer.B)

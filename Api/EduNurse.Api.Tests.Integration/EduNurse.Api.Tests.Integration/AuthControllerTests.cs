@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EduNurse.Auth;
 using EduNurse.Auth.Entities;
 using EduNurse.Auth.Shared.Commands;
+using EduNurse.Auth.Shared.Results;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
@@ -15,9 +16,55 @@ namespace EduNurse.Api.Tests.Integration
         private const string Url = "api/v1/auth";
 
         [Fact]
+        public async Task GetUserByEmail_WhenUserHasDifferentEmailAndIsNotAdmin_ShouldReturnAccessDenied()
+        {
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl")))
+            {
+                var user = UsersFactory.CreateUser("marta@edunurse.pl");
+                await sut.CreateAsync(user);
+
+                var url = $"{Url}/marta@edunurse.pl";
+                var result = sut.HttpGet<UserResult>(url);
+
+                result.IsSuccess.Should().BeFalse();
+                result.Message.Should().BeEquivalentTo("Access denied.");
+            }
+        }
+
+        [Fact]
+        public async Task GetUserByEmail_WhenUserHasTheSameEmailAndIsNotAdmin_ShouldReturnCompletlyResult()
+        {
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl")))
+            {
+                var user = UsersFactory.CreateUser("janusz@edunurse.pl");
+                await sut.CreateAsync(user);
+                
+                var url = $"{Url}/janusz@edunurse.pl";
+                var result = sut.HttpGet<UserResult>(url);
+
+                result.IsSuccess.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public async Task GetUserByEmail_WhenUserHasDifferentEmailButIsAdmin_ShouldReturnCompletlyResult()
+        {
+            using (var sut = new SystemUnderTest(UsersFactory.CreateAdmin("janusz@edunurse.pl")))
+            {
+                var user = UsersFactory.CreateUser("marta@edunurse.pl");
+                await sut.CreateAsync(user);
+
+                var url = $"{Url}/marta@edunurse.pl";
+                var result = sut.HttpGet<UserResult>(url);
+
+                result.IsSuccess.Should().BeTrue();
+            }
+        }
+
+        [Fact]
         public async Task RegisterUser_WhenEmailAlreadyExists_ShouldThrowAnException()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl")))
             {
                 var user = new User(Guid.NewGuid(), "janusz@edunurse.pl", true, Enumerable.Empty<Role>(), "zaq1@WSX-hash", "password-salt", DateTime.Now);
                 await sut.CreateAsync(user);
@@ -40,7 +87,7 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public async Task RegisterUser_WhenEmailDoesNotExists_ShouldCreateCorrectUser()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl")))
             {
                 var command = new RegisterCommand
                 {
@@ -68,11 +115,12 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public async Task SignInUser_WhenGivenCredentialsAreValid_ReturnSuccess()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl")))
             {
-                await sut.CreateAsync(TestUser.CreateUser());
+                var user = UsersFactory.CreateUser("janusz@edunurse.pl");
+                await sut.CreateAsync(user);
 
-                var command = new SignInCommand(TestUser.Email, TestUser.Password);
+                var command = new SignInCommand(user.Email, UsersFactory.Password);
 
                 var url = $"{Url}/sign-in";
                 var result = sut.HttpPost(url, command);
@@ -87,7 +135,7 @@ namespace EduNurse.Api.Tests.Integration
         [Fact]
         public async Task SignInUser_WhenGivenCredentialsAreNotValid_ReturnFailure()
         {
-            using (var sut = new SystemUnderTest())
+            using (var sut = new SystemUnderTest(UsersFactory.CreateUser("janusz@edunurse.pl")))
             {
                 await sut.CreateAsync(
                     new User(Guid.NewGuid(), "janusz@edunurse.pl", false, new [] { Role.AddExam }, "zaq1@WSX", "pass-salt", DateTime.Now)

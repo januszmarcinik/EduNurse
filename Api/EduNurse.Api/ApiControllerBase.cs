@@ -45,7 +45,7 @@ namespace EduNurse.Api
 
         protected async Task<IActionResult> DispatchQueryAsync<T>(IQuery<T> query)
         {
-            var result = await _queryDispatcher.DispatchAsync(query);
+            var result = await _queryDispatcher.DispatchAsync(query, User);
 
             if (!result.IsSuccess)
             {

@@ -7,6 +7,8 @@
         DeleteExam = 102,
         GetCategoriesByType = 103,
         GetExamById = 104,
-        GetExamByTypeAndCategory = 105
+        GetExamByTypeAndCategory = 105,
+
+        GetUserByEmail = 200
     }
 }

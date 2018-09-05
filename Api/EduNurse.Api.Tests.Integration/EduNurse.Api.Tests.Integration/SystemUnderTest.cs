@@ -31,7 +31,7 @@ namespace EduNurse.Api.Tests.Integration
 
         public IMapper Mapper { get; }
 
-        public SystemUnderTest()
+        public SystemUnderTest(User user)
         {
             _server = new TestServer(new WebHostBuilder()
                 .UseEnvironment("Testing")
@@ -50,7 +50,7 @@ namespace EduNurse.Api.Tests.Integration
             _examsRepository = _server.Host.Services.GetService<IExamsRepository>();
             _usersRepository = _server.Host.Services.GetService<IUsersRepository>();
 
-            SetupAuthorizationHeader();
+            SetupAuthorizationHeader(user);
 
             Mapper = new MapperConfiguration(x =>
             {
@@ -139,12 +139,10 @@ namespace EduNurse.Api.Tests.Integration
             return string.Concat(Guid.NewGuid().ToString().Where(char.IsLetter));
         }
 
-        private void SetupAuthorizationHeader()
+        private void SetupAuthorizationHeader(User user)
         {
             var tokenService = _server.Host.Services.GetService<ITokenService>();
-            var user = TestUser.CreateUser();
             var token = tokenService.CreateToken(user);
-
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token.Token);
         }
     }
